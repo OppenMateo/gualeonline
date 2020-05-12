@@ -1,0 +1,17 @@
+<div class="div-container br-10">
+    <div class="div-titulo">PEDIDOS PENDIENTES</div>
+    <div class="div-lista-pedidos">
+        <div class="div-pedidos row" *ngFor="let pedido of listaPedidosPendientes">
+            <div class="div-pedido row col-md-6 col-sm-12">
+                <div class="div-titulo-pedido col-md-12 col-sm-6">{{pedido.nombre}}</div>
+                <div class="div-fecha-pedido col-md-12 col-sm-6">{{pedido.fecha_pedido}}</div>
+            </div>
+            <div class="div-opciones col-md-6 col-sm-12 flex gr">
+                <div class="div-opcion">CONTINUAR PEDIDO</div>
+                <div class="div-opcion">PAGAR</div>
+                <div class="div-opcion">BORRAR</div>
+            </div>
+        </div>        
+    </div>
+    <div class="div-nuevo-pedido"><button class="btn-pedido br-10 gr">EMPEZAR NUEVO PEDIDO</button></div>
+</div>

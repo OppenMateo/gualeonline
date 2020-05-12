@@ -1,0 +1,12 @@
+.categoria
+{
+    padding: 10px;
+    font-family: opensans-light;
+    color: var(--gris);
+    text-transform: uppercase;
+}
+
+.background-categoria
+{
+    background-color: var(--gris-claro);    
+}

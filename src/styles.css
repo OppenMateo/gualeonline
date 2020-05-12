@@ -1,1 +1,104 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face
+{ 
+    font-family: oswald-light;
+    src: url(./assets/fonts/Oswald/Oswald-Light.ttf)
+}
+
+@font-face
+{ 
+    font-family: oswald-reg;
+    src: url(./assets/fonts/Oswald/Oswald-Regular.ttf)
+}
+
+@font-face
+{
+    font-family: oswald-semib;
+    src: url(./assets/fonts/Oswald/Oswald-SemiBold.ttf)
+}
+
+@font-face
+{ 
+    font-family: oswald-b;
+    src: url(./assets/fonts/Oswald/Oswald-Bold.ttf)
+}
+
+@font-face
+{ 
+    font-family: opensans-reg;
+    src: url(./assets/fonts/OpenSans/OpenSans-Regular.ttf)
+}
+
+@font-face
+{ 
+    font-family: opensans-semibold;
+    src: url(./assets/fonts/OpenSans/OpenSans-SemiBold.ttf)
+}
+
+@font-face
+{ 
+    font-family: opensans-light;
+    src: url(./assets/fonts/OpenSans/OpenSans-Light.ttf)
+}
+
+body
+{
+    font-size: calc(8px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));    
+}
+
+
+*
+{
+    font-family: opensans-reg;
+   --gris-claro: #f7f7f7;
+   --gris:  #9d9d9d;
+   --black: #222222
+}
+
+.gr { color: var(--gris)}
+
+.grc { color: var(--gris-claro)}
+
+.neg {color: var(--black)}
+
+button 
+{
+    font-family: opensans-light;
+    font-size: 1rem !important;
+    background: white;
+    border: none;
+    padding: 1rem 2rem;
+}
+
+input { font-size: inherit }
+
+.txt-center {text-align: center;}
+
+.txt-right {text-align: right;}
+
+.m-auto {margin: auto;}
+
+.m-h-auto {margin: 0 auto;}
+
+.m-v-auto {margin: auto 0;}
+
+.flex {display: flex;}
+
+.div-container
+{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.imagen
+{
+    width: 100%;
+}
+
+.br-10 { border-radius: 10px; }
+
+.row {margin: 0 !important}
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

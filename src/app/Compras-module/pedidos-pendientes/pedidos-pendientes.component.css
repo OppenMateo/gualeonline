@@ -1,0 +1,54 @@
+.div-container
+{
+    padding: 2.5rem .8rem 2.5rem 1rem;
+    background-color: var(--gris-claro);
+}
+
+.div-titulo
+{
+    font-family: opensans-semibold;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.div-lista-pedidos
+{
+    margin: 4rem 0;
+}
+
+.div-pedidos
+{
+    padding: 1rem 0;
+    border-bottom: solid 3px white;
+}
+
+.div-titulo-pedido
+{
+    font-family: opensans-semibold;
+}
+
+.div-fecha-pedido
+{
+    font-family: opensans-reg;
+    font-size: 0.8rem;
+}
+
+.div-opciones
+{
+    align-self: baseline;
+    justify-content: flex-end;
+}
+
+.div-opcion
+{
+    font-family: opensans-light;
+    font-size: .8rem;
+    margin: auto .6rem;
+    letter-spacing: -.05rem;
+}
+
+.div-nuevo-pedido
+{
+    text-align: center;
+}
+

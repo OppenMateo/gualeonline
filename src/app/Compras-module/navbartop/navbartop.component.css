@@ -1,0 +1,33 @@
+.div-container-navbar
+{
+    width: 90%;
+    margin: 0.6rem auto;
+    justify-content: space-between;
+}
+
+.div-titulo
+{
+    font-family: oswald-reg;
+    font-size: 2rem;
+    letter-spacing: .2rem;
+    margin-bottom: -0.8rem;
+    width: fit-content;
+}
+
+.div-subtitulo
+{
+    letter-spacing: 0.3rem;
+    font-family: oswald-light;
+    font-size: 1.2rem;
+    width: fit-content;
+}
+
+.div-menu
+{
+    font-size: 0.8rem;
+}
+
+.div-opcion
+{
+    margin: auto 0.5rem;
+}
