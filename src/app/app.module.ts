@@ -5,11 +5,13 @@ import {AppRoutingModule} from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ModalLoginComponent } from './modal-login/modal-login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalRegisterComponent } from './modal-register/modal-register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModalLoginComponent
+    ModalLoginComponent,
+    ModalRegisterComponent
   ],
   imports: [
     HttpClientModule,
@@ -17,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  entryComponents:  [ModalLoginComponent],
+  entryComponents:  [ModalLoginComponent, ModalRegisterComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

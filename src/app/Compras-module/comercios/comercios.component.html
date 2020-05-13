@@ -1,0 +1,16 @@
+<div class="div-container-comercio">
+    <div class="div-header">
+        <div class="div-nombre-comercio">*INSERTAR NOMBRE COMERCIO</div>
+        <div class="div-logo">*INSERTAR IMAGEN</div>
+        <div class="div-subcategoria">*INGRESAR SUBCATEGORIA</div>
+        <div class="div-datos-comercio">
+            <div class="div-dato">DOMICILIO</div>
+            <div class="div-dato">COSTO ENVIO</div>
+            <div class="div-dato">TIEMPOI ENTREGA</div>
+        </div>
+        <div class="div-informacion">INFORMACION</div>
+    </div>
+    <div class="div-subcategorias" *ngFor="let elem of listaProductosSubcategoria">{{elem.subcat.nombre}}
+        <div class="div-productos-subcategoria" *ngFor="let item of elem.prod">{{item.nombre_producto}}</div>
+    </div>
+</div>
