@@ -37,7 +37,7 @@
                             <div class="div-descripcion-producto">{{prod.descripcion_producto}}</div>
                             <div class="div-cantidad">x5</div>
                             <div class="div-precio-producto">${{prod.precio_producto}}</div>
-                            <div class="div-boton-modal abs"><button><i class="fa fa-plus"></i></button></div>
+                            <div class="div-boton-modal abs" (click)="openModalAddProducto(prod)"><button><i class="fa fa-plus"></i></button></div>
                         </div>
                     </div>
                 </div>

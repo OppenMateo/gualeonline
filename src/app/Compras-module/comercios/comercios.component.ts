@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ComprasService } from '../compras.service';
+import { MatDialog } from '@angular/material/dialog';
 import { isNgTemplate } from '@angular/compiler';
+import { ModalAddProductoComponent } from '../modal-add-producto/modal-add-producto.component';
+import { provideRoutes } from '@angular/router';
 
 @Component({
   selector: 'app-comercios',
@@ -17,8 +20,8 @@ export class ComerciosComponent implements OnInit {
     subcategoria:'',
     descripcion:''
   }
-
-  constructor(private comprasService:ComprasService) { }
+  
+  constructor(private comprasService:ComprasService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.getProductosComercio();
@@ -71,5 +74,16 @@ export class ComerciosComponent implements OnInit {
         console.log(this.listaProductosSubcategoria)
       },
       err=> {console.log(err);});
-  }  
+  } 
+  
+  openModalAddProducto(prod)
+  {
+    const dialogRef = this.dialog.open(ModalAddProductoComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      maxHeight: '90vh',
+      panelClass: 'custom-modalbox',
+      data: prod,
+    });
+  }
 }
