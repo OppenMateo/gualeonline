@@ -10,11 +10,34 @@ import { isNgTemplate } from '@angular/compiler';
 export class ComerciosComponent implements OnInit {
 
   listaProductosSubcategoria=[];
+  comercio = 
+  {
+    imagen:'',
+    nombre:'',
+    subcategoria:'',
+    descripcion:''
+  }
 
   constructor(private comprasService:ComprasService) { }
 
   ngOnInit() {
     this.getProductosComercio();
+    this.comprasService.getComercioSeleccionado().subscribe(
+      res=>
+      {
+        this.comprasService.comercioSeleccionado = res[0];
+        console.log(res);
+        
+        this.comercio =
+        {
+          imagen:'../../../assets/imgs/comercios/Logos/'+res[0].imagen,
+          nombre: res[0].nombre,
+          subcategoria: res[0].subcategoria,
+          descripcion: res[0].descripcion
+        }     
+      },
+      err=>{
+        console.log(err);})
   }
 
   getProductosComercio()
@@ -48,6 +71,5 @@ export class ComerciosComponent implements OnInit {
         console.log(this.listaProductosSubcategoria)
       },
       err=> {console.log(err);});
-  }
-
+  }  
 }

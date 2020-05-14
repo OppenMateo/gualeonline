@@ -35,6 +35,13 @@ export class ComprasService {
     var id = 4;
     return this.http.get(`${API_URL}/api/getSubcatProductosComercio/`+id)
   }
+
+  getComercioSeleccionado()
+  {    
+    var id = 4;
+    return this.http.get(`${API_URL}/api/getComercio/`+id);
+  }
+
 }
 
 

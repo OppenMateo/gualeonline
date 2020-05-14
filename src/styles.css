@@ -98,6 +98,10 @@ input { font-size: inherit }
 
 .row {margin: 0 !important}
 
+.abs {position: absolute;}
+
+.rel {position: relative;}
+
 
 
 html, body { height: 100%; }

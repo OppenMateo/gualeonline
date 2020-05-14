@@ -1,16 +1,47 @@
-<div class="div-container-comercio">
-    <div class="div-header">
-        <div class="div-nombre-comercio">*INSERTAR NOMBRE COMERCIO</div>
-        <div class="div-logo">*INSERTAR IMAGEN</div>
-        <div class="div-subcategoria">*INGRESAR SUBCATEGORIA</div>
-        <div class="div-datos-comercio">
-            <div class="div-dato">DOMICILIO</div>
-            <div class="div-dato">COSTO ENVIO</div>
-            <div class="div-dato">TIEMPOI ENTREGA</div>
+<div class="div-portada">
+    <div class="div-body-portada">
+        <div class="div-nombre-comercio">{{comercio.nombre}}</div>        
+        <div class="div-info-comercio flex">
+            <div class="div-logo"><img src={{comercio.imagen}} alt=""></div>            
+            <div class="div-datos-comercio">
+                <div class="div-subcategoria-comercio">Cocina Japonesa</div>
+                <div class="div-dato-container">
+                    <i class="fa fa-map-marker div-icono-dato"></i>
+                    <div class="div-dato">DOMICILIO</div>
+                </div>
+                <div class="div-dato-container">
+                    <i class="fa fa-motorcycle div-icono-dato"></i>
+                    <div class="div-dato">COSTO ENVIO</div>
+                </div>
+                <div class="div-dato-container">
+                    <i class="fa fa-hourglass-half div-icono-dato"></i>
+                    <div class="div-dato">TIEMPO DE ENTREGA</div>
+                </div> 
+            </div>           
+            <div class="div-informacion"><button class="btn-info br-10">INFORMACION</button></div> 
         </div>
-        <div class="div-informacion">INFORMACION</div>
-    </div>
-    <div class="div-subcategorias" *ngFor="let elem of listaProductosSubcategoria">{{elem.subcat.nombre}}
-        <div class="div-productos-subcategoria" *ngFor="let item of elem.prod">{{item.nombre_producto}}</div>
+    </div>    
+</div>
+<div class="div-container">
+    <div class="div-body">
+        <div class="div-subcategorias" *ngFor="let elem of listaProductosSubcategoria">
+            <div class="div-titulo-subcategoria">{{elem.subcat.nombre}}</div>
+            <div class="div-container-productos row">
+                <div class="div-productos-subcategoria col-md-6" *ngFor="let prod of elem.prod">
+                    <div class="div-producto flex">                        
+                        <div class="div-imagen-producto">
+                            <img src="{{'https://api.gualeonline.com.ar/public/img/'+prod.imagen}}" alt="" class="imagen-producto">
+                        </div>
+                        <div class="div-datos-producto rel">
+                            <div class="div-nombre-producto">{{prod.nombre_producto}}</div>
+                            <div class="div-descripcion-producto">{{prod.descripcion_producto}}</div>
+                            <div class="div-cantidad">x5</div>
+                            <div class="div-precio-producto">${{prod.precio_producto}}</div>
+                            <div class="div-boton-modal abs"><button><i class="fa fa-plus"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
