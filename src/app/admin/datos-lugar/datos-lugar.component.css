@@ -1,0 +1,98 @@
+.title-lugar {
+  font-size: 1.4rem;
+  font-family: RalewayBold;
+  margin: 0.5rem;
+}
+
+.gris {
+  color: rgb(140, 140, 140);
+}
+
+.lineadivisora {
+  width: 100%;
+  height: 1px;
+  background-color: #696969;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.1rem;
+  margin: 0.5rem;
+}
+
+.desc {
+  font-size: 0.8rem;
+  margin: 0.5rem;
+}
+
+.subirFoto {
+  font-size: 0.9rem;
+  margin: 0.5rem;
+}
+
+.btnEliminar {
+  text-decoration: underline;
+}
+
+.form-item {
+  border-radius: 10px;
+  font-size: 0.8rem;
+  width: 90%;
+}
+
+.form-estim {
+  border-radius: 10px;
+  font-size: 0.8rem;
+  width: 30%;
+  display: inline;
+}
+
+textarea {
+  resize: none;
+  width: 115% !important;
+}
+
+.imgSelect {
+  margin: 1px;
+  width: 64%;
+}
+
+.radioImg {
+  margin-left: 5%;
+}
+
+.portada {
+  max-height: 247.833px;
+}
+
+.input-file
+{
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.label-file
+{
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.div-file
+{
+    position: relative;
+}
+
+.div-input
+{
+    margin-bottom:10px;
+}

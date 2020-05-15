@@ -5,6 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ModalLoginComponent } from './modal-login/modal-login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalRegisterComponent } from './modal-register/modal-register.component';
 
 @NgModule({
@@ -17,7 +18,9 @@ import { ModalRegisterComponent } from './modal-register/modal-register.componen
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents:  [ModalLoginComponent, ModalRegisterComponent],
   providers: [],
