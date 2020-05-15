@@ -5,10 +5,11 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminIndexComponent } from './admin-index/admin-index.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { DatosLugarComponent } from './datos-lugar/datos-lugar.component';
+import { InformacionComponent } from './informacion/informacion.component';
 
 
 @NgModule({
-  declarations: [AdminIndexComponent, NavbarComponent, DatosLugarComponent],
+  declarations: [AdminIndexComponent, NavbarComponent, DatosLugarComponent, InformacionComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

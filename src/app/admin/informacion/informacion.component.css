@@ -1,0 +1,63 @@
+.div-container {
+  margin-bottom: 2.5rem;
+}
+
+.lineadivisora {
+  width: 100%;
+  height: 1px;
+  background-color: #696969;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.1rem;
+  margin: 0.5rem;
+}
+
+.gris {
+  color: rgb(140, 140, 140);
+}
+
+.desc {
+  font-size: 0.8rem;
+  margin: 0.5rem;
+}
+
+.btn {
+  margin-right: 1rem;
+}
+
+.form-item {
+  border-radius: 10px;
+  font-size: 0.8rem;
+  width: 90%;
+}
+
+.input-horario {
+  display: inline;
+}
+
+.form-estim {
+  border-radius: 10px;
+  font-size: 0.8rem;
+  width: 30%;
+  display: inline;
+}
+
+label {
+  margin-left: .5rem;
+}
+
+/* Sacar las flechitas del input type number  */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
