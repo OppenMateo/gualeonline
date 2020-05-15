@@ -1,0 +1,102 @@
+<div class="div-container box-shadow">
+  <div class="title-lugar">
+      Datos de cuenta
+  </div>
+  <div class="lineadivisora"></div>
+  <!-- <div class="div-img">
+      <img src={{comercio.imagen}} alt="" class="img-comercio">
+  </div> -->
+
+  <div class="title">Portada</div>
+  <div class="desc gris">
+    Seleccionar portada predeterminada o cargar<br> tu propia portada de comercio.
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col-md-8">
+      <img class="imagen portada" [src]="imgURL" *ngIf="imgURL">
+    </div>
+    <div class="col-md-4">
+      <div>
+          <img class="imgSelect" src="../../../assets/imgs/portadas/sushi_1.jpg">
+          <input type="radio" class="radioImg" name="portada" value="sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImg($event)">
+      </div>
+      <div>
+        <img class="imgSelect" src="../../../assets/imgs/portadas/sushi_2.jpg">
+        <input type="radio" class="radioImg" name="portada" value="sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImg($event)">
+      </div>
+      <div>
+        <img class="imgSelect" src="../../../assets/imgs/portadas/sushi_3.jpg">
+        <input type="radio" class="radioImg" name="portada" value="sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImg($event)">
+      </div>
+    </div>
+  </div>
+  <div class="div-input" style="font-size: 1rem;">
+      <div class="div-file">
+          <input #file type="file" class="input-file" accept='image/*' (change)="preview(file.files)" />
+          <label for="fileDropRef" class="label-file">
+              <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i>
+              Subir foto
+          </label>
+      </div>
+  </div>
+  <button class="btnEliminar gris">Eliminar</button>
+
+  <br><br>
+
+  <div class="title">Logo</div>
+  <div class="desc gris">Logo que aparecerá en la<br> página de su comercio.</div>
+
+  <img src="{{comercio.imagen}}">
+
+  <button class="subirFoto gris">+ Subir foto</button>
+  <button class="btnEliminar gris">Eliminar</button>
+
+  <br><br><br>
+
+  <form [formGroup]="form" (submit)="guardarDatos(form)">
+    <div class="row">
+      <div class="div-item-form col-md-3">
+        <div class="title">Categoría</div>
+        <select name="" id="" class="select-subcat form-control form-item" formControlName="subcategoria">
+            <option value={{cat.id}} class="opt-subcat" *ngFor="let cat of adminService.listaSubCategorias">{{cat.nombre_subcat}}</option>
+        </select>
+      </div>
+
+      <div class="div-item-form col-md-3">
+          <div class="title">Nombre</div>
+          <input type="text" class="input-form form-control form-item" value={{comercio.nombre}} formControlName="nombre" required>
+      </div>
+
+      <div class="div-item-form col-md-3">
+        <div class="title">Dirección</div>
+        <input type="text" class="input-form form-control form-item" value={{comercio.direccion}} formControlName="direccion" required>
+      </div>
+
+      <div class="div-item-form col-md-3">
+        <div class="title">Entrega estimada</div>
+        <input type="text" class="input-form form-control form-estim" value={{comercio.entrega}} formControlName="entrega" required>
+        <select name="" id="" class="select-subcat form-control form-estim" value={{comercio.medida_entrega}} formControlName="medida_entrega" >
+            <option class="opt-subcat">min</option>
+            <option class="opt-subcat">hs</option>
+            <option class="opt-subcat">días</option>
+        </select>
+      </div>
+
+      <div class="div-item-form col-md-5">
+        <div class="title">Descripción</div>
+        <textarea class="input-form form-control form-item" maxlength="300" value={{comercio.descripcion}} formControlName="descripcion" required></textarea>
+      </div>
+
+    </div>
+    <br><br>
+    <a href="">Vista previa</a>
+    <br><br>
+    <button class="btn btn-success" type="submit">Guardar</button>
+    <button class="btn btn-dark">Cancelar</button>
+  </form>
+
+  <br><br><br>
+
+</div>
