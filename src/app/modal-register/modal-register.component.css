@@ -1,11 +1,13 @@
-.div-modal-login
+.div-container-register
 {
     padding: 2rem;
-    background-color: var(--gris-claro)
+    background-color: var(--gris-claro);
+    width: fit-content !important;
 }
 
 .div-titulo
 {
+    text-align: center;
     font-family: opensans-semibold;
     font-size: 2rem;
     margin-bottom: 1.5rem;
@@ -13,9 +15,18 @@
 
 .div-campo
 {
+    font-size: .8rem;
     border-bottom: solid 3px white;
     padding: 1.5rem 0;
 }
+
+.div-continuar
+{
+    font-size: 2rem !important;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
 
 .div-opciones
 {
@@ -23,20 +34,14 @@
     margin-top: 1.5rem;
 }
 
-.div-continuar
-{
-    font-size: 1.5rem !important;
-    text-align: center;
-}
-
-.div-loguear
+.div-registrado
 {
     height: fit-content;
     margin: auto .2rem;
     font-size: .7rem;
 }
 
-.div-registro
+.div-ingresar
 {
     margin: 0 .2rem;
 }

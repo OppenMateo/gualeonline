@@ -6,17 +6,20 @@ import { ComprasComponent } from './compras/compras.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { NavbartopComponent } from './navbartop/navbartop.component';
 import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendientes.component';
-import { ModalLoginComponent } from 'src/app/modal-login/modal-login.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ComerciosComponent } from './comercios/comercios.component';
+import { ModalAddProductoComponent } from './modal-add-producto/modal-add-producto.component';
+
 
 
 @NgModule({
-  declarations: [ComprasComponent, CategoriasComponent, NavbartopComponent, PedidosPendientesComponent],
+  declarations: [ComprasComponent, CategoriasComponent, NavbartopComponent, PedidosPendientesComponent, ComerciosComponent, ModalAddProductoComponent],
   imports: [
     CommonModule,
     ComprasRoutingModule,
     MatMenuModule,
     MatDialogModule        
-  ]
+  ],
+  entryComponents: [ModalAddProductoComponent],
 })
 export class ComprasModule { }

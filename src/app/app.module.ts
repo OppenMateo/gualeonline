@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { ModalLoginComponent } from './modal-login/modal-login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalRegisterComponent } from './modal-register/modal-register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModalLoginComponent
+    ModalLoginComponent,
+    ModalRegisterComponent
   ],
   imports: [
     HttpClientModule,
@@ -20,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  entryComponents:  [ModalLoginComponent],
+  entryComponents:  [ModalLoginComponent, ModalRegisterComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
