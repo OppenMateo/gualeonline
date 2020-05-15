@@ -16,7 +16,7 @@ export class ComprasService {
   };
 
   comercioSeleccionado;
-
+  
   constructor(private http:HttpClient) { }
 
   getCategorias()
@@ -41,6 +41,12 @@ export class ComprasService {
     var id = 4;
     return this.http.get(`${API_URL}/api/getComercio/`+id);
   }
+
+  guardarUsuario(user)
+  {
+    return this.http.post(`${API_URL}/api/guardarUsuario`, user); 
+  }
+  
 
 }
 

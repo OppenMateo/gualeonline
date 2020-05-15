@@ -1,0 +1,66 @@
+.div-container-modal
+{
+    width: 90%;
+    margin: auto;
+}
+
+.div-datos
+{
+    justify-content: space-between;
+    margin: .5rem 0;
+}
+
+.div-titulo
+{
+    font-family: opensans-semibold;
+    margin: auto 0;
+}
+
+.div-precio
+{
+    margin: auto 0;
+    font-family: opensans-semibold;
+}
+
+.div-descripcion
+{
+    border-bottom: solid 1px var(--gris);
+    font-family: opensans-light;
+    padding-bottom: 1rem;
+}
+
+.div-aclaracion
+{
+    margin: 1rem 0 .5rem 0;
+
+}
+
+.aclaracion
+{
+    padding: .4rem .5rem;
+    height: 6vh;
+    resize: none;
+    border: solid .5px var(--gris);
+    border-radius: 5px;
+    width: 100%;
+}
+
+.div-opciones
+{
+   justify-content: space-between;
+}
+
+.div-cantidad
+{
+    margin: auto 0;
+}
+
+.div-agregar
+{
+    margin: auto 0;
+}
+
+.boton
+{
+    padding: 0;
+}

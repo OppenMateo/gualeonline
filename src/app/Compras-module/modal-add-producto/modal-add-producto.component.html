@@ -1,9 +1,17 @@
 <div class="div-container-modal">
-    <div class="div-imagen"><img src="{{'https://api.gualeonline.com.ar/public/img/'+data.imagen}}" alt=""></div>
-    <div class="div-titulo">titulito</div>
-    <div class="div-precio">$</div>
-    <div class="div-descripcion">descr</div>
-    <div class="div-aclaracion">¿?</div>
-    <div class="div-cantidad">qty</div>
-    <div class="div-agregar">agregar</div>
+    <div class="div-imagen"><img src="{{'https://api.gualeonline.com.ar/public/img/'+data.imagen}}" alt="" class="imagen"></div>
+    <div class="div-datos flex">
+        <div class="div-titulo">{{data.nombre_producto}}</div>
+        <div class="div-precio">${{data.precio_producto}}</div>
+    </div>
+    <div class="div-descripcion">{{data.descripcion_producto}}</div>
+    <div class="div-aclaracion">
+        <textarea class="aclaracion" id="" placeholder="Aclaraciones"></textarea>
+    </div>
+    <div class="div-opciones flex">
+            <button (click)="restar()" class="boton"><i class="fa fa-minus"></i></button>
+            <div class="div-cantidad">{{cantidad}}</div>
+            <button (click)="agregar()" class="boton"><i class="fa fa-plus"></i></button>           
+    <div class="div-agregar"><button class="boton">Agregar</button></div>
+    </div>
 </div>

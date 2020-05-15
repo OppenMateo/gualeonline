@@ -9,10 +9,25 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ModalAddProductoComponent implements OnInit {
 
+  cantidad=1;
+
   constructor(private comprasService:ComprasService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     console.log(this.data)
+  }
+
+  agregar()
+  {
+    this.cantidad++;
+  }
+
+  restar()
+  {
+    if(this.cantidad>=1)
+    {
+      this.cantidad--;
+    }
   }
 
 }

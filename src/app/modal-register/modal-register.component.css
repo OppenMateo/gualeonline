@@ -9,7 +9,7 @@
 {
     text-align: center;
     font-family: opensans-semibold;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
@@ -20,9 +20,19 @@
     padding: 1.5rem 0;
 }
 
+.dato
+{
+    border: solid .2px var(--gris);
+    border-radius: 5px;
+    height: 6vh;
+    resize: none;
+    width: 80%;
+    padding: .6rem .5rem;
+}
+
 .div-continuar
 {
-    font-size: 2rem !important;
+    font-size: 1.5rem !important;
     text-align: center;
     margin-top: 1.5rem;
 }
@@ -43,5 +53,5 @@
 
 .div-ingresar
 {
-    margin: 0 .2rem;
+    margin: 0 .5rem;
 }
