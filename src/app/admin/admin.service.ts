@@ -28,6 +28,11 @@ export class AdminService {
     return this.http.post(`${API_URL}/api/updateComercio`, datos);
   }
 
+  guardarInfoComercio(datos)
+  {
+    return this.http.post(`${API_URL}/api/insertInfoComercio`, datos);
+  }
+
   getComercioSeleccionado()
   {
     var id = 4;

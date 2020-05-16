@@ -3,9 +3,6 @@
       Datos de cuenta
   </div>
   <div class="lineadivisora"></div>
-  <!-- <div class="div-img">
-      <img src={{comercio.imagen}} alt="" class="img-comercio">
-  </div> -->
 
   <div class="title">Portada</div>
   <div class="desc gris">
@@ -41,17 +38,21 @@
           </label>
       </div>
   </div>
-  <button class="btnEliminar gris">Eliminar</button>
-
-  <br><br>
 
   <div class="title">Logo</div>
   <div class="desc gris">Logo que aparecerá en la<br> página de su comercio.</div>
 
-  <img src="{{comercio.imagen}}">
+  <img [src]="imgLogoURL" *ngIf="imgURL!==''" class="logo">
 
-  <button class="subirFoto gris">+ Subir foto</button>
-  <button class="btnEliminar gris">Eliminar</button>
+  <div class="div-input" style="font-size: 1rem;">
+      <div class="div-file">
+          <input #file2 type="file" class="input-file" accept='image/*' (change)="uploadLogo(file2.files)" />
+          <label for="fileDropRef" class="label-file">
+              <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i>
+              Subir foto
+          </label>
+      </div>
+  </div>
 
   <br><br><br>
 

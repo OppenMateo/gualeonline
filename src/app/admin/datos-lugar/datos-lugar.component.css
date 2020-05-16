@@ -65,6 +65,10 @@ textarea {
   max-height: 247.833px;
 }
 
+.logo {
+  max-height: 100px;
+}
+
 .input-file
 {
     opacity: 0;

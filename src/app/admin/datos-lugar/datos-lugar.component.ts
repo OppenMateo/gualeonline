@@ -24,21 +24,29 @@ export class DatosLugarComponent implements OnInit {
     medida_entrega:''
   }
 
-  fileExtension = '.jpeg';
-  imgPortada = 'sushi_3.jpg';
-  fileToUpload: File = null;
-  imageUrl: '../../../assets/imgs/portadas/sushi_2.jpg';
+  //VARIABLES DE PORTADA Y LOGO
+  extensionLogo = '.jpeg';
+  extensionPortada = '.jpeg';
+  portadaToUpload: File = null;
+  LogoToUpload: File = null;
   imgURL:any;
+  imgLogoURL:any;
   imagePath;
+  imgPortada = 'sushi_3.jpg';
+  imgLogo = '';
+  pathPortadas = "../../../assets/imgs/portadas/";
+  pathLogos = "../../../assets/imgs/logos/";
+  ///
   message;
-
-  pathPortadas = "../../../assets/imgs/portadas/"
   listaSubCategoriasComercios;
   form;
+
+
   constructor(private adminService:AdminService, private fb: FormBuilder) {}
 
   ngOnInit() {
     this.imgURL = this.pathPortadas + this.imgPortada;
+    this.imgLogoURL = '';
     this.adminService.getComercioSeleccionado().subscribe(
       res=>
       {
@@ -49,7 +57,7 @@ export class DatosLugarComponent implements OnInit {
           imagen: "../../../assets/imgs/comercios/"+res[0].imagen,
           nombre: res[0].nombre,
           direccion: res[0].direccion,
-          img_portada: res[0].id_portada,
+          img_portada: res[0].portada,
           subcategoria: res[0].subcategoria,
           descripcion: res[0].descripcion,
           entrega: res[0].entrega,
@@ -85,8 +93,6 @@ export class DatosLugarComponent implements OnInit {
     });
   }
 
-
-
   changeImg(event){
     this.imgURL = this.pathPortadas + (event.target.value)
   }
@@ -115,29 +121,16 @@ export class DatosLugarComponent implements OnInit {
       });
   }
 
-  /*
-  openModalSubcategorias()
-  {
-    const dialogRef = this.dialog.open(ModalSubcategoriasComponent, {
-      height: 'fit-content',
-      width: 'fit-content',
-      panelClass: 'custom-modalbox',
-      data:'comercio'
-    });
-
-    dialogRef.afterClosed().subscribe(result =>
-    {
-      this.getSubcategoriasComercio();
-    });
-  }
-  */
-
   guardarDatos(form)
   {
     const formData: FormData = new FormData();
-    if(this.fileToUpload!=null)
+    if(this.portadaToUpload!=null)
     {
-      formData.append('Image', this.fileToUpload, this.fileToUpload.name);
+      formData.append('Image', this.portadaToUpload, this.portadaToUpload.name);
+    }
+    if(this.LogoToUpload!=null)
+    {
+      formData.append('LogoImage', this.LogoToUpload, this.LogoToUpload.name);
     }
     formData.append("id", this.adminService.comercioSeleccionado.id);
     formData.append("nombre", form.value.nombre);
@@ -146,7 +139,10 @@ export class DatosLugarComponent implements OnInit {
     formData.append("direct", form.value.direccion);
     formData.append("entrega", form.value.entrega);
     formData.append("medida_entrega", form.value.medida_entrega);
-    formData.append("img_portada", this.adminService.comercioSeleccionado.id + "_portada" + this.fileExtension)
+    formData.append("img_portada", this.adminService.comercioSeleccionado.id + "_portada" + this.extensionPortada)
+    formData.append("imagen", this.adminService.comercioSeleccionado.id + "_logo" + this.extensionLogo)
+
+
 
     this.adminService.guardarDatosComercio(formData).subscribe
     (
@@ -186,11 +182,29 @@ export class DatosLugarComponent implements OnInit {
     reader.onload = (_event) => {
       this.imgURL = reader.result;
     }
-    this.fileToUpload = files.item(0);
     this.imgPortada = '';
+    this.portadaToUpload = files.item(0);
+    this.extensionPortada = this.portadaToUpload.type.replace('image/', '.');
+  }
 
-    this.fileExtension = this.fileToUpload.type.replace('image/', '.');
-    console.log(this.fileExtension);
+  uploadLogo(files)
+  {
+    if (files.length === 0)
+      return;
+
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "No ha cargado una imagen válida.";
+      return;
+    }
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imgLogoURL = reader.result;
+    }
+    this.LogoToUpload = files.item(0);
+    this.extensionLogo = this.LogoToUpload.type.replace('image/', '.');
   }
 
 
@@ -205,4 +219,20 @@ export class DatosLugarComponent implements OnInit {
     this.snackBar.open(message, action, { duration: durationMilliSeconds, panelClass: clase });
   }*/
 
+  /*
+  openModalSubcategorias()
+  {
+    const dialogRef = this.dialog.open(ModalSubcategoriasComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      panelClass: 'custom-modalbox',
+      data:'comercio'
+    });
+
+    dialogRef.afterClosed().subscribe(result =>
+    {
+      this.getSubcategoriasComercio();
+    });
+  }
+  */
 }
