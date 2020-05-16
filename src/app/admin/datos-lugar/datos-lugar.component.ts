@@ -10,6 +10,8 @@ import { Validators } from '@angular/forms';
   templateUrl: './datos-lugar.component.html',
   styleUrls: ['./datos-lugar.component.css']
 })
+
+
 export class DatosLugarComponent implements OnInit {
 
   comercio =
@@ -17,6 +19,8 @@ export class DatosLugarComponent implements OnInit {
     imagen:'',
     nombre:'',
     direccion: '',
+    telefono: 0,
+    medio_pago: 0,
     img_portada: '',
     subcategoria:'',
     descripcion:'',
@@ -42,6 +46,11 @@ export class DatosLugarComponent implements OnInit {
   form;
 
 
+  agregarHorario = false;
+  dias=['lunes', 'martes', 'miércoles','jueves','viernes','sábado','domingo']
+  horarios = [];
+
+
   constructor(private adminService:AdminService, private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -57,6 +66,8 @@ export class DatosLugarComponent implements OnInit {
           imagen: "../../../assets/imgs/comercios/"+res[0].imagen,
           nombre: res[0].nombre,
           direccion: res[0].direccion,
+          telefono: res[0].telefono,
+          medio_pago: res[0].medio_pago,
           img_portada: res[0].portada,
           subcategoria: res[0].subcategoria,
           descripcion: res[0].descripcion,
@@ -70,6 +81,8 @@ export class DatosLugarComponent implements OnInit {
         this.form.controls['direccion'].setValue(this.comercio.direccion);
         this.form.controls['entrega'].setValue(this.comercio.entrega);
         this.form.controls['medida_entrega'].setValue(this.comercio.medida_entrega);
+        this.form.controls['telefono'].setValue(this.comercio.telefono);
+        this.form.controls['medio_pago'].setValue(this.comercio.medio_pago);
 
         this.adminService.getSubCategoriasComercios().subscribe(
           res=>
@@ -85,6 +98,8 @@ export class DatosLugarComponent implements OnInit {
     this.form = this.fb.group
     ({
       'nombre': new FormControl('', [ Validators.required ]),
+      'telefono': new FormControl('', [ Validators.required ]),
+      'medio_pago': new FormControl('', [ Validators.required ]),
       'subcategoria': new FormControl('', [ Validators.required ]),
       'descripcion': new FormControl('', [ Validators.required ]),
       'direccion': new FormControl('', [ Validators.required ]),
@@ -98,6 +113,8 @@ export class DatosLugarComponent implements OnInit {
   }
 
   get nombre() { return this.form.get('nombre'); }
+  get telefono() { return this.form.get('telefono');}
+  get medio_pago() { return this.form.get('medio_pago');}
   get subcategoria() { return this.form.get('subcategoria'); }
   get descripcion() { return this.form.get('descripcion'); }
   get direccion() { return this.form.get('direccion'); }
@@ -139,8 +156,10 @@ export class DatosLugarComponent implements OnInit {
     formData.append("direct", form.value.direccion);
     formData.append("entrega", form.value.entrega);
     formData.append("medida_entrega", form.value.medida_entrega);
-    formData.append("img_portada", this.adminService.comercioSeleccionado.id + "_portada" + this.extensionPortada)
-    formData.append("imagen", this.adminService.comercioSeleccionado.id + "_logo" + this.extensionLogo)
+    formData.append("img_portada", this.adminService.comercioSeleccionado.id + "_portada" + this.extensionPortada);
+    formData.append("imagen", this.adminService.comercioSeleccionado.id + "_logo" + this.extensionLogo);
+    formData.append("telefono", form.value.telefono);
+    formData.append("medio_pago", form.value.medio_pago);
 
 
 
@@ -158,7 +177,90 @@ export class DatosLugarComponent implements OnInit {
           var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
       //    this.openMessage(message, "Cerrar", 50000, "error");
         }
-      },err => {console.log(err);});
+      },err => {console.log(err);}
+    );
+  }
+
+  guardarHorarios(){
+    console.log(this.horarios);
+    this.horarios.forEach(horario => {
+      horario.id = this.adminService.comercioSeleccionado.id;
+      /*
+      this.adminService.guardarHorarios(horario).subscribe
+      (
+        res=>
+        {
+          if(res>0)
+          {
+            var message = "Los datos se modificaron exitosamente."
+          }
+          else
+          {
+            var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
+          }
+        },err => {console.log(err);}
+      );
+      */
+    });
+  }
+
+  codigoDias(dias){
+    if (typeof dias[0] == "string") {
+      dias.forEach(dia => {
+        switch (dia) {
+          case 'lunes':
+            dia = 0;
+          break;
+          case 'martes':
+            dia = 1;
+          break;
+          case 'miércoles':
+            dia = 2;
+          break;
+          case 'jueves':
+            dia = 3;
+          break;
+          case 'viernes':
+            dia = 4;
+          break;
+          case 'sábado':
+            dia = 5;
+          break;
+          case 'domingo':
+            dia = 6;
+          break;
+        }
+      });
+      console.log(dias);
+      return dias;
+    }else {
+      dias.forEach(dia => {
+        switch (dia) {
+          case 0:
+            dia = 'lunes';
+          break;
+          case 1:
+            dia = 'martes';
+          break;
+          case 2:
+            dia = 'miércoles';
+          break;
+          case 3:
+            dia = 'jueves';
+          break;
+          case 4:
+            dia = 'viernes';
+          break;
+          case 5:
+            dia = 'sábado';
+          break;
+          case 6:
+            dia = 'domingo';
+          break;
+        }
+      });
+      return dias;
+    }
   }
 
   resetFrom()
@@ -207,6 +309,64 @@ export class DatosLugarComponent implements OnInit {
     this.extensionLogo = this.LogoToUpload.type.replace('image/', '.');
   }
 
+  toggleHorarios() {
+    this.agregarHorario = !this.agregarHorario;
+    //this.horario.desde='';
+    //this.horario.hasta='';
+  }
+
+  newHorario() {
+    let horario = {
+      dias: [],
+      diasCod: [],
+      desde: '',
+      hasta: '',
+      desde2: '',
+      hasta2: ''
+    };
+    /*
+    this.horario.dias = [];
+    this.horario.diasCod = [];
+    this.horario.desde = '';
+    this.horario.desde2 = '';
+    this.horario.hasta = '';
+    this.horario.hasta2 = '';
+    */
+    this.dias.forEach(element => {
+      let dia = document.getElementById(element) as HTMLInputElement;
+      if (dia.checked) {
+        horario.dias.push(dia.value);
+        horario.diasCod.push(dia.getAttribute('codigo'));
+      }
+    });
+
+    let desde = document.getElementById('desde') as HTMLInputElement;
+    let hasta = document.getElementById('hasta') as HTMLInputElement;
+    let desde2 = document.getElementById('desde2') as HTMLInputElement;
+    let hasta2 = document.getElementById('hasta2') as HTMLInputElement;
+    horario.desde = desde.value;
+    horario.hasta = hasta.value;
+    horario.desde2 = desde2.value;
+    horario.hasta2 = hasta2.value;
+
+    console.clear();
+    console.log("horario nuevo:")
+    console.log(horario);
+    this.horarios.push(horario);
+    console.log("todos los horarios:")
+    console.log(this.horarios);
+
+    /* crear html*/
+    let divHorarios = document.getElementById("horarios") as HTMLInputElement;
+    divHorarios.innerHTML += '<span id="horario_'+this.horarios.length+'">'+horario.dias+'</span> de '+horario.desde+' a '+horario.hasta+' hs';
+    if (horario.desde2 !=='' && horario.hasta2 !=='') {
+      divHorarios.innerHTML += ' y de '+ horario.desde2+' a '+horario.hasta2+' hs.<br>';
+    }else{
+      divHorarios.innerHTML += '.<br>';
+    }
+    /* */
+    this.toggleHorarios();
+  }
 
 /*
    public openMessage(message, action, durationMilliSeconds, type)

@@ -28,9 +28,9 @@ export class AdminService {
     return this.http.post(`${API_URL}/api/updateComercio`, datos);
   }
 
-  guardarInfoComercio(datos)
+  guardarHorarios(datos)
   {
-    return this.http.post(`${API_URL}/api/insertInfoComercio`, datos);
+    return this.http.post(`${API_URL}/api/updateHorarios`, datos);
   }
 
   getComercioSeleccionado()
