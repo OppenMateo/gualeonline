@@ -1,13 +1,13 @@
 <div class="div-portada">
-    <div class="div-body-portada">
+    <div class="div-body-portada"><img class="imagen" class="imagen-portada" src="{{'https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada}}" alt="">
         <div class="div-nombre-comercio">{{comercio.nombre}}</div>        
         <div class="div-info-comercio flex">
-            <div class="div-logo"><img src={{comercio.imagen}} alt=""></div>            
+            <div class="div-logo"><img src="{{'https://api.gualeonline.com.ar/public/img/logos/'+comercio.imagen}}" alt=""></div>            
             <div class="div-datos-comercio">
-                <div class="div-subcategoria-comercio">Cocina Japonesa</div>
+                <div class="div-subcategoria-comercio">{{comercio.subcategoria}}</div>
                 <div class="div-dato-container">
                     <i class="fa fa-map-marker div-icono-dato"></i>
-                    <div class="div-dato">DOMICILIO</div>
+                    <div class="div-dato">{{comercio.direccion}}</div>
                 </div>
                 <div class="div-dato-container">
                     <i class="fa fa-motorcycle div-icono-dato"></i>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="div-dato-container">
                     <i class="fa fa-hourglass-half div-icono-dato"></i>
-                    <div class="div-dato">TIEMPO DE ENTREGA</div>
+                    <div class="div-dato">{{comercio.entrega}}</div>
                 </div> 
             </div>           
             <div class="div-informacion"><button class="btn-info br-10">INFORMACION</button></div> 

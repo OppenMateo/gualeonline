@@ -3,15 +3,22 @@
         <div class="div-titulo oswald-b">GUALEONLINE</div>
         <div class="div-subtitulo">PUERTA A PUERTA</div>
     </div>
-    <div class="div-menu flex">
-        <!-- <div class="div-opcion"><i class="fa fa-shopping-cart"></i></div> -->
-        <div class="div-opcion"><button (click)="openModalLogin()" class="login">INICIAR SESION</button></div>
-        <div class="div-opcion"><button (click)="openModalRegister()" class="signIn">REGISTRARSE</button></div>
-        <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-        <mat-menu #menu="matMenu">
-        <button mat-menu-item>Item 1</button>
-        <button mat-menu-item>Item 2</button>
-        </mat-menu> -->
+    <div class="div-login" *ngIf="!currentUser">
+        <div class="div-menu flex">
+            <div class="div-opcion"><button (click)="openModalLogin()" class="login">INICIAR SESION</button></div>
+            <div class="div-opcion"><button (click)="openModalRegister()" class="signIn">REGISTRARSE</button></div>
+        </div>
     </div>
+    <div class="div-menu grow" *ngIf="currentUser">
+        <button [matMenuTriggerFor]="menu">
+            <div class="div-logueado flex">
+                <div class="div-usuario">{{this.currentUser.usuario.nombre}}</div>
+                <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>    
+            </div>
+        </button>
+    </div>
+    <mat-menu #menu>
+        <button>tuviega</button>
+    </mat-menu>
 </div>
 

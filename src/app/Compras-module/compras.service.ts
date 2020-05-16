@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { MatDialog } from '@angular/material/dialog';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -16,8 +17,8 @@ export class ComprasService {
   };
 
   comercioSeleccionado;
-
-  constructor(private http:HttpClient) { }
+  
+  constructor(private http:HttpClient, public dialog: MatDialog) { }
 
   getCategorias()
   {
@@ -30,6 +31,7 @@ export class ComprasService {
     return this.http.get(`${API_URL}/api/getPedidosPendientes/`+id);    
   }
 
+
   getSubcategoriasProductosComercio()
   {
     var id = 4;
@@ -41,6 +43,7 @@ export class ComprasService {
     var id = 4;
     return this.http.get(`${API_URL}/api/getComercio/`+id);
   }
+ 
 
 }
 
