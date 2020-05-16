@@ -1,13 +1,27 @@
 <div class="div-modal-login br-10">
     <div class="div-titulo">INGRESA TU USUARIO <br> Y CONTRASEÑA</div>
-    <div class="div-campos gr">
-        <div class="div-campo">USUARIO</div>
-        <div class="div-campo">CONTRASEÑA</div>
-    </div>
-    <div class="div-continuar">CONTINUAR</div>
+    <form [formGroup]="formUsuario" (submit)="login(formUsuario)">
+        <div class="div-from-usuario">        
+            <div class="div-campos gr">
+                <div class="div-campo">
+                    <input type="text" formControlName="usuario" id="usuario" class="campo"  placeholder="Usuario">
+                    <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="message-error-input">
+                        <div *ngIf="usuario.errors.required">* Ingresar Usuario</div>        
+                    </div>
+                </div>
+                <div class="div-campo">
+                    <input type="password" formControlName="pass" class="campo" placeholder="Contraseña">
+                    <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="message-error-input">
+                        <div *ngIf="pass.errors.required">* Ingresar Contraseña</div>        
+                    </div>
+                </div>
+            </div>
+            <div class="div-ingresar"><button type="submit" class="btn-ingresar">Ingresar</button></div>
+        </div>
+    </form>
     <div class="div-opciones flex">
-        <div class="div-loguear">¿TODAVÍA NO TENES UNA CUENTA?</div>
-        <div class="div-registro">REGISTRATE</div>
+        <div class="div-nueva-cuenta">¿TODAVÍA NO TENES UNA CUENTA?</div>
+        <div class="div-registro"><button class="btn-registro" (click)="openModalRegister()">Registrate</button></div>
     </div>
 </div>
 

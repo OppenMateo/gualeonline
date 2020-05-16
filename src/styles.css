@@ -83,6 +83,8 @@ input { font-size: inherit }
 
 .flex {display: flex;}
 
+.grow {flex-grow: 1;}
+
 .div-container
 {
     width: 90%;

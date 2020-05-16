@@ -7,14 +7,23 @@
 .div-titulo
 {
     font-family: opensans-semibold;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
 .div-campo
 {
-    border-bottom: solid 3px white;
-    padding: 1.5rem 0;
+    border-bottom: solid 2px white;
+    padding: 1rem 0; 
+}
+
+.campo
+{
+    width: 100%;
+    border: solid 1px var(--gris-claro);
+    padding-left: .2rem;
+    height: 5vh;
+    font-size: .8rem;
 }
 
 .div-opciones
@@ -23,20 +32,35 @@
     margin-top: 1.5rem;
 }
 
-.div-continuar
+.div-ingresar
 {
-    font-size: 1.5rem !important;
+    margin-top: 1rem;
     text-align: center;
 }
 
-.div-loguear
+.btn-ingresar
+{
+    font-size: 1.2rem !important;
+    font-family: opensans-semibold;
+    padding: .5rem 1rem;
+    border: solid 1px var(--gris-claro);
+}
+
+.div-nueva-cuenta
 {
     height: fit-content;
-    margin: auto .2rem;
+    margin: auto .5rem;
     font-size: .7rem;
 }
 
 .div-registro
 {
     margin: 0 .2rem;
+}
+
+.btn-registro
+{
+    padding: .5rem 1rem;
+    font-size: 1.5rem;
+    border: solid 1px var(--gris-claro);
 }

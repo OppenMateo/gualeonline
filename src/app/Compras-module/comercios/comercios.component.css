@@ -1,15 +1,22 @@
 .div-portada
 {
-    background-image: url("../../../assets/imgs/comercios/Portadas/sushi.jpg");
+    position: relative;
     height: 350px;
     background-size: cover;
+    overflow: hidden;
+}
+
+.imagen-portada
+{
+    position: absolute;
+    z-index: -1;
+    max-height: 350px;
 }
 
 .div-body-portada
 {
     width: 90%;
     margin: auto;
-    color: white;
     font-family: opensans-light;
 }
 
@@ -68,7 +75,7 @@
 .btn-info
 {
     border: solid 2px var(--gris);
-    background-color: transparent;
+    /* background-color: transparent; */
 }
 
 .div-titulo-subcategoria

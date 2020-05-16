@@ -7,10 +7,12 @@ import { CategoriasComponent } from './categorias/categorias.component';
 
 const routes: Routes = 
 [
-  { path:'', component:ComprasComponent, children: [{
-    path:'Comercio', component:ComerciosComponent},
-  { path: 'Categorias', component:CategoriasComponent
-  }]  
+  { path:'', component:ComprasComponent, children:
+    [
+      { path: '', component:ComerciosComponent },
+      { path:'Comercio', component:ComerciosComponent },
+      { path: 'Categorias', component:CategoriasComponent },      
+    ]  
   },  
 ];
 

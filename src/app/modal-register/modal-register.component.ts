@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ComprasService } from '../Compras-module/compras.service';
-import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MustMatch } from '../helpers/mustMatch';
+
 
 @Component({
   selector: 'app-modal-register',
@@ -12,22 +14,24 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 export class ModalRegisterComponent implements OnInit {
 
   formUsuario;
+  mostrarError= false;
 
   constructor(private comprasService:ComprasService, private FormBuilder: FormBuilder, private authService:AuthService,
-     public dialogRef: MatDialogRef<ModalRegisterComponent>, public dialog: MatDialog) { }
+     public dialogRef: MatDialogRef<ModalRegisterComponent>) { }
 
   ngOnInit() {
     this.formUsuario = new FormGroup({
       'nombre': new FormControl('', [ Validators.required ]),
       'telefono': new FormControl('', [ Validators.required ]),
-      'email': new FormControl(''),
+      'email': new FormControl('', [ Validators.required ]), 
       'usuario': new FormControl('', [ Validators.required]),
       'pass': new FormControl('', [ Validators.required ]),
       'passrepeat': new FormControl('', [ Validators.required ]),
+    },
+
+    { 
+      validators: MustMatch
     });
-    // { 
-    //   validators: MustMatch
-    // });
   }
 
   get nombre() { return this.formUsuario.get('nombre'); }
@@ -45,16 +49,16 @@ export class ModalRegisterComponent implements OnInit {
       nombre_usuario:usuario.value.usuario
     }
 
-  //   if(usuario.invalid)
-  //   {
-  //     return;
-  //   }
-  // }
-
+    if(usuario.invalid)
+    {
+      this.mostrarError=true;
+      return;
+    }
+  
   this.authService.validarUsuario(nombre_usuario).subscribe
   (x=>
     {
-      var res;
+      var res=x;
       if(res.toString()!="")
       {
         this.formUsuario.setErrors({userExists: true});
@@ -70,9 +74,9 @@ export class ModalRegisterComponent implements OnInit {
           telefono:usuario.value.telefono,
           email:usuario.value.email
         }
-      }
+      
 
-      this.comprasService.guardarUsuario(user).subscribe
+      this.authService.guardarUsuario(user).subscribe
       (x=>
         {
           var usuario =
@@ -85,15 +89,37 @@ export class ModalRegisterComponent implements OnInit {
             {
               this.dialogRef.close();
             }),
+
             err=>
             {
               console.log(err);
               this.formUsuario.setErrors({userExists: true});
               return;
             }
-        })
-
+        });
+      }
     }    
   )}
+
+  validarUserName(control) 
+  {    
+    return this.authService.validarUsuario(control.value).subscribe
+    (data => 
+    {
+      let res: string = data['usuario'].nombre_usuario;
+      if (res === control.value) 
+      {
+        control.setErrors({userExists: true});
+        return {'alreadyExist': true};
+      } else {        
+        return null
+      }
+    });
+  }
+
+  openModalLogin()
+  {
+    this.dialogRef.close('login');
+  }
 
 }

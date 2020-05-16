@@ -7,6 +7,8 @@ import { ModalLoginComponent } from './modal-login/modal-login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalRegisterComponent } from './modal-register/modal-register.component';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { User } from '../app/models/user'
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { ModalRegisterComponent } from './modal-register/modal-register.componen
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   entryComponents:  [ModalLoginComponent, ModalRegisterComponent],
   providers: [],

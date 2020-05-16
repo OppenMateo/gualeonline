@@ -1,28 +1,54 @@
-<div class="div-container-register br-10">
-    <div class="div-titulo">COMPLETA TUS DATOS</div>
-    <div class="div-campos row gr">
-        <div class="div-campo col-md-6">
-            <input type="text" formControlName="usuario" id="usuario" class="dato"  placeholder="Usuario">
+<div class="div-container-register">
+    <div class="div-form-usuario">
+        <form [formGroup]="formUsuario" (submit)="guardarUsuario(formUsuario)">
+        <div class="div-titulo">COMPLETA TUS DATOS</div>
+        <div class="div-campos row gr">
+            <div class="div-campo col-md-6">
+                <input type="text" formControlName="usuario" id="usuario" class="dato"  placeholder="Usuario">
+                <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="message-error-input">
+                    <div *ngIf="usuario.errors.required">* Ingresar usuario</div>        
+                </div>
+                <div *ngIf="formUsuario.errors?.userExists" class="message-error-input">El usuario ya existe</div> 
+            </div>
+            <div class="div-campo col-md-6">
+                <input type="text" formControlName="nombre" class="dato" placeholder="Nombre completo">
+                <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="message-error-input">
+                    <div *ngIf="nombre.errors.required">* Ingresar nombre</div> 
+                </div>
+            </div>
+            <div class="div-campo col-md-6">
+                <input type="text" formControlName="telefono" class="dato" placeholder="Teléfono">
+                <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="message-error-input">
+                    <div *ngIf="telefono.errors.required">* Ingresar teléfono</div> 
+                </div>
+            </div>
+             <div class="div-campo col-md-6">
+                <input type="text" formControlName="email" class="dato" placeholder="Correo electrónico">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="message-error-input">
+                    <div *ngIf="email.errors.required">* Ingresar email</div> 
+                </div>
+            </div>
+            <div class="div-campo col-md-6">
+                <input type="password" formControlName="pass" class="dato" placeholder="Contraseña">
+                <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="message-error-input">
+                    <div *ngIf="pass.errors.required">* Ingresar contraseña</div> 
+                </div>
+            </div>
+            <div class="div-campo col-md-6">
+                <input type="password" formControlName="passrepeat" class="dato" placeholder="Repetir contraseña">
+                <div *ngIf="passrepeat.invalid && (passrepeat.dirty || passrepeat.touched)" class="message-error-input">
+                    <div *ngIf="passrepeat.errors.required">* Repetir contraseña</div> 
+                </div>
+                <div *ngIf="formUsuario.errors?.errorPass && mostrarError && !passrepeat.errors?.required" class="message-error-input">
+                    * Las contraseñas deben coincidir
+                </div> 
+            </div>        
         </div>
-        <div class="div-campo col-md-6">
-            <input type="text" formControlName="nombre" class="dato" placeholder="Nombre completo">
-        </div>
-        <div class="div-campo col-md-6">
-            <input type="text" formControlName="telefono" class="dato" placeholder="Teléfono">
-        </div>
-        <div class="div-campo col-md-6">
-            <input type="text" formControlName="email" class="dato" placeholder="Correo electrónico">
-        </div>
-        <div class="div-campo col-md-6">
-            <input type="password" formControlName="passrepeat" class="dato" placeholder="Contraseña">
-        </div>
-        <div class="div-campo col-md-6">
-            <input type="password" formControlName="passrepeat" class="dato" placeholder="Repetir contraseña">
-        </div>        
-    </div>
-    <div class="div-continuar"><button class="div-continuar">CONTINUAR</button></div>
+        <div class="div-continuar"><button type="submit" class="continuar">CONTINUAR</button></div>
+        </form>     
+    </div>    
     <div class="div-opciones flex">
-        <div class="div-registrado">¿YA TENES UNA CUENTA?</div>
-        <div class="div-ingresar">INGRESAR</div>
+        <div class="div-usuario-existente">¿YA TENES UNA CUENTA?</div>
+        <div class="div-login"><button class="btn-login" (click)="openModalLogin()">Iniciar sesión</button></div>
     </div>
 </div>

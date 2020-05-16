@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { ModalLoginComponent } from 'src/app/modal-login/modal-login.component';
-import { ModalRegisterComponent } from 'src/app/modal-register/modal-register.component'
+import { AuthService } from '../../auth.service'
 
 @Component({
   selector: 'app-navbartop',
@@ -10,37 +9,23 @@ import { ModalRegisterComponent } from 'src/app/modal-register/modal-register.co
 })
 export class NavbartopComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  currentUser;
+
+  constructor(public dialog: MatDialog, private authService: AuthService) {
+    this.authService.currentUser.subscribe(res=>this.currentUser = res);
+   }
 
   ngOnInit() {
+  } 
+
+  openModalRegister()
+  {
+    this.authService.openModalRegister();
   }
 
-  openModalLogin(): void
+  openModalLogin()
   {
-    const dialogRef = this.dialog.open(ModalLoginComponent, {
-      height: 'fit-content',
-      width: 'fit-content',
-      panelClass: 'custom-modalbox'
-    });
-
-    dialogRef.afterClosed().subscribe(result => 
-    {                
-      // this.homeComponente.ngOnInit();
-    });
-  }
-
-  openModalRegister(): void
-  {
-    const dialogRef = this.dialog.open(ModalRegisterComponent, {
-      height: 'fit-content',
-      width: 'fit-content',
-      panelClass: 'custom-modalbox'
-    });
-
-    dialogRef.afterClosed().subscribe(result => 
-    {      
-      
-    });
+    this.authService.openModalLogin();
   }
 
 }

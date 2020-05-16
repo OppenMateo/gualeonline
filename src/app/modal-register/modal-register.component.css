@@ -1,6 +1,7 @@
 .div-container-register
 {
-    padding: 2rem;
+    max-width: 80vh;
+    padding: 1rem;
     background-color: var(--gris-claro);
     width: fit-content !important;
 }
@@ -10,7 +11,7 @@
     text-align: center;
     font-family: opensans-semibold;
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .div-campo
@@ -22,36 +23,42 @@
 
 .dato
 {
-    border: solid .2px var(--gris);
+    border: solid 1px var(--gris-claro);
     border-radius: 5px;
-    height: 6vh;
+    height: 5vh;
     resize: none;
     width: 80%;
+    font-size: .8rem;
     padding: .6rem .5rem;
 }
 
 .div-continuar
 {
-    font-size: 1.5rem !important;
     text-align: center;
-    margin-top: 1.5rem;
+    margin: .5rem;
+}
+
+.continuar
+{
+    font-size: 1.2rem !important;
+    font-family: opensans-semibold;
+    padding: .5rem 1rem;
 }
 
 
 .div-opciones
 {
     justify-content: center;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
-.div-registrado
+.div-usuario-existente
 {
-    height: fit-content;
-    margin: auto .2rem;
+    margin: auto .5rem;
     font-size: .7rem;
 }
 
-.div-ingresar
+.btn-login
 {
-    margin: 0 .5rem;
+    padding: .5rem 1rem;
 }

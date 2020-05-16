@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { isNgTemplate } from '@angular/compiler';
 import { ModalAddProductoComponent } from '../modal-add-producto/modal-add-producto.component';
 import { provideRoutes } from '@angular/router';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-comercios',
@@ -18,10 +19,13 @@ export class ComerciosComponent implements OnInit {
     imagen:'',
     nombre:'',
     subcategoria:'',
-    descripcion:''
+    descripcion:'',
+    portada:'',
+    entrega:'',
+    direccion:'',
   }
   
-  constructor(private comprasService:ComprasService, public dialog: MatDialog) { }
+  constructor(private comprasService:ComprasService, private authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.getProductosComercio();
@@ -30,13 +34,16 @@ export class ComerciosComponent implements OnInit {
       {
         this.comprasService.comercioSeleccionado = res[0];
         console.log(res);
-        
+
         this.comercio =
         {
-          imagen:'../../../assets/imgs/comercios/Logos/'+res[0].imagen,
+          imagen: res[0].imagen,
           nombre: res[0].nombre,
           subcategoria: res[0].subcategoria,
-          descripcion: res[0].descripcion
+          descripcion: res[0].descripcion,
+          portada: res[0].portada,
+          entrega: res[0].entrega,
+          direccion: res[0].entrega
         }     
       },
       err=>{
