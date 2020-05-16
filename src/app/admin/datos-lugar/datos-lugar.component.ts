@@ -93,7 +93,9 @@ export class DatosLugarComponent implements OnInit {
           ,err => {console.log(err);}
         );
       },err => {
-        console.log(err);});
+        console.log(err);}
+    );
+
 
     this.form = this.fb.group
     ({
@@ -106,6 +108,8 @@ export class DatosLugarComponent implements OnInit {
       'entrega': new FormControl('', [ Validators.required ]),
       'medida_entrega': new FormControl('', [ Validators.required ]),
     });
+
+    this.getHorarios();
   }
 
   changeImg(event){
@@ -181,12 +185,67 @@ export class DatosLugarComponent implements OnInit {
     );
   }
 
-  guardarHorarios(){
+  newHorario(dias, diasCod, desde, hasta, desde2, hasta2) {
+    if (diasCod == '') {
+      this.dias.forEach(element => {
+        let dia = document.getElementById(element) as HTMLInputElement;
+        if (dia.checked) {
+          dias.push(dia.value);
+          diasCod+= dia.getAttribute('codigo');
+        }
+      });
+    }
+
+    if (desde == '' || hasta == '') {
+      desde = document.getElementById('desde') as HTMLInputElement;
+      hasta = document.getElementById('hasta') as HTMLInputElement;
+      desde2 = document.getElementById('desde2') as HTMLInputElement;
+      hasta2 = document.getElementById('hasta2') as HTMLInputElement;
+      desde = desde.value;
+      hasta = hasta.value;
+      desde2 = desde2.value;
+      hasta2 = hasta2.value;
+    }
+
+    let horario = {
+      id: this.horarios.length + 1 ,
+      dias,
+      diasCod,
+      desde,
+      hasta,
+      desde2,
+      hasta2
+    };
+
+    this.horarios.push(horario);
+
+    /* crear html*/
+    /*
+    let divHorarios = document.getElementById("horarios") as HTMLInputElement;
+    divHorarios.innerHTML += '<span id="horario_'+this.horarios.length+'">'+horario.dias+' de '+horario.desde+' a '+horario.hasta+' hs';
+    if (horario.desde2 !=='' && horario.hasta2 !=='') {
+      divHorarios.innerHTML += ' y de '+ horario.desde2+' a '+horario.hasta2+' hs.</span><br>';
+    }else{
+      divHorarios.innerHTML += '.</span><br>';
+    }
+      divHorarios.innerHTML += '<button id="btn_'+this.horarios.length+'" class="btn btn-danger" (click)="deleteHorario(horario_'+this.horarios.length+')">X</button>"';
+    */
+      /* */
+    this.toggleHorarios();
+  }
+
+  deleteHorario(id){
+    console.log(id);
+    document.getElementById('horario_'+id).remove();
+    this.horarios.splice(id,1);
     console.log(this.horarios);
-    this.horarios.forEach(horario => {
-      horario.id = this.adminService.comercioSeleccionado.id;
-      /*
-      this.adminService.guardarHorarios(horario).subscribe
+  }
+
+  guardarHorarios(){
+    this.horarios.forEach(h => {
+      h.id = this.adminService.comercioSeleccionado.id;
+      console.log(h);
+      this.adminService.guardarHorarios(h).subscribe
       (
         res=>
         {
@@ -200,67 +259,54 @@ export class DatosLugarComponent implements OnInit {
           }
         },err => {console.log(err);}
       );
-      */
     });
   }
 
-  codigoDias(dias){
-    if (typeof dias[0] == "string") {
-      dias.forEach(dia => {
-        switch (dia) {
-          case 'lunes':
-            dia = 0;
-          break;
-          case 'martes':
-            dia = 1;
-          break;
-          case 'miércoles':
-            dia = 2;
-          break;
-          case 'jueves':
-            dia = 3;
-          break;
-          case 'viernes':
-            dia = 4;
-          break;
-          case 'sábado':
-            dia = 5;
-          break;
-          case 'domingo':
-            dia = 6;
-          break;
-        }
-      });
-      console.log(dias);
-      return dias;
-    }else {
-      dias.forEach(dia => {
-        switch (dia) {
-          case 0:
-            dia = 'lunes';
-          break;
-          case 1:
-            dia = 'martes';
-          break;
-          case 2:
-            dia = 'miércoles';
-          break;
-          case 3:
-            dia = 'jueves';
-          break;
-          case 4:
-            dia = 'viernes';
-          break;
-          case 5:
-            dia = 'sábado';
-          break;
-          case 6:
-            dia = 'domingo';
-          break;
-        }
-      });
-      return dias;
-    }
+  getHorarios(){
+    this.adminService.getHorarios().subscribe(
+      res=>{
+        let horarios = Object.values(res); //lo convierto en objeto
+        horarios.forEach(h => {
+          if (h.desde2 == null || h.hasta2 == null) {
+            h.desde2 = '';
+            h.hasta2 = '';
+          }
+          h.diasCod = h.dias;
+          h.dias = Array.from(h.dias);
+          for (let index = 0; index < h.dias.length; index++) {
+            //const element = array[index];
+            switch (h.dias[index]) {
+              case '0':
+                h.dias[index] = 'lunes';
+              break;
+              case '1':
+                h.dias[index] = 'martes';
+              break;
+              case '2':
+                h.dias[index] = 'miércoles';
+              break;
+              case '3':
+                h.dias[index] = 'jueves';
+              break;
+              case '4':
+                h.dias[index] = 'viernes';
+              break;
+              case '5':
+                h.dias[index] = 'sábado';
+              break;
+              case '6':
+                h.dias[index] = 'domingo';
+              break;
+            }
+          }
+          this.newHorario(h.dias, h.diasCod, h.desde, h.hasta, h.desde2, h.hasta2);
+        }); //end forEach horarios
+        console.log(this.horarios);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   resetFrom()
@@ -311,62 +357,9 @@ export class DatosLugarComponent implements OnInit {
 
   toggleHorarios() {
     this.agregarHorario = !this.agregarHorario;
-    //this.horario.desde='';
-    //this.horario.hasta='';
   }
 
-  newHorario() {
-    let horario = {
-      dias: [],
-      diasCod: [],
-      desde: '',
-      hasta: '',
-      desde2: '',
-      hasta2: ''
-    };
-    /*
-    this.horario.dias = [];
-    this.horario.diasCod = [];
-    this.horario.desde = '';
-    this.horario.desde2 = '';
-    this.horario.hasta = '';
-    this.horario.hasta2 = '';
-    */
-    this.dias.forEach(element => {
-      let dia = document.getElementById(element) as HTMLInputElement;
-      if (dia.checked) {
-        horario.dias.push(dia.value);
-        horario.diasCod.push(dia.getAttribute('codigo'));
-      }
-    });
 
-    let desde = document.getElementById('desde') as HTMLInputElement;
-    let hasta = document.getElementById('hasta') as HTMLInputElement;
-    let desde2 = document.getElementById('desde2') as HTMLInputElement;
-    let hasta2 = document.getElementById('hasta2') as HTMLInputElement;
-    horario.desde = desde.value;
-    horario.hasta = hasta.value;
-    horario.desde2 = desde2.value;
-    horario.hasta2 = hasta2.value;
-
-    console.clear();
-    console.log("horario nuevo:")
-    console.log(horario);
-    this.horarios.push(horario);
-    console.log("todos los horarios:")
-    console.log(this.horarios);
-
-    /* crear html*/
-    let divHorarios = document.getElementById("horarios") as HTMLInputElement;
-    divHorarios.innerHTML += '<span id="horario_'+this.horarios.length+'">'+horario.dias+'</span> de '+horario.desde+' a '+horario.hasta+' hs';
-    if (horario.desde2 !=='' && horario.hasta2 !=='') {
-      divHorarios.innerHTML += ' y de '+ horario.desde2+' a '+horario.hasta2+' hs.<br>';
-    }else{
-      divHorarios.innerHTML += '.<br>';
-    }
-    /* */
-    this.toggleHorarios();
-  }
 
 /*
    public openMessage(message, action, durationMilliSeconds, type)

@@ -92,23 +92,28 @@
           <div class="desc gris">
             Ingrese uno dos horarios distintos para<br> los días seleccionados.
           </div>
-          <input type="text" id="desde" class="form-control form-estim" style="font-size:1rem !important;">
+          <input type="Number" id="desde" class="form-control form-estim" style="font-size:1rem !important;">
           <span> a </span>
-          <input type="text" id="hasta" class="form-control form-estim" style="font-size:1rem !important;">
+          <input type="Number" id="hasta" class="form-control form-estim" style="font-size:1rem !important;">
           <span> hs.</span>
           <br>
-          <input type="text" id="desde2" class="form-control form-estim" style="font-size:1rem !important;">
+          <input type="Number" id="desde2" class="form-control form-estim" style="font-size:1rem !important;">
           <span> a </span>
-          <input type="text" id="hasta2" class="form-control form-estim" style="font-size:1rem !important;">
+          <input type="Number" id="hasta2" class="form-control form-estim" style="font-size:1rem !important;">
           <span> hs.</span>
         </div>
         <br>
 
-        <button class="btn btn-success" (click)="newHorario()">Aceptar</button>
+        <button class="btn btn-success" (click)="newHorario([], '', '', '', '', '')">Aceptar</button>
         <button class="btn btn-danger" (click)="toggleHorarios()">Cancelar</button>
       </div>
       <br><br>
       <div id="horarios">
+        <div *ngFor="let horario of horarios" id="horario_{{horario.id}}">
+          <span>{{horario.dias}} de {{horario.desde}} a {{horario.hasta}} hs.</span>
+          <span *ngIf="horario.desde2 !==''"> y de {{horario.desde2}} a {{horario.hasta2}} hs.</span>
+          <button class="btn btn-danger" (click)="deleteHorario(horario.id)">X</button>
+        </div>
       </div>
       <br><br>
       <button class="btn btn-warning" (click)="guardarHorarios()">Guardar horarios</button>
