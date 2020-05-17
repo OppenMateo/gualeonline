@@ -56,8 +56,8 @@ export class ProductosComponent implements OnInit {
     image: 'https://i.picsum.photos/id/717/1020/600.jpg',
     thumbImage: 'https://i.picsum.photos/id/717/400/350.jpg',
     title: 'Image title',
-    alt: 'Image alt'
-  }
+    alt: 'Image alt'}
+  
   ];
 
   get nombre() { return this.formEdicion.get('nombre'); }
@@ -128,6 +128,11 @@ export class ProductosComponent implements OnInit {
     });
        
     console.log(this.listaSubProd);
+  }
+
+  modificarProducto()
+  {
+
   }
 
   public files: NgxFileDropEntry[] = [];

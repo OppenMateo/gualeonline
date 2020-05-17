@@ -35,7 +35,7 @@ export class DatosLugarComponent implements OnInit {
   horarios = [];
 
 
-  constructor(private adminService:AdminService, private fb: FormBuilder) {}
+  constructor(public adminService:AdminService, private fb: FormBuilder) {}
 
   ngOnInit() {
     this.adminService.getComercioSeleccionado().subscribe(
