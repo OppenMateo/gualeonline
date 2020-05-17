@@ -1,60 +1,9 @@
 <div class="div-container box-shadow">
   <div class="title-lugar">
-      Datos de cuenta
+      Datos del comercio
   </div>
   <div class="lineadivisora"></div>
 
-  <div class="title">Portada</div>
-  <div class="desc gris">
-    Seleccionar portada predeterminada o cargar<br> tu propia portada de comercio.
-  </div>
-  <br>
-
-  <div class="row">
-    <div class="col-md-8">
-      <img class="imagen portada" [src]="imgURL" *ngIf="imgURL">
-    </div>
-    <div class="col-md-4">
-      <div>
-          <img class="imgSelect" src="../../../assets/imgs/portadas/sushi_1.jpg">
-          <input type="radio" class="radioImg" name="portada" value="sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImg($event)">
-      </div>
-      <div>
-        <img class="imgSelect" src="../../../assets/imgs/portadas/sushi_2.jpg">
-        <input type="radio" class="radioImg" name="portada" value="sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImg($event)">
-      </div>
-      <div>
-        <img class="imgSelect" src="../../../assets/imgs/portadas/sushi_3.jpg">
-        <input type="radio" class="radioImg" name="portada" value="sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImg($event)">
-      </div>
-    </div>
-  </div>
-  <div class="div-input" style="font-size: 1rem;">
-      <div class="div-file">
-          <input #file type="file" class="input-file" accept='image/*' (change)="preview(file.files)" />
-          <label for="fileDropRef" class="label-file">
-              <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i>
-              Subir foto
-          </label>
-      </div>
-  </div>
-
-  <div class="title">Logo</div>
-  <div class="desc gris">Logo que aparecerá en la<br> página de su comercio.</div>
-
-  <img [src]="imgLogoURL" *ngIf="imgURL!==''" class="logo">
-
-  <div class="div-input" style="font-size: 1rem;">
-      <div class="div-file">
-          <input #file2 type="file" class="input-file" accept='image/*' (change)="uploadLogo(file2.files)" />
-          <label for="fileDropRef" class="label-file">
-              <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i>
-              Subir foto
-          </label>
-      </div>
-  </div>
-
-  <br><br><br>
 
   <div class="row">
     <div class="col-md-12">
@@ -63,7 +12,7 @@
         Introduzca días y horarios de<br> atención de su comercio.
       </div>
 
-      <button class="btn btn-primary" (click)="toggleHorarios()" *ngIf="!agregarHorario">Agregar horario</button>
+      <button class="btn btn-primary btn-sm" (click)="toggleHorarios()" *ngIf="!agregarHorario">Agregar horario</button>
       <div *ngIf="agregarHorario">
         <div class="row">
           <div class="col-md-2">
@@ -104,19 +53,18 @@
         </div>
         <br>
 
-        <button class="btn btn-success" (click)="newHorario([], '', '', '', '', '')">Aceptar</button>
-        <button class="btn btn-danger" (click)="toggleHorarios()">Cancelar</button>
+        <button class="btn btn-success btn-sm" (click)="newHorario('',[], '', '', '', '', '')">Aceptar</button>
+        <button class="btn btn-danger btn-sm" (click)="toggleHorarios()">Cancelar</button>
       </div>
       <br><br>
       <div id="horarios">
         <div *ngFor="let horario of horarios" id="horario_{{horario.id}}">
           <span>{{horario.dias}} de {{horario.desde}} a {{horario.hasta}} hs.</span>
           <span *ngIf="horario.desde2 !==''"> y de {{horario.desde2}} a {{horario.hasta2}} hs.</span>
-          <button class="btn btn-danger" (click)="deleteHorario(horario.id)">X</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteHorario(horario)">X</button>
         </div>
       </div>
-      <br><br>
-      <button class="btn btn-warning" (click)="guardarHorarios()">Guardar horarios</button>
+      <br>
     </div>
   </div>
 
@@ -183,8 +131,8 @@
 
     <a href="">Vista previa</a>
     <br><br>
-    <button class="btn btn-success" type="submit">Guardar</button>
-    <button class="btn btn-dark">Cancelar</button>
+    <button class="btn btn-success btn-sm" type="submit">Guardar</button>
+    <button class="btn btn-dark btn-sm">Cancelar</button>
   </form>
 
   <br><br><br>

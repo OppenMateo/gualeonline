@@ -42,6 +42,14 @@ export class AdminService {
     return this.http.get(`${API_URL}/api/getHorarios/`+id_comercio);
   }
 
+  deleteHorariosComercio(id){
+    return this.http.delete(`${API_URL}/api/deleteHorariosComercio/`+id);
+  }
+
+  deleteHorario(id){
+    return this.http.delete(`${API_URL}/api/deleteHorario/`+id);
+  }
+
   getComercioSeleccionado()
   {
     var id = 4;

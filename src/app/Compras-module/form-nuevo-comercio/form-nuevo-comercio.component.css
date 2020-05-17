@@ -1,0 +1,43 @@
+.div-container-comercio
+{
+    padding: 1.5rem;
+    background-color: var(--gris-claro);
+}
+
+.div-titulo
+{
+    font-size: 1.5rem;
+    font-family: opensans-semibold;
+    margin-bottom: 1rem;
+}
+
+.div-campo
+{
+    border-bottom: solid 2px white;
+    padding: 1rem 0; 
+}
+
+.dato
+{
+    width: 100%;
+    border: solid 1px var(--gris-claro);
+    padding-left: .2rem;
+    height: 5vh;
+    font-size: .8rem;
+}
+
+.div-continuar
+{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.btn-continuar
+{
+    font-size: 1.2rem !important;
+    font-family: opensans-semibold;
+    padding: .5rem 1rem;
+    border: solid 1px var(--gris-claro);
+}
+
+

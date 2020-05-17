@@ -1,0 +1,23 @@
+<div class="div-container-comercio">
+    <div class="div-form-comercio">
+        <form [formGroup]="formComercio" (submit)="guardarComercio(formComercio)">
+        <div class="div-titulo">Ingresa los datos <br> de tu nuevo comercio</div>
+        <div class="div-campos gr">
+            <div class="div-campo">
+                <input type="text" formControlName="nombre" class="dato"  placeholder="Nombre del comercio">
+                <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="message-error-input">
+                    <div *ngIf="nombre.errors.required">* Ingresar nombre de comercio</div>        
+                </div>
+                <!-- <div *ngIf="formComercio.errors?.nombreExists" class="message-error-input">El usuario ya existe</div>  -->
+            </div>
+            <div class="div-campo">
+                <input type="text" formControlName="url" class="dato" placeholder="URL del comercio">
+                <div *ngIf="url.invalid && (url.dirty || url.touched)" class="message-error-input">
+                    <div *ngIf="url.errors.required">* Ingresar URL de comercio</div> 
+                </div>
+            </div>
+        </div>
+        <div class="div-continuar"><button class="btn-continuar" type="submit">Continuar</button></div>
+        </form>
+    </div>
+</div>

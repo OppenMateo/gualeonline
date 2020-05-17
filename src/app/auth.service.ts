@@ -87,11 +87,16 @@ export class AuthService {
       })
     )
   }
+
+  logOut() 
+  {
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+  }
   
   guardarUsuario(user)
   {
     return this.http.post(`${API_URL}/api/guardarUsuario`, user); 
   }
-
 
 }
