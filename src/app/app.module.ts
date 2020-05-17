@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalRegisterComponent } from './modal-register/modal-register.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { User } from '../app/models/user'
+import { FormNuevoComercioComponent } from './Compras-module/form-nuevo-comercio/form-nuevo-comercio.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ModalLoginComponent,
-    ModalRegisterComponent
+    ModalRegisterComponent,
+    FormNuevoComercioComponent
   ],
   imports: [
     HttpClientModule,
@@ -25,7 +27,7 @@ import { User } from '../app/models/user'
     ReactiveFormsModule,
     MatDialogModule
   ],
-  entryComponents:  [ModalLoginComponent, ModalRegisterComponent],
+  entryComponents:  [ModalLoginComponent, ModalRegisterComponent, FormNuevoComercioComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
