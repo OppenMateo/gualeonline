@@ -16,35 +16,19 @@ export class DatosLugarComponent implements OnInit {
 
   comercio =
   {
-    imagen:'',
     nombre:'',
     direccion: '',
     telefono: 0,
     medio_pago: 0,
-    img_portada: '',
     subcategoria:'',
     descripcion:'',
     entrega:'',
     medida_entrega:''
   }
 
-  //VARIABLES DE PORTADA Y LOGO
-  extensionLogo = '.jpeg';
-  extensionPortada = '.jpeg';
-  portadaToUpload: File = null;
-  LogoToUpload: File = null;
-  imgURL:any;
-  imgLogoURL:any;
-  imagePath;
-  imgPortada = 'sushi_3.jpg';
-  imgLogo = '';
-  pathPortadas = "../../../assets/imgs/portadas/";
-  pathLogos = "../../../assets/imgs/logos/";
-  ///
   message;
   listaSubCategoriasComercios;
   form;
-
 
   agregarHorario = false;
   dias=['lunes', 'martes', 'miércoles','jueves','viernes','sábado','domingo']
@@ -54,8 +38,6 @@ export class DatosLugarComponent implements OnInit {
   constructor(private adminService:AdminService, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.imgURL = this.pathPortadas + this.imgPortada;
-    this.imgLogoURL = '';
     this.adminService.getComercioSeleccionado().subscribe(
       res=>
       {
@@ -63,12 +45,10 @@ export class DatosLugarComponent implements OnInit {
 
         this.comercio =
         {
-          imagen: "../../../assets/imgs/comercios/"+res[0].imagen,
           nombre: res[0].nombre,
           direccion: res[0].direccion,
           telefono: res[0].telefono,
           medio_pago: res[0].medio_pago,
-          img_portada: res[0].portada,
           subcategoria: res[0].subcategoria,
           descripcion: res[0].descripcion,
           entrega: res[0].entrega,
@@ -83,6 +63,8 @@ export class DatosLugarComponent implements OnInit {
         this.form.controls['medida_entrega'].setValue(this.comercio.medida_entrega);
         this.form.controls['telefono'].setValue(this.comercio.telefono);
         this.form.controls['medio_pago'].setValue(this.comercio.medio_pago);
+
+        this.getHorarios();
 
         this.adminService.getSubCategoriasComercios().subscribe(
           res=>
@@ -108,12 +90,6 @@ export class DatosLugarComponent implements OnInit {
       'entrega': new FormControl('', [ Validators.required ]),
       'medida_entrega': new FormControl('', [ Validators.required ]),
     });
-
-    this.getHorarios();
-  }
-
-  changeImg(event){
-    this.imgURL = this.pathPortadas + (event.target.value)
   }
 
   get nombre() { return this.form.get('nombre'); }
@@ -124,11 +100,6 @@ export class DatosLugarComponent implements OnInit {
   get direccion() { return this.form.get('direccion'); }
   get entrega() { return this.form.get('entrega'); }
   get medida_entrega() { return this.form.get('medida_entrega'); }
-
-  getUrlImagen()
-  {
-    return "../../../assets/imgs/comercios/"+this.adminService.comercioSeleccionado.imagen;
-  }
 
   getSubcategoriasComercio()
   {
@@ -145,14 +116,7 @@ export class DatosLugarComponent implements OnInit {
   guardarDatos(form)
   {
     const formData: FormData = new FormData();
-    if(this.portadaToUpload!=null)
-    {
-      formData.append('Image', this.portadaToUpload, this.portadaToUpload.name);
-    }
-    if(this.LogoToUpload!=null)
-    {
-      formData.append('LogoImage', this.LogoToUpload, this.LogoToUpload.name);
-    }
+
     formData.append("id", this.adminService.comercioSeleccionado.id);
     formData.append("nombre", form.value.nombre);
     formData.append("subcat", form.value.subcategoria);
@@ -160,8 +124,6 @@ export class DatosLugarComponent implements OnInit {
     formData.append("direct", form.value.direccion);
     formData.append("entrega", form.value.entrega);
     formData.append("medida_entrega", form.value.medida_entrega);
-    formData.append("img_portada", this.adminService.comercioSeleccionado.id + "_portada" + this.extensionPortada);
-    formData.append("imagen", this.adminService.comercioSeleccionado.id + "_logo" + this.extensionLogo);
     formData.append("telefono", form.value.telefono);
     formData.append("medio_pago", form.value.medio_pago);
 
@@ -185,7 +147,7 @@ export class DatosLugarComponent implements OnInit {
     );
   }
 
-  newHorario(dias, diasCod, desde, hasta, desde2, hasta2) {
+  newHorario(id, dias, diasCod, desde, hasta, desde2, hasta2) {
     if (diasCod == '') {
       this.dias.forEach(element => {
         let dia = document.getElementById(element) as HTMLInputElement;
@@ -196,6 +158,7 @@ export class DatosLugarComponent implements OnInit {
       });
     }
 
+    //ASIGNO VALORES HASTA, DONDE
     if (desde == '' || hasta == '') {
       desde = document.getElementById('desde') as HTMLInputElement;
       hasta = document.getElementById('hasta') as HTMLInputElement;
@@ -207,44 +170,48 @@ export class DatosLugarComponent implements OnInit {
       hasta2 = hasta2.value;
     }
 
+    let id_comercio = this.adminService.comercioSeleccionado.id;
     let horario = {
-      id: this.horarios.length + 1 ,
+      id,
       dias,
       diasCod,
       desde,
       hasta,
       desde2,
-      hasta2
+      hasta2,
+      id_comercio
     };
-
-    this.horarios.push(horario);
-
-    /* crear html*/
-    /*
-    let divHorarios = document.getElementById("horarios") as HTMLInputElement;
-    divHorarios.innerHTML += '<span id="horario_'+this.horarios.length+'">'+horario.dias+' de '+horario.desde+' a '+horario.hasta+' hs';
-    if (horario.desde2 !=='' && horario.hasta2 !=='') {
-      divHorarios.innerHTML += ' y de '+ horario.desde2+' a '+horario.hasta2+' hs.</span><br>';
-    }else{
-      divHorarios.innerHTML += '.</span><br>';
-    }
-      divHorarios.innerHTML += '<button id="btn_'+this.horarios.length+'" class="btn btn-danger" (click)="deleteHorario(horario_'+this.horarios.length+')">X</button>"';
-    */
-      /* */
-    this.toggleHorarios();
+    //this.horarios.push(horario);
+    this.adminService.guardarHorarios(horario).subscribe(
+      res=>{
+        this.toggleHorarios();
+        this.getHorarios();
+      },
+      err => {console.log(err);
+      });
   }
 
-  deleteHorario(id){
-    console.log(id);
-    document.getElementById('horario_'+id).remove();
-    this.horarios.splice(id,1);
-    console.log(this.horarios);
+  deleteHorario(h){
+    this.adminService.deleteHorario(h.id).subscribe(res =>{
+      this.getHorarios();
+    });
   }
 
   guardarHorarios(){
+    this.adminService.deleteHorariosComercio(4).subscribe(
+      res=>
+      {
+        if(res>0)
+        {
+          var message = "Los datos se modificaron exitosamente."
+        }
+        else
+        {
+          var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
+        }
+      },err => {console.log(err);}
+    );
     this.horarios.forEach(h => {
-      h.id = this.adminService.comercioSeleccionado.id;
-      console.log(h);
       this.adminService.guardarHorarios(h).subscribe
       (
         res=>
@@ -263,6 +230,7 @@ export class DatosLugarComponent implements OnInit {
   }
 
   getHorarios(){
+    this.horarios = [];
     this.adminService.getHorarios().subscribe(
       res=>{
         let horarios = Object.values(res); //lo convierto en objeto
@@ -273,6 +241,7 @@ export class DatosLugarComponent implements OnInit {
           }
           h.diasCod = h.dias;
           h.dias = Array.from(h.dias);
+          //convierto los dias en strings
           for (let index = 0; index < h.dias.length; index++) {
             //const element = array[index];
             switch (h.dias[index]) {
@@ -299,9 +268,8 @@ export class DatosLugarComponent implements OnInit {
               break;
             }
           }
-          this.newHorario(h.dias, h.diasCod, h.desde, h.hasta, h.desde2, h.hasta2);
+          this.horarios.push(h);
         }); //end forEach horarios
-        console.log(this.horarios);
       },
       err => {
         console.log(err);
@@ -314,52 +282,9 @@ export class DatosLugarComponent implements OnInit {
     this.form.reset();
   }
 
-  preview(files)
-  {
-    if (files.length === 0)
-      return;
-
-    var mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      this.message = "No ha cargado una imagen válida.";
-      return;
-    }
-    var reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.imgURL = reader.result;
-    }
-    this.imgPortada = '';
-    this.portadaToUpload = files.item(0);
-    this.extensionPortada = this.portadaToUpload.type.replace('image/', '.');
-  }
-
-  uploadLogo(files)
-  {
-    if (files.length === 0)
-      return;
-
-    var mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      this.message = "No ha cargado una imagen válida.";
-      return;
-    }
-    var reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.imgLogoURL = reader.result;
-    }
-    this.LogoToUpload = files.item(0);
-    this.extensionLogo = this.LogoToUpload.type.replace('image/', '.');
-  }
-
   toggleHorarios() {
     this.agregarHorario = !this.agregarHorario;
   }
-
-
 
 /*
    public openMessage(message, action, durationMilliSeconds, type)
