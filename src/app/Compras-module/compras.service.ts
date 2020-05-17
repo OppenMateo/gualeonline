@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { MatDialog } from '@angular/material/dialog';
 import { FormNuevoComercioComponent } from '../Compras-module/form-nuevo-comercio/form-nuevo-comercio.component'
+import { ModalDatosCompraComponent } from './modal-datos-compra/modal-datos-compra.component';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -60,7 +61,11 @@ export class ComprasService {
   {
     return this.http.post(`${API_URL}/api/guardarComercio`, datos); 
   }
- 
+
+  asignarComercio(comercio)
+  {
+    return this.http.post(`${API_URL}/api/asignarComercio`, comercio); 
+  }
 
 }
 

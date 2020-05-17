@@ -5,6 +5,7 @@ import { isNgTemplate } from '@angular/compiler';
 import { ModalAddProductoComponent } from '../modal-add-producto/modal-add-producto.component';
 import { provideRoutes } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
+import { ModalDatosCompraComponent } from '../modal-datos-compra/modal-datos-compra.component';
 
 @Component({
   selector: 'app-comercios',
@@ -93,4 +94,5 @@ export class ComerciosComponent implements OnInit {
       data: prod,
     });
   }
+
 }
