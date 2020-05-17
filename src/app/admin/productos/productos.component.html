@@ -22,14 +22,13 @@
             </select>
         </div>
     </div>
-    <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-    <!-- <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch> -->
+    <!-- <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>    
     <div class="div-menu grow">
         <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
     </div>
-    <mat-menu id="color">
+    <mat-menu id="color">        
         <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-    </mat-menu>
+    </mat-menu> -->
 
     <input type="file" (change)="fileChangeEvent($event)" />
 
@@ -58,12 +57,12 @@
                     <div class="titulo-form col-md-5">Nombre y descripción</div>
                     <div class="titulo-form col-md-2">Precio</div>
                     <div class="titulo-form col-md-2">Promocional</div>
-                    <div class="titulo-form col-md-3">Opciónes</div>
+                    <!-- <div class="titulo-form col-md-3">Opciónes</div> -->
                 </div>
             </div>
             <div class="div-lista-prod row" *ngFor="let prod of item.prod">
                 <div class="titulo-form div-check col-md-1 no-pad-h">
-                    <input type="checkbox" id="cbox2" value=""> <label for="cbox2"></label>
+                    <input type="checkbox" id="cbox2" value="">                    
                 </div>
                 <div class="div-fotos col-md-2 no-pad-h">
                     <ng-image-slider [images]="prod.imgs" style="position: absolute;
@@ -91,17 +90,17 @@
                         <div class="div-input-prod col-md-2">
                             <input type="text" value={{prod.item.precio_producto}} class="dato-prod">
                         </div>              
-                        <div class="div-opciones-avanzadas col-md-3">
+                        <!-- <div class="div-opciones-avanzadas col-md-3">
                             <div class="div-opcion col-12">                            
-                                <!-- <div class="div-menu grow">
+                                <div class="div-menu grow">
                                     <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
                                 </div>
-                                <mat-menu [id]="'color'+prod.item.subcat_id">
+                                <mat-menu [id]="'color'+prod.item.prod_id">
                                     <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch>
-                                </mat-menu> -->
+                                </mat-menu>
                             </div><div class="div-opcion col-12">Talle</div>
                             <div class="div-opcion col-12">Material</div>
-                        </div>          
+                        </div>           -->
                     </form>
                 </div>
             </div>

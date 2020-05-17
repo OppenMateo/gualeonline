@@ -130,7 +130,7 @@ export class ProductosComponent implements OnInit {
     console.log(this.listaSubProd);
   }
 
-  modificarProducto()
+  modificarProducto(form)
   {
 
   }
