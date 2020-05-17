@@ -51,7 +51,7 @@ body
     font-family: opensans-reg;
    --gris-claro: #f7f7f7;
    --gris:  #9d9d9d;
-   --black: #222222
+   --black: #222222;
 }
 
 .gr { color: var(--gris)}
@@ -67,6 +67,11 @@ button
     background: white;
     border: none;
     padding: 1rem 2rem;
+}
+
+.spc-btw
+{
+    justify-content: space-between;
 }
 
 input { font-size: inherit }
@@ -85,6 +90,12 @@ input { font-size: inherit }
 
 .grow {flex-grow: 1;}
 
+.no-pad-h
+{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
 .div-container
 {
     width: 90%;
@@ -96,7 +107,7 @@ input { font-size: inherit }
     width: 100%;
 }
 
-.br-10 { border-radius: 10px; }
+.br-10 { border-radius: 6px; }
 
 .row {margin: 0 !important}
 
@@ -104,7 +115,112 @@ input { font-size: inherit }
 
 .rel {position: relative;}
 
+.border-none
+{
+    border: none;
+}
 
+.border-solid
+{
+    border:solid 1px var(--black)
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+/* ADMIN */
+
+.titulo-top-admin
+{
+    font-size:1.2rem;
+    color:var(--black);
+    margin-bottom: 2rem;
+}
+
+.input-admin   
+{
+    padding-left: 10px;
+}
+
+.select-admin
+{
+    width: 100%;
+    background-color: white;
+}
+
+.btn-black-admin
+{
+    background: var(--black);
+    color: white;
+    padding: .5rem 1rem;
+    font-size: .8rem !important;
+}
+
+.btn-ok-admin
+{
+
+}
+
+.btn-cancel-admin
+{
+
+}
+
+.br-admin   
+{
+    border-bottom: 1px solid var(--black);
+}
+
+.titulo-input-admin
+{    
+    margin-bottom:5px;
+}
+
+.ng-image-slider .ng-image-slider-container .main
+{
+    height: 100px !important;
+}
+
+.ng-image-slider .ng-image-slider-container
+{
+    height: 100px !important;
+}
+
+.ng-image-slider
+{
+    height: 100px !important;
+}
+
+.ng-image-slider .ng-image-slider-container .main .next, .ng-image-slider .ng-image-slider-container .main .prev
+{
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 18px !important;
+    line-height: 17px !important;
+}
+
+.ngx-file-drop__content
+{
+    width: 100%;
+}
+
+.ngx-file-drop__content button
+{
+    padding: 0 !important;
+    font-size: .6rem !important;
+    text-align: center;
+    margin: auto auto;
+}
+
+.ngx-file-drop__drop-zone
+{
+    height: fit-content !important;
+}
+
+.ngx-file-drop__content
+{
+    height: fit-content !important;
+    padding: 4px 0 !important;
+}

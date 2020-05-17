@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth.service';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -21,7 +22,10 @@ export class AdminService {
   listaSubcategoriasProductos;
   listaSubcategoriasProductosAdmin = [];
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private authService:AuthService) 
+  {
+    this.authService.currentUser.subscribe(x=>this.currentUser = x);  
+  }
 
   guardarDatosComercio(datos)
   {
@@ -48,6 +52,12 @@ export class AdminService {
   {
     var id = 23;
     return this.http.get(`${API_URL}/api/getSubCategoriasComercios/`+id)
+  }
+
+  getSubProdComercio()
+  {
+    var id = this.currentUser.usuario.id_comercio;
+    return this.http.get(`${API_URL}/api/getSubcatProductosComercio/`+id)
   }
 
 }

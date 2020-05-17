@@ -10,6 +10,7 @@ import { ModalRegisterComponent } from './modal-register/modal-register.componen
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { User } from '../app/models/user'
 
+
 @NgModule({
   declarations: [
     AppComponent,

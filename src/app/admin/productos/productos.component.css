@@ -1,0 +1,62 @@
+.div-buscar
+{
+    width: 50vw;
+}
+
+.div-filtros
+{
+    width: 50vw !important;
+    margin-top: 1rem;
+}
+
+.div-filtro-categoria
+{
+    width: 50%;
+}
+
+.div-filtro-acciones
+{
+    width: 45%;
+}
+
+.div-lista-subprod
+{
+    margin-top: 6vh;
+}
+
+.div-lista-prod
+{
+    border: solid 1px var(--black);
+    border-radius: 6px;
+    margin-bottom: 9px !important;
+    padding: 10px 2px;
+}
+
+.div-check
+{
+    text-align: center;
+    height: fit-content;
+    margin: auto;
+}
+
+.dato-prod
+{
+    width: 100%;
+    border: dashed 1px var(--gris);
+    font-size: .8rem;
+    margin-bottom: .1rem;
+    padding-left: 5px;
+    color: var(--black);
+    border-radius: 6px;
+}
+
+.div-fotos
+{
+    height: 150px;
+}
+
+.div-img-cropped
+{
+    width: 20vh;
+    height: 20vh;
+}

@@ -1,0 +1,110 @@
+<div class="div-container">
+    <div class="titulo-top-admin br-admin">Productos</div>    
+    <div class="div-buscar br-10 border-solid flex">
+        <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow">
+        <button class="btn-black-admin">Buscar</button>
+    </div>
+    <div class="div-filtros flex spc-btw">
+        <div class="div-filtro-categoria">
+            <div class="titulo-input-admin">Seleccione Categoría</div>
+            <select name="" id="" class="select-admin">
+                <option value=null>Todas</option>                
+                <option *ngFor="let item of listaSubProd" value={{item.subcat.id}}>{{item.subcat.nombre}}</option>                
+            </select>
+        </div>
+        <div class="div-filtro-acciones">
+            <div class="titulo-input-admin">Acciones</div>
+            <select class="select-admin">
+                <option value="">Ver Productos</option>
+                <option value="">Eliminar</option>
+                <option value="">Mostrar en la tienda</option>
+                <option value="">Ocultar en la tienda</option>                
+            </select>
+        </div>
+    </div>
+    <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+    <!-- <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch> -->
+    <div class="div-menu grow">
+        <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+    </div>
+    <mat-menu id="color">
+        <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+    </mat-menu>
+
+    <input type="file" (change)="fileChangeEvent($event)" />
+
+    <image-cropper style="width: 20vw; height: 20%;"
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 3"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+
+    <div class="div-img-cropped">
+        <img [src]="croppedImage" class="imagen"/>
+    </div>
+
+    <div class="div-productos">
+        <div class="div-lista-subprod" *ngFor="let item of listaSubProd">
+            <div class="titulo-input-admin">{{item.subcat.nombre}}</div>
+            <div class="div-titulos-form row">
+                <div class="titulo-form txt-center col-md-1 no-pad-h"></div>
+                <div class="titulo-form col-md-2 no-pad-h">Fotos</div>
+                <div class="col-md-9 no-pad-h row">
+                    <div class="titulo-form col-md-5">Nombre y descripción</div>
+                    <div class="titulo-form col-md-2">Precio</div>
+                    <div class="titulo-form col-md-2">Promocional</div>
+                    <div class="titulo-form col-md-3">Opciónes</div>
+                </div>
+            </div>
+            <div class="div-lista-prod row" *ngFor="let prod of item.prod">
+                <div class="titulo-form div-check col-md-1 no-pad-h">
+                    <input type="checkbox" id="cbox2" value=""> <label for="cbox2"></label>
+                </div>
+                <div class="div-fotos col-md-2 no-pad-h">
+                    <ng-image-slider [images]="prod.imgs" style="position: absolute;
+                    top: 0 !important;
+                    left: 0 !important;
+                    width: 100%;
+                    height: 100%;
+                    max-height: 100px;" #nav></ng-image-slider>
+                    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" style="position:absolute; bottom: 0; width: 100%;"
+                    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">                          
+                          <button type="button" (click)="openFileSelector()">Arrastre o Seleccione <br> una nueva imagen</button>
+                        </ng-template>
+                    </ngx-file-drop>
+                </div>
+                <div class="form-edicion col-md-9 row no-pad-h">
+                    <form [formGroup]="formEdicion" class="row col-12 no-pad-h" (submit)="modificarProducto(formEdicion)">
+                        <div class="div-nombre-descripcion col-md-5">
+                            <input type="text" formControlName="nombre" class="dato-prod" value={{prod.item.nombre_producto}}>                                                                               
+                            <textarea class="dato-prod" style="resize: none;">{{prod.item.descripcion_producto}}</textarea>
+                        </div>
+                        <div class="div-input-prod col-md-2">
+                            <input type="text" value={{prod.item.precio_producto}} class="dato-prod">
+                        </div>
+                        <div class="div-input-prod col-md-2">
+                            <input type="text" value={{prod.item.precio_producto}} class="dato-prod">
+                        </div>              
+                        <div class="div-opciones-avanzadas col-md-3">
+                            <div class="div-opcion col-12">                            
+                                <!-- <div class="div-menu grow">
+                                    <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+                                </div>
+                                <mat-menu [id]="'color'+prod.item.subcat_id">
+                                    <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch>
+                                </mat-menu> -->
+                            </div><div class="div-opcion col-12">Talle</div>
+                            <div class="div-opcion col-12">Material</div>
+                        </div>          
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
