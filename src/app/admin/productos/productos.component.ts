@@ -147,7 +147,9 @@ export class ProductosComponent implements OnInit {
         fileEntry.file((file: File) => {
  
           // Here you can access the real file
+          debugger;
           console.log(droppedFile.relativePath, file);
+          // this.imageChangedEvent = file;
  
           /**
           // You could upload it like this:
@@ -174,7 +176,7 @@ export class ProductosComponent implements OnInit {
     }
   }
  
-  public fileOver(event){
+  public fileOver(event){    
     console.log(event);
   }
  
@@ -186,19 +188,26 @@ export class ProductosComponent implements OnInit {
     croppedImage: any = '';
     
     fileChangeEvent(event: any): void {
+      debugger;
         this.imageChangedEvent = event;
     }
+
     imageCropped(event: ImageCroppedEvent) {
         this.croppedImage = event.base64;
     }
     imageLoaded() {
         // show cropper
     }
-    cropperReady() {
+    cropperReady() {      
         // cropper ready
     }
     loadImageFailed() {
         // show message
+    }
+
+    aceptarImg(prod)
+    {
+      debugger;
     }
 
     handleChange($event: ColorEvent) {
