@@ -12,9 +12,12 @@ import { ComprasService } from '../compras.service';
 export class FormNuevoComercioComponent implements OnInit {
 
   formComercio;
+  currentUser;
 
   constructor(private FormBuilder: FormBuilder, private authService: AuthService, public dialogRef: MatDialogRef<FormNuevoComercioComponent>,
-    private comprasService: ComprasService) { }
+    private comprasService: ComprasService) { 
+      this.authService.currentUser.subscribe(res=>this.currentUser = res); 
+    }
 
   ngOnInit() {
     this.formComercio = new FormGroup({
@@ -35,10 +38,16 @@ export class FormNuevoComercioComponent implements OnInit {
     }
     console.log(datos);
     console.log(comercio);
-    
+   
     this.comprasService.guardarComercio(comercio).subscribe(
       res=>
       {
+        var id_comercio =
+        {
+          id_user:this.currentUser.usuario.id,
+          id_comercio:res
+        }
+        this.comprasService.asignarComercio(id_comercio).subscribe()
         console.log(res);
       },
 
@@ -47,6 +56,7 @@ export class FormNuevoComercioComponent implements OnInit {
         console.log(err);
         return;
       });
+
   }
 
 }

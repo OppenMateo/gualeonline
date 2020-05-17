@@ -9,17 +9,18 @@ import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendien
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ComerciosComponent } from './comercios/comercios.component';
 import { ModalAddProductoComponent } from './modal-add-producto/modal-add-producto.component';
+import { ModalDatosCompraComponent } from './modal-datos-compra/modal-datos-compra.component';
 
 
 
 @NgModule({
-  declarations: [ComprasComponent, CategoriasComponent, NavbartopComponent, PedidosPendientesComponent, ComerciosComponent, ModalAddProductoComponent],
+  declarations: [ComprasComponent, CategoriasComponent, NavbartopComponent, PedidosPendientesComponent, ComerciosComponent, ModalAddProductoComponent, ModalDatosCompraComponent],
   imports: [
     CommonModule,
     ComprasRoutingModule,
     MatMenuModule,
     MatDialogModule        
   ],
-  entryComponents: [ModalAddProductoComponent],
+  entryComponents: [ModalAddProductoComponent, ModalDatosCompraComponent],
 })
 export class ComprasModule { }
