@@ -4,6 +4,7 @@ import { FormGroup, FormControlName, Validators, FormBuilder, FormControl } from
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ColorEvent } from 'ngx-color';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-productos',
@@ -30,36 +31,6 @@ export class ProductosComponent implements OnInit {
     })
   }
 
-  imageObject: Array<object> = [{
-    image: 'https://i.picsum.photos/id/580/1020/600.jpg',
-    thumbImage: 'https://i.picsum.photos/id/580/400/350.jpg',    
-  }, {
-    image: 'https://i.picsum.photos/id/838/1020/600.jpg',
-    thumbImage: 'https://i.picsum.photos/id/838/400/350.jpg',
-  }, {
-    image: 'https://i.picsum.photos/id/93/1020/600.jpg',
-    thumbImage: 'https://i.picsum.photos/id/93/400/350.jpg'
-  }, {
-    image: 'https://i.picsum.photos/id/543/1020/600.jpg',
-    thumbImage: 'https://i.picsum.photos/id/543/400/350.jpg'
-  }, {
-    image: 'https://i.picsum.photos/id/613/1020/600.jpg',
-    thumbImage: 'https://i.picsum.photos/id/613/400/350.jpg',
-    title: 'Image title',
-    alt: 'Image alt'
-  }, {
-    image: 'https://i.picsum.photos/id/609/1020/600.jpg',
-    thumbImage: 'https://i.picsum.photos/id/609/400/350.jpg',
-    title: 'Image title',
-    alt: 'Image alt'
-  }, {
-    image: 'https://i.picsum.photos/id/717/1020/600.jpg',
-    thumbImage: 'https://i.picsum.photos/id/717/400/350.jpg',
-    title: 'Image title',
-    alt: 'Image alt'}
-  
-  ];
-
   get nombre() { return this.formEdicion.get('nombre'); }
   get descripcion() { return this.formEdicion.get('descripcion'); }
   get precio() { return this.formEdicion.get('precio'); }
@@ -67,8 +38,9 @@ export class ProductosComponent implements OnInit {
 
   getProductosComercio()
   {
-    this.adminService.getSubProdComercio().subscribe(
-      res=>{                        
+    this.adminService.getSubProdImgsComercio().subscribe(
+      res=>{                            
+        console.log(res);
         this.listaRes = res;
         this.agruparProdSubcat();        
       }
@@ -78,52 +50,96 @@ export class ProductosComponent implements OnInit {
   agruparProdSubcat()
   {        
     this.listaSubProd = [];
+    var subcatProd;
 
     this.listaRes.forEach(item => 
     {
-      if(this.listaSubProd.filter(x=>x.subcat.id == item.subcat_id).length==0)
+      if(this.listaSubProd.filter(x=>x.subcat.id_subcat == item.id_subcat).length==0)
       {
-        var subcatProd = {
-          subcat : {id:item.subcat_id, nombre:item.nombre },
-          prod:[]
+        var subcat= {id_subcat:item.id_subcat, nombre:item.nombre_categoria };
+        var listaImgs;
+
+        if(item.imagen != null)
+        {          
+          listaImgs = [
+          {
+            image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen, 
+            thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+          }];
+        }
+        else
+        {
+          listaImgs = [];
         }
 
-        this.listaSubProd.push(subcatProd);
-        var index = this.listaSubProd.indexOf(subcatProd);
         var prod = 
         {
-          item:item,
-          imgs: 
-          [{
-              image: 'https://i.picsum.photos/id/580/1020/600.jpg',
-              thumbImage: 'https://i.picsum.photos/id/580/400/350.jpg',    
-            }, {
-              image: 'https://i.picsum.photos/id/838/1020/600.jpg',
-              thumbImage: 'https://i.picsum.photos/id/838/400/350.jpg',
-            }]
+          id_prod:item.id_prod,
+          nombre:item.nombre_producto,
+          descripcion:item.descripcion_producto,
+          precio:item.precio_producto,
+          imgs:listaImgs
         }
-        this.listaSubProd[index].prod.push(prod);
+
+        var subcatProd = {
+          subcat : subcat,
+          prod:[prod]
+        }
+        this.listaSubProd.push(subcatProd);
       }      
       else
-      {
-        var subcatProd = {
-          subcat : {id:item.subcat_id, nombre:item.nombre },
-          prod:[]
-        }
-        var reg = this.listaSubProd.find(x=>x.subcat.id == item.subcat_id);
+      {        
+        var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
         var index = this.listaSubProd.indexOf(reg);
-        var prod = {
-          item:item,
-          imgs: 
-          [{
-              image: 'https://i.picsum.photos/id/580/1020/600.jpg',
-              thumbImage: 'https://i.picsum.photos/id/580/400/350.jpg',    
-            }, {
-              image: 'https://i.picsum.photos/id/838/1020/600.jpg',
-              thumbImage: 'https://i.picsum.photos/id/838/400/350.jpg',
-            }]
+
+        if(this.listaSubProd[index].prod.filter(x=>x.id_prod == item.id_prod).length==0)
+        {
+          var listaImgs;
+          if(item.imagen != null)
+          {
+            listaImgs = [
+              {
+                image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen, 
+                thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+              }];
+          }
+          else
+          {
+            listaImgs = [];
+          }
+
+          var prod = 
+          {
+            id_prod:item.id_prod,
+            nombre:item.nombre_producto,
+            descripcion:item.descripcion_producto,
+            precio:item.precio_producto,
+            imgs:listaImgs
+          }
+
+          this.listaSubProd[index].prod.push(prod);
         }
-        this.listaSubProd[index].prod.push(prod);
+        else
+        {
+          var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
+          var index = this.listaSubProd.indexOf(reg);
+
+          var regProd = this.listaSubProd[index].prod.filter(x=>x.prod_id==item.prod_id);
+          if(regProd.length>0)
+          {
+            var indexProd = this.listaSubProd[index].prod.indexOf(regProd[0]);
+          }
+
+          if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.imagen == item.imagen).length==0)
+          {
+            var img = {
+              image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen, 
+              thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+            };
+
+            this.listaSubProd[index].prod[indexProd].imgs.push(img);
+          }
+        }        
       }
     });
        
@@ -147,7 +163,9 @@ export class ProductosComponent implements OnInit {
         fileEntry.file((file: File) => {
  
           // Here you can access the real file
+          debugger;
           console.log(droppedFile.relativePath, file);
+          // this.imageChangedEvent = file;
  
           /**
           // You could upload it like this:
@@ -174,7 +192,7 @@ export class ProductosComponent implements OnInit {
     }
   }
  
-  public fileOver(event){
+  public fileOver(event){    
     console.log(event);
   }
  
@@ -186,19 +204,26 @@ export class ProductosComponent implements OnInit {
     croppedImage: any = '';
     
     fileChangeEvent(event: any): void {
+      debugger;
         this.imageChangedEvent = event;
     }
+
     imageCropped(event: ImageCroppedEvent) {
         this.croppedImage = event.base64;
     }
     imageLoaded() {
         // show cropper
     }
-    cropperReady() {
+    cropperReady() {      
         // cropper ready
     }
     loadImageFailed() {
         // show message
+    }
+
+    aceptarImg(prod, elem)
+    {
+      debugger;
     }
 
     handleChange($event: ColorEvent) {
