@@ -68,4 +68,10 @@ export class AdminService {
     return this.http.get(`${API_URL}/api/getSubcatProductosComercio/`+id)
   }
 
+  getSubProdImgsComercio()
+  {
+    var id = this.currentUser.usuario.id_comercio;
+    return this.http.get(`${API_URL}/api/getSubcategoriasProductosImgsComercio/`+id)
+  }
+
 }

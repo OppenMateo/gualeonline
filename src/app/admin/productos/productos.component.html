@@ -85,14 +85,14 @@
                 <div class="form-edicion col-md-7 row no-pad-h">
                     <form [formGroup]="formEdicion" class="row col-12 no-pad-h" (submit)="modificarProducto(formEdicion)">
                         <div class="div-nombre-descripcion col-md-5">
-                            <input type="text" formControlName="nombre" class="dato-prod" value={{prod.item.nombre_producto}}>                                                                               
-                            <textarea class="dato-prod" style="resize: none;">{{prod.item.descripcion_producto}}</textarea>
+                            <input type="text" formControlName="nombre" class="dato-prod" value={{prod.nombre}}>                                                                               
+                            <textarea class="dato-prod" style="resize: none;">{{prod.descripcion}}</textarea>
                         </div>
                         <div class="div-input-prod col-md-2">
-                            <input type="text" value={{prod.item.precio_producto}} class="dato-prod">
+                            <input type="text" value={{prod.precio}} class="dato-prod">
                         </div>
                         <div class="div-input-prod col-md-2">
-                            <input type="text" value={{prod.item.precio_producto}} class="dato-prod">
+                            <input type="text" value={{prod.precio}} class="dato-prod">
                         </div>              
                         <!-- <div class="div-opciones-avanzadas col-md-3">
                             <div class="div-opcion col-12">                            
