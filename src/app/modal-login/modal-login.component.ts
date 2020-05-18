@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { ComprasService } from '../Compras-module/compras.service';
 
 @Component({
   selector: 'app-modal-login',
@@ -14,7 +15,7 @@ export class ModalLoginComponent implements OnInit {
   messagePass;
   messageUser;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService,
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private comprasService: ComprasService,
     public dialogRef: MatDialogRef<ModalLoginComponent>, public dialog: MatDialog ) {
     this.formUsuario = this.formBuilder.group(
       {
@@ -46,7 +47,7 @@ export class ModalLoginComponent implements OnInit {
 
     this.authService.login(usuario).subscribe(
       x=>
-      {        
+      {              
         if(x['success'] != true)
         {
           if(x['error']=='pass')
@@ -68,6 +69,7 @@ export class ModalLoginComponent implements OnInit {
         }
         else
         {
+          this.comprasService.getPedidosPendientes();
           this.dialogRef.close();
         } 
       }
