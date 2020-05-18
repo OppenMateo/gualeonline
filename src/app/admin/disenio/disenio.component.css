@@ -47,6 +47,10 @@
   max-height: 100px;
 }
 
+.opcion-design {
+  max-width: 80%;
+}
+
 .input-file
 {
     opacity: 0;
