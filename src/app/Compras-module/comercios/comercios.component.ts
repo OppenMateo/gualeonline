@@ -6,6 +6,8 @@ import { ModalAddProductoComponent } from '../modal-add-producto/modal-add-produ
 import { provideRoutes } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { ModalDatosCompraComponent } from '../modal-datos-compra/modal-datos-compra.component';
+import { ModalLoginComponent } from 'src/app/modal-login/modal-login.component';
+import { ModalRegisterComponent } from 'src/app/modal-register/modal-register.component';
 
 @Component({
   selector: 'app-comercios',
@@ -25,6 +27,7 @@ export class ComerciosComponent implements OnInit {
     entrega:'',
     direccion:'',
   }
+  detalle=null;
   
   constructor(private comprasService:ComprasService, private authService: AuthService, public dialog: MatDialog) { }
 
@@ -93,6 +96,118 @@ export class ComerciosComponent implements OnInit {
       panelClass: 'custom-modalbox',
       data: prod,
     });
+    dialogRef.afterClosed().subscribe(
+      res=>
+      {
+        this.detalle=res;
+        this.validarUsuarioLogueado();
+      }
+    )
+  };
+
+
+  validarUsuarioLogueado()
+  {
+    if(this.authService.currentUserValue==null)
+    {
+     this.openModalLogin();
+    }
+    else
+    {
+      this.validarPedidoActivo();
+    }
+    return true;
   }
 
+  validarPedidoActivo()
+  {
+    debugger;
+    if(this.comprasService.pedidoActivo==null || this.comprasService.pedidoActivo.length==0)
+    {
+      var pedido=
+      {
+        usuario:this.comprasService.currentUser.usuario.id,
+        fecha: '2020-03-23'
+      }
+      this.comprasService.guardarPedido(pedido).subscribe(
+        res=>
+        {
+          var detallePedido=
+          {
+            pedido:res,
+            producto:this.detalle.producto.prod_id,
+            cantidad:this.detalle.cantidad,
+            aclaracion:this.detalle.aclaracion,
+            total:this.detalle.total           
+          }          
+          this.comprasService.guardarDetallePedido(detallePedido).subscribe(
+            res=>
+            {
+              console.log(res);
+            })
+        })
+    }
+    else
+    {
+      var detallePedido=
+      {
+        pedido:this.comprasService.pedidoActivo.id_pedido,
+        producto:this.detalle.producto.prod_id,
+        cantidad:this.detalle.cantidad,
+        aclaracion:this.detalle.aclaracion,
+        total:this.detalle.total
+      }  
+      this.comprasService.guardarDetallePedido(detallePedido).subscribe(
+        res=>
+        {
+          console.log(res);
+        })
+    }
+  }
+
+  openModalLogin(): void
+  {
+    const dialogRef = this.dialog.open(ModalLoginComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      res=>
+      {                
+        if(res=='register')
+        {
+          this.openModalRegister();
+        }
+        if(res==undefined)
+        {
+          this.validarPedidoActivo();
+        }        
+    });
+  }
+
+  openModalRegister(): void
+  {
+      const dialogRef = this.dialog.open(ModalRegisterComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(res=> 
+    {      
+      if(res=='login')
+      {
+        this.openModalLogin();
+      }
+      if(res==undefined)
+      {
+        this.validarPedidoActivo();
+      }      
+    });
+  }
+
+
+  
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { MatDialog } from '@angular/material/dialog';
 import { FormNuevoComercioComponent } from '../Compras-module/form-nuevo-comercio/form-nuevo-comercio.component'
 import { ModalDatosCompraComponent } from './modal-datos-compra/modal-datos-compra.component';
+import { AuthService } from '../auth.service';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -19,8 +20,14 @@ export class ComprasService {
   };
 
   comercioSeleccionado;
-  
-  constructor(private http:HttpClient, public dialog: MatDialog) { }
+  currentUser;
+  pedidoActivo=null;
+      
+  constructor(private http:HttpClient, public dialog: MatDialog, private authService: AuthService) {
+    this.authService.currentUser.subscribe(x=>this.currentUser = x)
+    {
+      this.getPedidosPendientes()};  
+   }
 
   getCategorias()
   {
@@ -29,8 +36,16 @@ export class ComprasService {
 
   getPedidosPendientes()
   {
-    var id=42;
-    return this.http.get(`${API_URL}/api/getPedidosPendientes/`+id);    
+    if(this.currentUser!=null)
+    {
+    var id=this.currentUser.usuario.id;
+    this.http.get(`${API_URL}/api/getPedidosPendientes/`+id).subscribe(
+      res=>
+        {
+          this.pedidoActivo=res;
+          console.log(res);
+        }
+    );}
   }
 
 
@@ -65,6 +80,16 @@ export class ComprasService {
   asignarComercio(comercio)
   {
     return this.http.post(`${API_URL}/api/asignarComercio`, comercio); 
+  }
+
+  guardarPedido(pedido)
+  {
+    return this.http.post(`${API_URL}/api/guardarPedido`, pedido); 
+  }
+
+  guardarDetallePedido(detallePedido)
+  {
+    return this.http.post(`${API_URL}/api/guardarDetallePedido`, detallePedido); 
   }
 
 }
