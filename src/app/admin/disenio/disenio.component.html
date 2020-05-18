@@ -63,6 +63,22 @@
         </div>
     </div>
 
+    <input type="file" (change)="fileChangeEvent($event)" />
+    <image-cropper style="width: 200px; height: 200px;"
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 3"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+
+    <img [src]="croppedImage" />
+
+    <!-- <button (click)="aceptarImg(item, prod)">Aceptar</button> -->
+
     <div class="title">Logo</div>
     <div class="desc gris">Logo que aparecerá en la<br> página de su comercio.</div>
 
@@ -80,6 +96,6 @@
     <br>
   </div>
 
-  <button class="btn btn-success btn-sm" (click)="guardarImagenes()" style="display:block; margin: 2rem;">Guardar cambios</button>
+  <button class="btn btn-success btn-sm" *ngIf="this.design != 0" (click)="guardarImagenes()" style="display:block; margin: 2rem;">Guardar cambios</button>
 
 </div>

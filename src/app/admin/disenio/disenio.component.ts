@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { FormBuilder, ValidatorFn, AbstractControl, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-disenio',
@@ -11,7 +13,7 @@ export class DisenioComponent implements OnInit {
   comercio =
   {
     id_comercio: 0,
-    diseño: 0,
+    disenio: 0,
     imagen:'',
     img_portada: '',
     portadaToUpload: File = null,
@@ -26,7 +28,7 @@ export class DisenioComponent implements OnInit {
   imgURL:any;
   imgLogoURL:any;
   imagePath;
-  imgPortada = 'sushi_3.jpg';
+  imgPortada = '';
   imgLogo = '';
   pathPortadas = "https://api.gualeonline.com.ar/public/img/portadas/";
   pathLogos = "https://api.gualeonline.com.ar/public/img/logos/";
@@ -35,12 +37,12 @@ export class DisenioComponent implements OnInit {
   hover;
   hover2;
   message;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
 
-  constructor(private adminService:AdminService) { }
+  constructor(private adminService:AdminService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.imgURL = this.pathPortadas + this.imgPortada;
-    this.imgLogoURL = '';
     this.adminService.getComercioSeleccionado().subscribe(
       res=>
       {
@@ -49,14 +51,25 @@ export class DisenioComponent implements OnInit {
         this.comercio =
         {
           id_comercio: res[0].id,
-          diseño: res[0].diseño,
+          disenio: res[0].diseño,
           imagen: res[0].imagen,
           img_portada: res[0].portada,
           portadaToUpload: File = null,
           LogoToUpload: File = null
         }
-
-        this.design = this.comercio.diseño;
+        if (this.comercio.img_portada == null) {
+          this.imgPortada = "sushi_template_1.jpg";
+        }else{
+          this.extensionPortada = '.' + this.comercio.img_portada.split('.')[1];
+        }
+        if (this.comercio.imagen == null) {
+          this.imgLogo = "";
+        }else{
+          this.extensionLogo = '.' + this.comercio.imagen.split('.')[1];
+        }
+        this.imgURL = this.pathPortadas + this.imgPortada;
+        this.imgLogoURL = '';
+        this.design = this.comercio.disenio;
         this.changeImgPortada(this.comercio.img_portada);
         this.changeImgLogo(this.comercio.imagen);
       })
@@ -81,6 +94,9 @@ export class DisenioComponent implements OnInit {
 
   preview(files)
   {
+    console.log(files);
+    console.log(typeof files);
+    console.log(typeof this.imgURL);
     if (files.length === 0)
       return;
 
@@ -121,10 +137,28 @@ export class DisenioComponent implements OnInit {
   }
 
   guardarImagenes(){
-    this.comercio.diseño = this.design;
-    this.comercio.img_portada = this.comercio.id_comercio + "_portada" + this.extensionPortada;
-    this.comercio.imagen = this.comercio.id_comercio + "_logo" + this.extensionLogo;
-    this.adminService.guardarImagenesComercio(this.comercio).subscribe
+    this.comercio.disenio = this.design;
+    const formData: FormData = new FormData();
+    if (this.comercio.portadaToUpload != null) {
+      //formData.append('portadaToUpload', this.comercio.portadaToUpload, this.comercio.img_portada);
+      this.comercio.img_portada = this.comercio.id_comercio + "_portada" + this.extensionPortada;
+    }else{
+      this.comercio.img_portada = this.imgPortada;
+    }
+    if (this.comercio.LogoToUpload != null) {
+      formData.append('LogoToUpload', this.comercio.LogoToUpload, this.comercio.imagen);
+      this.comercio.imagen = this.comercio.id_comercio + "_logo" + this.extensionLogo;
+    }else{
+      this.comercio.imagen = this.imgLogo;
+    }
+
+    formData.append('imgURL', this.imgURL);
+    formData.append("id_comercio", this.comercio.id_comercio.toString());
+    formData.append("disenio", this.comercio.disenio.toString());
+    formData.append("imagen", this.comercio.imagen);
+    formData.append("img_portada", this.comercio.img_portada);
+
+    this.adminService.guardarImagenesComercio(formData).subscribe
     (res=>
       {
         if(res>0)
@@ -137,6 +171,8 @@ export class DisenioComponent implements OnInit {
         }
       },err => {console.log(err);}
     )
+
+
     /*
     if(this.comercio.portadaToUpload!=null)
       {
@@ -151,5 +187,69 @@ export class DisenioComponent implements OnInit {
       */
   }
 
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    this.imgURL = event.base64;
+    /*
+    let b64 = this.croppedImage.split(',')[1];
 
+    const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+
+      const blob = new Blob(byteArrays, {type: contentType});
+      return blob;
+    }
+
+    const contentType = 'image/png';
+
+    const blob = b64toBlob(b64, contentType);
+    const blobUrl = URL.createObjectURL(blob);
+
+    var myfile = new File([blob], "coso.png");
+    //var myFile = this.blobToFile(blob, "my-image.png");
+    //console.log(myFile);
+    */
+  }
+
+  public blobToFile = (theBlob: Blob, fileName:string): File => {
+    var b: any = theBlob;
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+
+    //Cast to a File() type
+    return <File>theBlob;
+  }
+
+  fileChangeEvent(event: any): void {
+      this.imageChangedEvent = event;
+      //console.log(this.imageChangedEvent);
+      //console.log(this.imageChangedEvent.target.files[0]);
+
+  }
+
+  imageLoaded(){
+
+  }
+
+  cropperReady(){
+
+  }
+
+  loadImageFailed(){
+
+  }
 }
