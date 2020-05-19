@@ -10,7 +10,7 @@ import { ComprasService } from '../Compras-module/compras.service';
 })
 export class ModalIniciarSesionComponent implements OnInit {
 
-  constructor(private authService: AuthService, private comprasService: ComprasService, public dialogRef: MatDialogRef<ModalIniciarSesionComponent>,) { }
+  constructor(public authService: AuthService, private comprasService: ComprasService, public dialogRef: MatDialogRef<ModalIniciarSesionComponent>,) { }
 
   ngOnInit(): void {
   }

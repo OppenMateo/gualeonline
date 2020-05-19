@@ -17,7 +17,7 @@ export class NavbartopComponent implements OnInit {
    }
 
   ngOnInit() {
-  } 
+  }
 
   openModalRegister()
   {

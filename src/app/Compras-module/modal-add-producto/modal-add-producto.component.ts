@@ -35,7 +35,7 @@ export class ModalAddProductoComponent implements OnInit {
     var detalle=
     {
       producto:this.data,
-      cantidad:11,
+      cantidad:this.cantidad,
       aclaracion:'aguanta',
       total:20
     }

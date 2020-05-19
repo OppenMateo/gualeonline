@@ -12,7 +12,7 @@ const API_URL:string='https://api.gualeonline.com.ar/public';
 })
 export class ComprasService {
 
-  httpOptions = 
+  httpOptions =
   {
     headers: new HttpHeaders({
       'Content-Type':  'application/json'
@@ -22,11 +22,12 @@ export class ComprasService {
   comercioSeleccionado;
   currentUser;
   pedidoActivo=null;
-      
+  cantidadTotalProductos=0;
+
   constructor(private http:HttpClient, public dialog: MatDialog, private authService: AuthService) {
     this.authService.currentUser.subscribe(x=>this.currentUser = x)
     {
-      this.getPedidosPendientes()};  
+      this.getPedidosPendientes()};
    }
 
   getCategorias()
@@ -38,14 +39,16 @@ export class ComprasService {
   {
     if(this.currentUser!=null)
     {
-    var id=this.currentUser.usuario.id;
-    this.http.get(`${API_URL}/api/getPedidosPendientes/`+id).subscribe(
-      res=>
+      var id=this.currentUser.usuario.id;
+      this.http.get(`${API_URL}/api/getPedidosPendientes/`+id).subscribe(
+        res=>
         {
-          this.pedidoActivo=res;
-          console.log(res);
-        }
-    );}
+          this.pedidoActivo = res;
+          this.pedidoActivo.forEach(pedido => {
+            this.cantidadTotalProductos+=pedido.cantidad;
+          });
+      });
+    }
   }
 
 
@@ -56,7 +59,7 @@ export class ComprasService {
   }
 
   getComercioSeleccionado()
-  {    
+  {
     var id = 4;
     return this.http.get(`${API_URL}/api/getComercio/`+id);
   }
@@ -74,22 +77,22 @@ export class ComprasService {
 
   guardarComercio(datos)
   {
-    return this.http.post(`${API_URL}/api/guardarComercio`, datos); 
+    return this.http.post(`${API_URL}/api/guardarComercio`, datos);
   }
 
   asignarComercio(comercio)
   {
-    return this.http.post(`${API_URL}/api/asignarComercio`, comercio); 
+    return this.http.post(`${API_URL}/api/asignarComercio`, comercio);
   }
 
   guardarPedido(pedido)
   {
-    return this.http.post(`${API_URL}/api/guardarPedido`, pedido); 
+    return this.http.post(`${API_URL}/api/guardarPedido`, pedido);
   }
 
   guardarDetallePedido(detallePedido)
   {
-    return this.http.post(`${API_URL}/api/guardarDetallePedido`, detallePedido); 
+    return this.http.post(`${API_URL}/api/guardarDetallePedido`, detallePedido);
   }
 
 }

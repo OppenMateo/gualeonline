@@ -8,9 +8,11 @@ import { ComprasService } from '../compras.service';
 })
 export class CarritoComponent implements OnInit {
 
-  constructor(private comprasService: ComprasService) { }
+  constructor(public comprasService: ComprasService) { }
 
   ngOnInit(): void {
-}
+
+  }
+
 
 }

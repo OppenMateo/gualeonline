@@ -1,14 +1,28 @@
 <div class="div-container">
-    <div class="div-opciones flex">
-        <div class="div-opcion">Carrito</div>
-        <div class="div-opcion">Guardaro</div>
-    </div>
-    <!-- <div class="div-producto">{{producto.precio}}</div> -->
-    <div class="div-container-pedido">
+
+  <div class="div-menu grow" *ngIf="comprasService.currentUser">
+    <button [matMenuTriggerFor]="carritoDropDown">
+      <div class="flex">
+        <div class="div-usuario"><button class="fa fa-shopping-cart"><span class="badge badge-pill badge-danger">{{comprasService.cantidadTotalProductos}}</span></button></div>
+        <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>
+      </div>
+    </button>
+  </div>
+  <mat-menu #carritoDropDown>
+      <div class="div-container-pedido">
         <div class="div-pedido-activo" *ngFor="let item of comprasService.pedidoActivo">
-            <!-- <div class="div-pedido"> -->
-                <div class="div-producto">{{item.nombre_producto}}</div>                
-            <!-- </div> -->
+          <button class="div-producto">{{item.nombre_producto}} ({{item.cantidad}})</button>
         </div>
-    </div>
+      </div>
+  </mat-menu>
+
+
+  <!--
+  <div class="div-opciones flex">
+      <div class="div-opcion">Carrito</div>
+      <div class="div-opcion">Guardar</div>
+  </div>
+  -->
+  <!-- <div class="div-producto">{{producto.precio}}</div> -->
+
 </div>

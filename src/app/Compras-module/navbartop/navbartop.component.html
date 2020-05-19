@@ -13,7 +13,7 @@
         <button [matMenuTriggerFor]="menu">
             <div class="div-logueado flex">
                 <div class="div-usuario">{{this.currentUser.usuario.nombre}}</div>
-                <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>    
+                <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>
             </div>
         </button>
     </div>
@@ -22,5 +22,8 @@
         <button (click)="openModalNuevoComercio()">Registrar nuevo comercio</button>
         <button (click)="logOut()">Cerrar sesión</button>
     </mat-menu>
+    <div>
+      <app-carrito *ngIf="currentUser"></app-carrito>
+    </div>
 </div>
 
