@@ -17,7 +17,7 @@ import { ModalRegisterComponent } from 'src/app/modal-register/modal-register.co
 export class ComerciosComponent implements OnInit {
 
   listaProductosSubcategoria=[];
-  comercio = 
+  comercio =
   {
     imagen:'',
     nombre:'',
@@ -26,9 +26,10 @@ export class ComerciosComponent implements OnInit {
     portada:'',
     entrega:'',
     direccion:'',
+    disenio: 0
   }
   detalle=null;
-  
+
   constructor(private comprasService:ComprasService, private authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -47,8 +48,9 @@ export class ComerciosComponent implements OnInit {
           descripcion: res[0].descripcion,
           portada: res[0].portada,
           entrega: res[0].entrega,
-          direccion: res[0].entrega
-        }     
+          direccion: res[0].entrega,
+          disenio: res[0].diseño
+        }
       },
       err=>{
         console.log(err);})
@@ -85,8 +87,8 @@ export class ComerciosComponent implements OnInit {
         console.log(this.listaProductosSubcategoria)
       },
       err=> {console.log(err);});
-  } 
-  
+  }
+
   openModalAddProducto(prod)
   {
     const dialogRef = this.dialog.open(ModalAddProductoComponent, {
@@ -138,8 +140,8 @@ export class ComerciosComponent implements OnInit {
             producto:this.detalle.producto.prod_id,
             cantidad:this.detalle.cantidad,
             aclaracion:this.detalle.aclaracion,
-            total:this.detalle.total           
-          }          
+            total:this.detalle.total
+          }
           this.comprasService.guardarDetallePedido(detallePedido).subscribe(
             res=>
             {
@@ -156,7 +158,7 @@ export class ComerciosComponent implements OnInit {
         cantidad:this.detalle.cantidad,
         aclaracion:this.detalle.aclaracion,
         total:this.detalle.total
-      }  
+      }
       this.comprasService.guardarDetallePedido(detallePedido).subscribe(
         res=>
         {
@@ -175,7 +177,7 @@ export class ComerciosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       res=>
-      {                
+      {
         if(res=='register')
         {
           this.openModalRegister();
@@ -183,7 +185,7 @@ export class ComerciosComponent implements OnInit {
         if(res==undefined)
         {
           this.validarPedidoActivo();
-        }        
+        }
     });
   }
 
@@ -195,8 +197,8 @@ export class ComerciosComponent implements OnInit {
       panelClass: 'custom-modalbox'
     });
 
-    dialogRef.afterClosed().subscribe(res=> 
-    {      
+    dialogRef.afterClosed().subscribe(res=>
+    {
       if(res=='login')
       {
         this.openModalLogin();
@@ -204,10 +206,10 @@ export class ComerciosComponent implements OnInit {
       if(res==undefined)
       {
         this.validarPedidoActivo();
-      }      
+      }
     });
   }
 
 
-  
+
 }
