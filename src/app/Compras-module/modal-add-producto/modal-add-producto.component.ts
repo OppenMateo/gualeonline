@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class ModalAddProductoComponent implements OnInit {
 
   cantidad=1;
+  aclaracion='sarasa';
 
   constructor(private comprasService:ComprasService, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<ModalAddProductoComponent>) { }
 
@@ -36,7 +37,7 @@ export class ModalAddProductoComponent implements OnInit {
     {
       producto:this.data,
       cantidad:this.cantidad,
-      aclaracion:'aguanta',
+      aclaracion:'cosas',
       total:20
     }
 

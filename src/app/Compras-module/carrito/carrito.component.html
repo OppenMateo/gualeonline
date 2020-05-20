@@ -1,28 +1,50 @@
 <div class="div-container">
 
-  <div class="div-menu grow" *ngIf="comprasService.currentUser">
-    <button [matMenuTriggerFor]="carritoDropDown">
-      <div class="flex">
-        <div class="div-usuario"><button class="fa fa-shopping-cart"><span class="badge badge-pill badge-danger">{{comprasService.cantidadTotalProductos}}</span></button></div>
-        <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>
-      </div>
-    </button>
+  <div class="row opciones">
+      <button class="btnOpcion" (click)="opcion = 1">Carrito ({{comprasService.cantidadTotalProductos}})</button>
+      <button class="btnOpcion" (click)="opcion = 2">Guardados (0)</button>
   </div>
-  <mat-menu #carritoDropDown>
-      <div class="div-container-pedido">
-        <div class="div-pedido-activo" *ngFor="let item of comprasService.pedidoActivo">
-          <button class="div-producto">{{item.nombre_producto}} ({{item.cantidad}})</button>
+
+  <div *ngIf="opcion == 1">
+    <div class="row opciones" *ngFor="let producto of comprasService.pedidoActivo">
+      <div class="col-md-2">
+        <div class="row"><img src="https://api.gualeonline.com.ar/public/img/productos/{{producto.imagen}}" alt=""></div>
+        <div class="row">
+          <div class="btn-group btn-group-sm opcionCantidad" role="group">
+            <button class="btn btn-secondary" (click)="restarCantidad(producto)">
+                -
+            </button>
+            <button class="btn btn-secondary">
+                {{producto.cantidad}}
+            </button>
+            <button class="btn btn-secondary" (click)="sumarCantidad(producto)">
+                +
+            </button>
+          </div>
         </div>
       </div>
-  </mat-menu>
-
-
-  <!--
-  <div class="div-opciones flex">
-      <div class="div-opcion">Carrito</div>
-      <div class="div-opcion">Guardar</div>
+      <div class="col-md-5">
+        <div class="row">{{producto.nombre_producto}}</div>
+        <div class="row prod_desc">{{producto.descripcion_producto}}</div>
+        <div class="row">${{producto.precio_producto}}/unidad</div>
+        <div class="row"><h4>${{producto.precio_producto * producto.cantidad}}</h4></div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-light">Ver más productos</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-light" (click)="comprasService.borrarDetallePedido(producto)">Eliminar</button>
+      </div>
+    </div>
   </div>
-  -->
-  <!-- <div class="div-producto">{{producto.precio}}</div> -->
+  <div class="row">
+    <div class="col-md-2">
+        <button class="btn btn-lg btn-danger btnPagar" *ngIf="opcion == 1">Pagar</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="opcion == 2">
+
+  </div>
 
 </div>

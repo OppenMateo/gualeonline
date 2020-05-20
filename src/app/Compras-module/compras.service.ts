@@ -30,27 +30,17 @@ export class ComprasService {
       this.getPedidosPendientes()};
    }
 
+   totalProductosCarrito(){
+     this.cantidadTotalProductos = 0;
+    this.pedidoActivo.forEach(pedido => {
+      this.cantidadTotalProductos+=pedido.cantidad;
+    });
+  }
+
   getCategorias()
   {
     return this.http.get(`${API_URL}/api/getCategorias`);
   }
-
-  getPedidosPendientes()
-  {
-    if(this.currentUser!=null)
-    {
-      var id=this.currentUser.usuario.id;
-      this.http.get(`${API_URL}/api/getPedidosPendientes/`+id).subscribe(
-        res=>
-        {
-          this.pedidoActivo = res;
-          this.pedidoActivo.forEach(pedido => {
-            this.cantidadTotalProductos+=pedido.cantidad;
-          });
-      });
-    }
-  }
-
 
   getSubcategoriasProductosComercio()
   {
@@ -85,6 +75,24 @@ export class ComprasService {
     return this.http.post(`${API_URL}/api/asignarComercio`, comercio);
   }
 
+
+  // ----- PEDIDOS ------ //
+
+
+  getPedidosPendientes()
+  {
+    if(this.currentUser!=null)
+    {
+      var id=this.currentUser.usuario.id;
+      this.http.get(`${API_URL}/api/getPedidosPendientes/`+id).subscribe(
+        res=>
+        {
+          this.pedidoActivo = res;
+          this.totalProductosCarrito()
+      });
+    }
+  }
+
   guardarPedido(pedido)
   {
     return this.http.post(`${API_URL}/api/guardarPedido`, pedido);
@@ -93,6 +101,33 @@ export class ComprasService {
   guardarDetallePedido(detallePedido)
   {
     return this.http.post(`${API_URL}/api/guardarDetallePedido`, detallePedido);
+  }
+
+  eliminarPedido(pedido)
+  {
+    this.http.delete(`${API_URL}/api/borrarPedido/`+pedido).subscribe(
+      res=>
+      {
+        this.getPedidosPendientes();
+    });
+  }
+
+  borrarDetallePedido(detpedido){
+    return this.http.post(`${API_URL}/api/borrarDetallePedido`, detpedido).subscribe(
+      res=>
+      {
+        this.getPedidosPendientes();
+      }
+    );
+  }
+
+
+  sumarDetallePedido(detpedido){
+    return this.http.post(`${API_URL}/api/sumarDetallePedido`, detpedido);
+  }
+
+  restarDetallePedido(detpedido){
+    return this.http.post(`${API_URL}/api/restarDetallePedido`, detpedido);
   }
 
 }

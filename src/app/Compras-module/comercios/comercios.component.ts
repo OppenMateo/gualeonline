@@ -38,7 +38,6 @@ export class ComerciosComponent implements OnInit {
       res=>
       {
         this.comprasService.comercioSeleccionado = res[0];
-        console.log(res);
 
         this.comercio =
         {
@@ -84,7 +83,6 @@ export class ComerciosComponent implements OnInit {
           })
         })
 
-        console.log(this.listaProductosSubcategoria)
       },
       err=> {console.log(err);});
   }
@@ -123,7 +121,6 @@ export class ComerciosComponent implements OnInit {
 
   validarPedidoActivo()
   {
-    debugger;
     if(this.comprasService.pedidoActivo==null || this.comprasService.pedidoActivo.length==0)
     {
       var pedido=
@@ -145,7 +142,7 @@ export class ComerciosComponent implements OnInit {
           this.comprasService.guardarDetallePedido(detallePedido).subscribe(
             res=>
             {
-              console.log(res);
+              this.comprasService.getPedidosPendientes();
             })
         })
     }
@@ -153,7 +150,7 @@ export class ComerciosComponent implements OnInit {
     {
       var detallePedido=
       {
-        pedido:this.comprasService.pedidoActivo.id_pedido,
+        pedido:this.comprasService.pedidoActivo[0].id_pedido,
         producto:this.detalle.producto.prod_id,
         cantidad:this.detalle.cantidad,
         aclaracion:this.detalle.aclaracion,
@@ -162,7 +159,7 @@ export class ComerciosComponent implements OnInit {
       this.comprasService.guardarDetallePedido(detallePedido).subscribe(
         res=>
         {
-          console.log(res);
+          this.comprasService.getPedidosPendientes();
         })
     }
   }

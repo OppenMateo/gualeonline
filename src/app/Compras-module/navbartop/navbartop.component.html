@@ -23,7 +23,23 @@
         <button (click)="logOut()">Cerrar sesión</button>
     </mat-menu>
     <div>
-      <app-carrito *ngIf="currentUser"></app-carrito>
+      <!-- CARRITO -->
+      <div class="div-menu grow" *ngIf="comprasService.currentUser">
+        <button [matMenuTriggerFor]="carritoDropDown">
+          <div class="flex">
+            <div class="div-usuario"><button class="fa fa-shopping-cart"><span class="badge badge-pill badge-danger">{{comprasService.cantidadTotalProductos}}</span></button></div>
+            <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>
+          </div>
+        </button>
+      </div>
+      <mat-menu #carritoDropDown>
+          <div class="div-container-pedido">
+            <div><a href="/carro">Ver carrito</a></div>
+            <div class="div-pedido-activo" *ngFor="let item of comprasService.pedidoActivo">
+              <button class="div-producto">{{item.nombre_producto}} ({{item.cantidad}})</button>
+            </div>
+          </div>
+      </mat-menu>
     </div>
 </div>
 
