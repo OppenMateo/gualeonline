@@ -209,6 +209,7 @@ export class ProductosComponent implements OnInit {
     }
 
     imageCropped(event: ImageCroppedEvent) {
+      debugger;
         this.croppedImage = event.base64;
     }
     imageLoaded() {

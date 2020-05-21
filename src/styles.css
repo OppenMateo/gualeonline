@@ -180,17 +180,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .ng-image-slider .ng-image-slider-container .main
 {
-    height: 100px !important;
+    height: 150px !important;
 }
 
 .ng-image-slider .ng-image-slider-container
 {
-    height: 100px !important;
+    height: 150px !important;
 }
 
 .ng-image-slider
 {
-    height: 100px !important;
+    height: 150px !important;
 }
 
 .ng-image-slider .ng-image-slider-container .main .next, .ng-image-slider .ng-image-slider-container .main .prev
