@@ -6,6 +6,8 @@ import { ModalAddProductoComponent } from '../modal-add-producto/modal-add-produ
 import { provideRoutes } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { ModalDatosCompraComponent } from '../modal-datos-compra/modal-datos-compra.component';
+import { ModalLoginComponent } from 'src/app/modal-login/modal-login.component';
+import { ModalRegisterComponent } from 'src/app/modal-register/modal-register.component';
 
 @Component({
   selector: 'app-comercios',
@@ -15,7 +17,7 @@ import { ModalDatosCompraComponent } from '../modal-datos-compra/modal-datos-com
 export class ComerciosComponent implements OnInit {
 
   listaProductosSubcategoria=[];
-  comercio = 
+  comercio =
   {
     imagen:'',
     nombre:'',
@@ -24,8 +26,10 @@ export class ComerciosComponent implements OnInit {
     portada:'',
     entrega:'',
     direccion:'',
+    disenio: 0
   }
-  
+  detalle=null;
+
   constructor(private comprasService:ComprasService, private authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -34,7 +38,6 @@ export class ComerciosComponent implements OnInit {
       res=>
       {
         this.comprasService.comercioSeleccionado = res[0];
-        console.log(res);
 
         this.comercio =
         {
@@ -44,8 +47,9 @@ export class ComerciosComponent implements OnInit {
           descripcion: res[0].descripcion,
           portada: res[0].portada,
           entrega: res[0].entrega,
-          direccion: res[0].entrega
-        }     
+          direccion: res[0].entrega,
+          disenio: res[0].diseño
+        }
       },
       err=>{
         console.log(err);})
@@ -79,11 +83,10 @@ export class ComerciosComponent implements OnInit {
           })
         })
 
-        console.log(this.listaProductosSubcategoria)
       },
       err=> {console.log(err);});
-  } 
-  
+  }
+
   openModalAddProducto(prod)
   {
     const dialogRef = this.dialog.open(ModalAddProductoComponent, {
@@ -93,6 +96,117 @@ export class ComerciosComponent implements OnInit {
       panelClass: 'custom-modalbox',
       data: prod,
     });
+    dialogRef.afterClosed().subscribe(
+      res=>
+      {
+        this.detalle=res;
+        this.validarUsuarioLogueado();
+      }
+    )
+  };
+
+
+  validarUsuarioLogueado()
+  {
+    if(this.authService.currentUserValue==null)
+    {
+     this.openModalLogin();
+    }
+    else
+    {
+      this.validarPedidoActivo();
+    }
+    return true;
   }
+
+  validarPedidoActivo()
+  {
+    if(this.comprasService.pedidoActivo==null || this.comprasService.pedidoActivo.length==0)
+    {
+      var pedido=
+      {
+        usuario:this.comprasService.currentUser.usuario.id,
+        fecha: '2020-03-23'
+      }
+      this.comprasService.guardarPedido(pedido).subscribe(
+        res=>
+        {
+          var detallePedido=
+          {
+            pedido:res,
+            producto:this.detalle.producto.prod_id,
+            cantidad:this.detalle.cantidad,
+            aclaracion:this.detalle.aclaracion,
+            total:this.detalle.total
+          }
+          this.comprasService.guardarDetallePedido(detallePedido).subscribe(
+            res=>
+            {
+              this.comprasService.getPedidosPendientes();
+            })
+        })
+    }
+    else
+    {
+      var detallePedido=
+      {
+        pedido:this.comprasService.pedidoActivo[0].id_pedido,
+        producto:this.detalle.producto.prod_id,
+        cantidad:this.detalle.cantidad,
+        aclaracion:this.detalle.aclaracion,
+        total:this.detalle.total
+      }
+      this.comprasService.guardarDetallePedido(detallePedido).subscribe(
+        res=>
+        {
+          this.comprasService.getPedidosPendientes();
+        })
+    }
+  }
+
+  openModalLogin(): void
+  {
+    const dialogRef = this.dialog.open(ModalLoginComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      res=>
+      {
+        if(res=='register')
+        {
+          this.openModalRegister();
+        }
+        if(res==undefined)
+        {
+          this.validarPedidoActivo();
+        }
+    });
+  }
+
+  openModalRegister(): void
+  {
+      const dialogRef = this.dialog.open(ModalRegisterComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      panelClass: 'custom-modalbox'
+    });
+
+    dialogRef.afterClosed().subscribe(res=>
+    {
+      if(res=='login')
+      {
+        this.openModalLogin();
+      }
+      if(res==undefined)
+      {
+        this.validarPedidoActivo();
+      }
+    });
+  }
+
+
 
 }

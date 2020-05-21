@@ -13,28 +13,28 @@ export class PedidosPendientesComponent implements OnInit {
   constructor(private comprasService:ComprasService) { }
 
   ngOnInit() {
-    this.getPedidosPendientes();
+    // this.getPedidosPendientes();
   }
 
-  getPedidosPendientes()
-  {
-    var lista;
-    this.listaPedidosPendientes=[];
-    this.comprasService.getPedidosPendientes().subscribe(
-      res=>      
-      {
-        lista=res;
-        lista.forEach(elem=>
-        {
-          this.listaPedidosPendientes.push(elem)
-        });
-        console.log(this.listaPedidosPendientes);        
-      },
-      err=>
-      {
-       console.log(err);
-      }
-    )
-  }
+  // getPedidosPendientes()
+  // {
+  //   var lista;
+  //   this.listaPedidosPendientes=[];
+  //   this.comprasService.getPedidosPendientes().subscribe(
+  //     res=>      
+  //     {
+  //       lista=res;
+  //       lista.forEach(elem=>
+  //       {
+  //         this.listaPedidosPendientes.push(elem)
+  //       });
+  //       console.log(this.listaPedidosPendientes);        
+  //     },
+  //     err=>
+  //     {
+  //      console.log(err);
+  //     }
+  //   )
+  // }
 
 }

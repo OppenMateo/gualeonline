@@ -22,14 +22,18 @@ export class AdminService {
   listaSubcategoriasProductos;
   listaSubcategoriasProductosAdmin = [];
 
-  constructor(private http:HttpClient, private authService:AuthService) 
+  constructor(private http:HttpClient, private authService:AuthService)
   {
-    this.authService.currentUser.subscribe(x=>this.currentUser = x);  
+    this.authService.currentUser.subscribe(x=>this.currentUser = x);
   }
 
   guardarDatosComercio(datos)
   {
     return this.http.post(`${API_URL}/api/updateComercio`, datos);
+  }
+
+  guardarImagenesComercio(datos){
+    return this.http.post(`${API_URL}/api/updateImagenesComercio`, datos);
   }
 
   guardarHorarios(datos)

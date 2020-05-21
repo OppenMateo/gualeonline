@@ -10,11 +10,12 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { ComerciosComponent } from './comercios/comercios.component';
 import { ModalAddProductoComponent } from './modal-add-producto/modal-add-producto.component';
 import { ModalDatosCompraComponent } from './modal-datos-compra/modal-datos-compra.component';
+import { CarritoComponent } from './carrito/carrito.component';
 
 
 
 @NgModule({
-  declarations: [ComprasComponent, CategoriasComponent, NavbartopComponent, PedidosPendientesComponent, ComerciosComponent, ModalAddProductoComponent, ModalDatosCompraComponent],
+  declarations: [ComprasComponent, CategoriasComponent, NavbartopComponent, PedidosPendientesComponent, ComerciosComponent, ModalAddProductoComponent, ModalDatosCompraComponent, CarritoComponent],
   imports: [
     CommonModule,
     ComprasRoutingModule,

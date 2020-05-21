@@ -1,0 +1,12 @@
+<div class="div-container">
+    <div class="div-titulo">Iniciá sesión antes de <br> agregar productos a tu pedido</div>
+    <div class="div-opciones flex">
+        <div class="div-opcion">¿Todavía no tenés una cuenta?</div>
+        <div class="div-btn"><button class="btn-opcion" (click)="authService.openModalRegister()">Registrate</button></div>
+    </div>
+    <div class="div-opciones flex">
+        <div class="div-opcion">¿Ya estás registrado?</div>
+        <div class="div-btn"><button class="btn-opcion" (click)='authService.openModalLogin()'>Iniciar sesión</button></div>
+    </div>
+    <div class="div-continuar"><button>Continuar como anónimo</button></div>
+</div>

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { MatDialog } from '@angular/material/dialog';
 import { FormNuevoComercioComponent } from '../Compras-module/form-nuevo-comercio/form-nuevo-comercio.component'
 import { ModalDatosCompraComponent } from './modal-datos-compra/modal-datos-compra.component';
+import { AuthService } from '../auth.service';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -11,7 +12,7 @@ const API_URL:string='https://api.gualeonline.com.ar/public';
 })
 export class ComprasService {
 
-  httpOptions = 
+  httpOptions =
   {
     headers: new HttpHeaders({
       'Content-Type':  'application/json'
@@ -19,20 +20,27 @@ export class ComprasService {
   };
 
   comercioSeleccionado;
-  
-  constructor(private http:HttpClient, public dialog: MatDialog) { }
+  currentUser;
+  pedidoActivo=null;
+  cantidadTotalProductos=0;
+
+  constructor(private http:HttpClient, public dialog: MatDialog, private authService: AuthService) {
+    this.authService.currentUser.subscribe(x=>this.currentUser = x)
+    {
+      this.getPedidosPendientes()};
+   }
+
+   totalProductosCarrito(){
+     this.cantidadTotalProductos = 0;
+    this.pedidoActivo.forEach(pedido => {
+      this.cantidadTotalProductos+=pedido.cantidad;
+    });
+  }
 
   getCategorias()
   {
     return this.http.get(`${API_URL}/api/getCategorias`);
   }
-
-  getPedidosPendientes()
-  {
-    var id=42;
-    return this.http.get(`${API_URL}/api/getPedidosPendientes/`+id);    
-  }
-
 
   getSubcategoriasProductosComercio()
   {
@@ -41,7 +49,7 @@ export class ComprasService {
   }
 
   getComercioSeleccionado()
-  {    
+  {
     var id = 4;
     return this.http.get(`${API_URL}/api/getComercio/`+id);
   }
@@ -59,12 +67,67 @@ export class ComprasService {
 
   guardarComercio(datos)
   {
-    return this.http.post(`${API_URL}/api/guardarComercio`, datos); 
+    return this.http.post(`${API_URL}/api/guardarComercio`, datos);
   }
 
   asignarComercio(comercio)
   {
-    return this.http.post(`${API_URL}/api/asignarComercio`, comercio); 
+    return this.http.post(`${API_URL}/api/asignarComercio`, comercio);
+  }
+
+
+  // ----- PEDIDOS ------ //
+
+
+  getPedidosPendientes()
+  {
+    if(this.currentUser!=null)
+    {
+      var id=this.currentUser.usuario.id;
+      this.http.get(`${API_URL}/api/getPedidosPendientes/`+id).subscribe(
+        res=>
+        {
+          this.pedidoActivo = res;
+          this.totalProductosCarrito()
+      });
+    }
+  }
+
+  guardarPedido(pedido)
+  {
+    return this.http.post(`${API_URL}/api/guardarPedido`, pedido);
+  }
+
+  guardarDetallePedido(detallePedido)
+  {
+    return this.http.post(`${API_URL}/api/guardarDetallePedido`, detallePedido);
+  }
+
+  eliminarPedido(pedido)
+  {
+    this.http.delete(`${API_URL}/api/borrarPedido/`+pedido).subscribe(
+      res=>
+      {
+        this.getPedidosPendientes();
+    });
+  }
+
+  borrarDetallePedido(detpedido){
+    return this.http.post(`${API_URL}/api/borrarDetallePedido`, detpedido).subscribe(
+      res=>
+      {
+        this.getPedidosPendientes();
+      }
+    );
+  }
+
+
+  sumarDetallePedido(detpedido){
+    return this.http.post(`${API_URL}/api/sumarDetallePedido`, detpedido);
+  }
+
+  restarDetallePedido(detpedido){
+    return this.http.post(`${API_URL}/api/restarDetallePedido`, detpedido);
   }
 
 }

@@ -7,6 +7,7 @@ import { tap, map } from 'rxjs/operators';
 import { ModalLoginComponent } from 'src/app/modal-login/modal-login.component';
 import { ModalRegisterComponent } from 'src/app/modal-register/modal-register.component'
 import { User } from '../app/models/user'
+import { ModalIniciarSesionComponent } from './modal-iniciar-sesion/modal-iniciar-sesion.component';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -27,6 +28,11 @@ export class AuthService {
   constructor(private http: HttpClient, public dialog: MatDialog) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+   }
+
+   public get currentUserValue(): User
+   {
+    return this.currentUserSubject.value;
    }
 
   openModalLogin(): void
@@ -71,7 +77,7 @@ export class AuthService {
 
   login(user) 
   {       
-    return this.http.post(`${API_URL}/api/auth/login`, user).pipe(
+     return this.http.post(`${API_URL}/api/auth/login`, user).pipe(
       map(user => {
         if(user['success']!=false)
         {
@@ -82,10 +88,10 @@ export class AuthService {
         else
         {
           return user;
-        }
+        } 
         
       })
-    )
+    ) 
   }
 
   logOut() 
@@ -98,5 +104,25 @@ export class AuthService {
   {
     return this.http.post(`${API_URL}/api/guardarUsuario`, user); 
   }
+
+  // openModalIniciarSesion():any
+  // {
+  //     const dialogRef = this.dialog.open(ModalIniciarSesionComponent, {
+  //     height: 'fit-content',
+  //     width: 'fit-content',
+  //     panelClass: 'custom-modalbox'
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(res=>{
+  //     return "ok";
+  //   },
+  //   err=>
+  //   {
+  //     return "error";
+  //   }
+  //   );
+  //   return "1";
+  // }
+
 
 }

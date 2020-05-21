@@ -17,7 +17,7 @@ export class NavbartopComponent implements OnInit {
    }
 
   ngOnInit() {
-  } 
+  }
 
   openModalRegister()
   {
@@ -38,5 +38,6 @@ export class NavbartopComponent implements OnInit {
   {
     this.comprasService.openModalNuevoComercio();
   }
+
 
 }

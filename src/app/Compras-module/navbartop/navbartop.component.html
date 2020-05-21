@@ -1,8 +1,8 @@
 <div class="div-container-navbar flex">
-    <div class="div-logo">
+    <a class="div-logo" href="">
         <div class="div-titulo oswald-b">GUALEONLINE</div>
         <div class="div-subtitulo">PUERTA A PUERTA</div>
-    </div>
+    </a>
     <div class="div-login" *ngIf="!currentUser">
         <div class="div-menu flex">
             <div class="div-opcion"><button (click)="openModalLogin()" class="login">INICIAR SESION</button></div>
@@ -13,7 +13,7 @@
         <button [matMenuTriggerFor]="menu">
             <div class="div-logueado flex">
                 <div class="div-usuario">{{this.currentUser.usuario.nombre}}</div>
-                <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>    
+                <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>
             </div>
         </button>
     </div>
@@ -22,5 +22,24 @@
         <button (click)="openModalNuevoComercio()">Registrar nuevo comercio</button>
         <button (click)="logOut()">Cerrar sesión</button>
     </mat-menu>
+    <div>
+      <!-- CARRITO -->
+      <div class="div-menu grow" *ngIf="comprasService.currentUser">
+        <button [matMenuTriggerFor]="carritoDropDown">
+          <div class="flex">
+            <div class="div-usuario"><button class="fa fa-shopping-cart"><span class="badge badge-pill badge-danger">{{comprasService.cantidadTotalProductos}}</span></button></div>
+            <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>
+          </div>
+        </button>
+      </div>
+      <mat-menu #carritoDropDown>
+          <div class="div-container-pedido">
+            <div><a href="/carro">Ver carrito</a></div>
+            <div class="div-pedido-activo" *ngFor="let item of comprasService.pedidoActivo">
+              <button class="div-producto">{{item.nombre_producto}} ({{item.cantidad}})</button>
+            </div>
+          </div>
+      </mat-menu>
+    </div>
 </div>
 

@@ -1,0 +1,50 @@
+<div class="div-container">
+
+  <div class="row opciones">
+      <button class="btnOpcion" (click)="opcion = 1">Carrito ({{comprasService.cantidadTotalProductos}})</button>
+      <button class="btnOpcion" (click)="opcion = 2">Guardados (0)</button>
+  </div>
+
+  <div *ngIf="opcion == 1">
+    <div class="row opciones" *ngFor="let producto of comprasService.pedidoActivo">
+      <div class="col-md-2">
+        <div class="row"><img src="https://api.gualeonline.com.ar/public/img/productos/{{producto.imagen}}" alt=""></div>
+        <div class="row">
+          <div class="btn-group btn-group-sm opcionCantidad" role="group">
+            <button class="btn btn-secondary" (click)="restarCantidad(producto)">
+                -
+            </button>
+            <button class="btn btn-secondary">
+                {{producto.cantidad}}
+            </button>
+            <button class="btn btn-secondary" (click)="sumarCantidad(producto)">
+                +
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="row">{{producto.nombre_producto}}</div>
+        <div class="row prod_desc">{{producto.descripcion_producto}}</div>
+        <div class="row">${{producto.precio_producto}}/unidad</div>
+        <div class="row"><h4>${{producto.precio_producto * producto.cantidad}}</h4></div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-light">Ver más productos</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-light" (click)="comprasService.borrarDetallePedido(producto)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+        <button class="btn btn-lg btn-danger btnPagar" *ngIf="opcion == 1">Pagar</button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="opcion == 2">
+
+  </div>
+
+</div>

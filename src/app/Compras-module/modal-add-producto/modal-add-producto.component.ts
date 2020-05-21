@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ComprasService } from '../compras.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal-add-producto',
@@ -10,8 +10,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ModalAddProductoComponent implements OnInit {
 
   cantidad=1;
+  aclaracion='sarasa';
 
-  constructor(private comprasService:ComprasService, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private comprasService:ComprasService, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<ModalAddProductoComponent>) { }
 
   ngOnInit() {
     console.log(this.data)
@@ -28,6 +29,19 @@ export class ModalAddProductoComponent implements OnInit {
     {
       this.cantidad--;
     }
+  }
+
+  agregarProducto()
+  {
+    var detalle=
+    {
+      producto:this.data,
+      cantidad:this.cantidad,
+      aclaracion:'cosas',
+      total:20
+    }
+
+    this.dialogRef.close(detalle);
   }
 
 }

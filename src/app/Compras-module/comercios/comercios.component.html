@@ -1,8 +1,9 @@
-<div class="div-portada">
+<div class="diseño2" *ngIf="comercio.disenio !== 1">
+  <div class="div-portada">
     <div class="div-body-portada"><img class="imagen" class="imagen-portada" src="{{'https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada}}" alt="">
-        <div class="div-nombre-comercio">{{comercio.nombre}}</div>        
+        <div class="div-nombre-comercio">{{comercio.nombre}}</div>
         <div class="div-info-comercio flex">
-            <div class="div-logo"><img src="{{'https://api.gualeonline.com.ar/public/img/logos/'+comercio.imagen}}" alt=""></div>            
+            <div class="div-logo"><img src="{{'https://api.gualeonline.com.ar/public/img/logos/'+comercio.imagen}}" alt=""></div>
             <div class="div-datos-comercio">
                 <div class="div-subcategoria-comercio">{{comercio.subcategoria}}</div>
                 <div class="div-dato-container">
@@ -16,32 +17,38 @@
                 <div class="div-dato-container">
                     <i class="fa fa-hourglass-half div-icono-dato"></i>
                     <div class="div-dato">{{comercio.entrega}}</div>
-                </div> 
-            </div>           
-            <div class="div-informacion"><button class="btn-info br-10" [routerLink]="['datos_compra']">INFORMACION</button></div> 
+                </div>
+            </div>
+            <div class="div-informacion"><button class="btn-info br-10" [routerLink]="['datos_compra']">INFORMACION</button></div>
         </div>
-    </div>    
-</div>
-<div class="div-container">
+    </div>
+  </div>
+  <div class="div-container">
     <div class="div-body">
         <div class="div-subcategorias" *ngFor="let elem of listaProductosSubcategoria">
             <div class="div-titulo-subcategoria">{{elem.subcat.nombre}}</div>
             <div class="div-container-productos row">
                 <div class="div-productos-subcategoria col-md-6" *ngFor="let prod of elem.prod">
-                    <div class="div-producto flex">                        
+                    <div class="div-producto flex">
                         <div class="div-imagen-producto">
-                            <img src="{{'https://api.gualeonline.com.ar/public/img/'+prod.imagen}}" alt="" class="imagen-producto">
+                            <img src="{{'https://api.gualeonline.com.ar/public/img/productos/'+prod.imagen}}" alt="" class="imagen-producto">
                         </div>
                         <div class="div-datos-producto rel">
                             <div class="div-nombre-producto">{{prod.nombre_producto}}</div>
                             <div class="div-descripcion-producto">{{prod.descripcion_producto}}</div>
                             <div class="div-cantidad">x5</div>
                             <div class="div-precio-producto">${{prod.precio_producto}}</div>
-                            <div class="div-boton-modal abs" (click)="openModalAddProducto(prod)"><button><i class="fa fa-plus"></i></button></div>
+                            <div class="div-boton-modal abs" (click)="openModalAddProducto(prod)"><button><span class="badge badge-pill badge-danger"><i class="fa fa-plus"></i></span></button></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+  </div>
+</div>
+
+<div class="diseño1" *ngIf="comercio.disenio == 1">
+  Diseño 1
+
 </div>
