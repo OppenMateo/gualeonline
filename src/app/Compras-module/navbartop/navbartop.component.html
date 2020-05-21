@@ -24,22 +24,11 @@
     </mat-menu>
     <div>
       <!-- CARRITO -->
-      <div class="div-menu grow" *ngIf="comprasService.currentUser">
-        <button [matMenuTriggerFor]="carritoDropDown">
+      <div *ngIf="comprasService.currentUser">
           <div class="flex">
-            <div class="div-usuario"><button class="fa fa-shopping-cart"><span class="badge badge-pill badge-danger">{{comprasService.cantidadTotalProductos}}</span></button></div>
-            <div class="flecha-usuario"><i class="fa fa-sort-down"></i></div>
+            <div class="div-usuario"><button class="fa fa-shopping-cart"><a href="/carro"><span class="badge badge-pill badge-danger">{{comprasService.cantidadTotalProductos}}</span></a></button></div>
           </div>
-        </button>
       </div>
-      <mat-menu #carritoDropDown>
-          <div class="div-container-pedido">
-            <div><a href="/carro">Ver carrito</a></div>
-            <div class="div-pedido-activo" *ngFor="let item of comprasService.pedidoActivo">
-              <button class="div-producto">{{item.nombre_producto}} ({{item.cantidad}})</button>
-            </div>
-          </div>
-      </mat-menu>
     </div>
 </div>
 

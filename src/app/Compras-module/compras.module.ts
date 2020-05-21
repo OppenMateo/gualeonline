@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatMenuModule} from '@angular/material/menu';
 import { ComprasRoutingModule } from './compras-routing.module';
 import { ComprasComponent } from './compras/compras.component';
@@ -20,7 +21,9 @@ import { CarritoComponent } from './carrito/carrito.component';
     CommonModule,
     ComprasRoutingModule,
     MatMenuModule,
-    MatDialogModule        
+    MatDialogModule   ,
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [ModalAddProductoComponent, ModalDatosCompraComponent],
 })

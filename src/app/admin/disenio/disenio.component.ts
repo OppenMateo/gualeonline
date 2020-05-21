@@ -16,8 +16,8 @@ export class DisenioComponent implements OnInit {
     disenio: 0,
     imagen:'',
     img_portada: '',
-    portadaToUpload: File = null,
-    LogoToUpload: File = null
+    portada_file: File = null,
+    logo_file: File = null
   }
 
   design= 0;
@@ -39,6 +39,7 @@ export class DisenioComponent implements OnInit {
   message;
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  template = false;
 
   constructor(private adminService:AdminService, private fb: FormBuilder) { }
 
@@ -54,13 +55,15 @@ export class DisenioComponent implements OnInit {
           disenio: res[0].diseño,
           imagen: res[0].imagen,
           img_portada: res[0].portada,
-          portadaToUpload: File = null,
-          LogoToUpload: File = null
+          portada_file: File = null,
+          logo_file: File = null
         }
         if (this.comercio.img_portada == null) {
-          this.imgPortada = "sushi_template_1.jpg";
-        }else{
-          this.extensionPortada = '.' + this.comercio.img_portada.split('.')[1];
+          this.comercio.img_portada = "template_sushi_1.jpg";
+          this.template = true;
+        }
+        if (this.comercio.img_portada.split('_')[0] == 'template') {
+          this.template = true;
         }
         if (this.comercio.imagen == null) {
           this.imgLogo = "";
@@ -83,6 +86,8 @@ export class DisenioComponent implements OnInit {
   changeImgPortada(event){
     if (typeof event == 'object') {
       this.imgURL = this.pathPortadas + (event.target.value)
+      this.template = true;
+      this.comercio.img_portada = event.target.value;
     }else{
       this.imgURL = this.pathPortadas + event;
     }
@@ -92,11 +97,9 @@ export class DisenioComponent implements OnInit {
     this.imgLogoURL = this.pathLogos + logo;
   }
 
+
   preview(files)
   {
-    console.log(files);
-    console.log(typeof files);
-    console.log(typeof this.imgURL);
     if (files.length === 0)
       return;
 
@@ -112,8 +115,8 @@ export class DisenioComponent implements OnInit {
       this.imgURL = reader.result;
     }
     this.imgPortada = '';
-    this.comercio.portadaToUpload = files.item(0);
-    this.extensionPortada = this.comercio.portadaToUpload.type.replace('image/', '.');
+    this.comercio.portada_file = files.item(0);
+    this.extensionPortada = this.comercio.portada_file.type.replace('image/', '.');
   }
 
   uploadLogo(files)
@@ -132,22 +135,17 @@ export class DisenioComponent implements OnInit {
     reader.onload = (_event) => {
       this.imgLogoURL = reader.result;
     }
-    this.comercio.LogoToUpload = files.item(0);
-    this.extensionLogo = this.comercio.LogoToUpload.type.replace('image/', '.');
+    this.comercio.logo_file = files.item(0);
+    this.extensionLogo = this.comercio.logo_file.type.replace('image/', '.');
   }
 
   guardarImagenes(){
     this.comercio.disenio = this.design;
     const formData: FormData = new FormData();
-    if (this.comercio.portadaToUpload != null) {
-      //formData.append('portadaToUpload', this.comercio.portadaToUpload, this.comercio.img_portada);
-      this.comercio.img_portada = this.comercio.id_comercio + "_portada" + this.extensionPortada;
-    }else{
-      this.comercio.img_portada = this.imgPortada;
-    }
-    if (this.comercio.LogoToUpload != null) {
-      formData.append('LogoToUpload', this.comercio.LogoToUpload, this.comercio.imagen);
+
+    if (this.comercio.logo_file != null) {
       this.comercio.imagen = this.comercio.id_comercio + "_logo" + this.extensionLogo;
+      formData.append('logo_file', this.comercio.logo_file, this.comercio.imagen);
     }else{
       this.comercio.imagen = this.imgLogo;
     }
@@ -157,6 +155,7 @@ export class DisenioComponent implements OnInit {
     formData.append("disenio", this.comercio.disenio.toString());
     formData.append("imagen", this.comercio.imagen);
     formData.append("img_portada", this.comercio.img_portada);
+    formData.append("template", this.template.toString());
 
     this.adminService.guardarImagenesComercio(formData).subscribe
     (res=>
@@ -171,67 +170,13 @@ export class DisenioComponent implements OnInit {
         }
       },err => {console.log(err);}
     )
-
-
-    /*
-    if(this.comercio.portadaToUpload!=null)
-      {
-        formData.append('Image', this.portadaToUpload, this.portadaToUpload.name);
-      }
-      if(this.comercio.LogoToUpload!=null)
-      {
-        formData.append('LogoImage', this.LogoToUpload, this.LogoToUpload.name);
-      }
-      formData.append("img_portada", this.adminService.comercioSeleccionado.id + "_portada" + this.extensionPortada);
-      formData.append("imagen", this.adminService.comercioSeleccionado.id + "_logo" + this.extensionLogo);
-      */
   }
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
     this.imgURL = event.base64;
-    /*
-    let b64 = this.croppedImage.split(',')[1];
-
-    const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
-      const byteCharacters = atob(b64Data);
-      const byteArrays = [];
-
-      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-        const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-          byteNumbers[i] = slice.charCodeAt(i);
-        }
-
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-      }
-
-      const blob = new Blob(byteArrays, {type: contentType});
-      return blob;
-    }
-
-    const contentType = 'image/png';
-
-    const blob = b64toBlob(b64, contentType);
-    const blobUrl = URL.createObjectURL(blob);
-
-    var myfile = new File([blob], "coso.png");
-    //var myFile = this.blobToFile(blob, "my-image.png");
-    //console.log(myFile);
-    */
-  }
-
-  public blobToFile = (theBlob: Blob, fileName:string): File => {
-    var b: any = theBlob;
-    //A Blob() is almost a File() - it's just missing the two properties below which we will add
-    b.lastModifiedDate = new Date();
-    b.name = fileName;
-
-    //Cast to a File() type
-    return <File>theBlob;
+    this.comercio.img_portada = this.comercio.id_comercio + "_portada.jpeg";
+    this.template = false;
   }
 
   fileChangeEvent(event: any): void {
