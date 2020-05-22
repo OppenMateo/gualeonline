@@ -13,21 +13,24 @@ import { of } from 'rxjs';
 })
 export class ProductosComponent implements OnInit {
 
-  listaRes;  
+  listaRes;
   listaSubProd;
   formEdicion;
 
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+
   constructor(private adminService:AdminService,private FormBuilder: FormBuilder) { }
 
-  ngOnInit() 
+  ngOnInit()
   {
-    this.getProductosComercio();    
+    this.getProductosComercio();
 
     this.formEdicion = new FormGroup({
       'nombre': new FormControl('', [ Validators.required ]),
-      'descripcion': new FormControl('', [ Validators.required ]),      
+      'descripcion': new FormControl('', [ Validators.required ]),
       'precio': new FormControl('', [ Validators.required ]),
-      'promocional': new FormControl('', [ Validators.required ])      
+      'promocional': new FormControl('', [ Validators.required ])
     })
   }
 
@@ -39,20 +42,20 @@ export class ProductosComponent implements OnInit {
   getProductosComercio()
   {
     this.adminService.getSubProdImgsComercio().subscribe(
-      res=>{                            
+      res=>{
         console.log(res);
         this.listaRes = res;
-        this.agruparProdSubcat();        
+        this.agruparProdSubcat();
       }
       ,err => {console.log(err);});
   }
 
   agruparProdSubcat()
-  {        
+  {
     this.listaSubProd = [];
     var subcatProd;
 
-    this.listaRes.forEach(item => 
+    this.listaRes.forEach(item =>
     {
       if(this.listaSubProd.filter(x=>x.subcat.id_subcat == item.id_subcat).length==0)
       {
@@ -60,10 +63,10 @@ export class ProductosComponent implements OnInit {
         var listaImgs;
 
         if(item.imagen != null)
-        {          
+        {
           listaImgs = [
           {
-            image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen, 
+            image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
             thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
           }];
         }
@@ -72,7 +75,7 @@ export class ProductosComponent implements OnInit {
           listaImgs = [];
         }
 
-        var prod = 
+        var prod =
         {
           id_prod:item.id_prod,
           nombre:item.nombre_producto,
@@ -86,9 +89,9 @@ export class ProductosComponent implements OnInit {
           prod:[prod]
         }
         this.listaSubProd.push(subcatProd);
-      }      
+      }
       else
-      {        
+      {
         var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
         var index = this.listaSubProd.indexOf(reg);
 
@@ -99,7 +102,7 @@ export class ProductosComponent implements OnInit {
           {
             listaImgs = [
               {
-                image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen, 
+                image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
                 thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
               }];
           }
@@ -108,7 +111,7 @@ export class ProductosComponent implements OnInit {
             listaImgs = [];
           }
 
-          var prod = 
+          var prod =
           {
             id_prod:item.id_prod,
             nombre:item.nombre_producto,
@@ -133,16 +136,16 @@ export class ProductosComponent implements OnInit {
           if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.imagen == item.imagen).length==0)
           {
             var img = {
-              image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen, 
+              image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
               thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
             };
 
             this.listaSubProd[index].prod[indexProd].imgs.push(img);
           }
-        }        
+        }
       }
     });
-       
+
     console.log(this.listaSubProd);
   }
 
@@ -151,38 +154,40 @@ export class ProductosComponent implements OnInit {
 
   }
 
+  // FUNCIONES DRAG & DROP //
+
   public files: NgxFileDropEntry[] = [];
- 
+
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
     for (const droppedFile of files) {
- 
+
       // Is it a file?
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
- 
+
           // Here you can access the real file
           debugger;
           console.log(droppedFile.relativePath, file);
           // this.imageChangedEvent = file;
- 
+
           /**
           // You could upload it like this:
           const formData = new FormData()
           formData.append('logo', file, relativePath)
- 
+
           // Headers
           const headers = new HttpHeaders({
             'security-token': 'mytoken'
           })
- 
+
           this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
           .subscribe(data => {
             // Sanitized logo returned from backend
           })
           **/
- 
+
         });
       } else {
         // It was a directory (empty directories are added, otherwise only files)
@@ -191,18 +196,18 @@ export class ProductosComponent implements OnInit {
       }
     }
   }
- 
-  public fileOver(event){    
+
+  public fileOver(event){
     console.log(event);
   }
- 
+
   public fileLeave(event){
     console.log(event);
   }
 
-  imageChangedEvent: any = '';
-    croppedImage: any = '';
-    
+
+    // FUNCIONES CROPPER //
+
     fileChangeEvent(event: any): void {
       debugger;
         this.imageChangedEvent = event;
@@ -215,7 +220,7 @@ export class ProductosComponent implements OnInit {
     imageLoaded() {
         // show cropper
     }
-    cropperReady() {      
+    cropperReady() {
         // cropper ready
     }
     loadImageFailed() {
@@ -229,5 +234,5 @@ export class ProductosComponent implements OnInit {
 
     handleChange($event: ColorEvent) {
       console.log($event.color);
-    } 
+    }
 }
