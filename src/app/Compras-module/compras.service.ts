@@ -23,17 +23,38 @@ export class ComprasService {
   currentUser;
   pedidoActivo=null;
   cantidadTotalProductos=0;
+  totalPagar = 0;
 
-  constructor(private http:HttpClient, public dialog: MatDialog, private authService: AuthService) {
+  constructor(private http:HttpClient, public dialog: MatDialog, private authService: AuthService)
+  {
     this.authService.currentUser.subscribe(x=>this.currentUser = x)
     {
-      this.getPedidosPendientes()};
-   }
+      this.getPedidosPendientes()
+    };
+  }
 
-   totalProductosCarrito(){
-     this.cantidadTotalProductos = 0;
+  getDirecciones(){
+    return this.http.get(`${API_URL}/api/getDireccion/`+this.currentUser.usuario.id);
+  }
+
+  guardarDireccion(direccion){
+    return this.http.post(`${API_URL}/api/guardarDireccion`,direccion);
+  }
+
+  editarDireccion(direccion){
+    return this.http.post(`${API_URL}/api/editarDireccion`,direccion);
+  }
+
+  eliminarDireccion(direccion){
+    return this.http.post(`${API_URL}/api/eliminarDireccion`,direccion);
+  }
+
+  totalProductosCarrito(){
+    this.cantidadTotalProductos = 0;
+    this.totalPagar = 0;
     this.pedidoActivo.forEach(pedido => {
       this.cantidadTotalProductos+=pedido.cantidad;
+      this.totalPagar += pedido.cantidad * pedido.precio_producto;
     });
   }
 

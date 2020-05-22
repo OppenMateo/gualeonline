@@ -9,6 +9,7 @@ import { ComprasService } from '../compras.service';
 export class CarritoComponent implements OnInit {
 
   opcion = 1;
+  loading = 0;
 
   constructor(public comprasService: ComprasService) { }
 
@@ -17,21 +18,25 @@ export class CarritoComponent implements OnInit {
   }
 
   restarCantidad(producto){
-    var detallePedido={
-      id: producto.id_detalle
+    if (producto.cantidad > 1) {
+      var detallePedido={
+        id: producto.id_detalle
+      }
+      this.loading = 1;
+      this.comprasService.restarDetallePedido(detallePedido).subscribe(res=>{
+        this.loading = 0;
+        this.comprasService.getPedidosPendientes();
+      });
     }
-
-    this.comprasService.restarDetallePedido(detallePedido).subscribe(res=>{
-      this.comprasService.getPedidosPendientes();
-    });
   }
 
   sumarCantidad(producto){
     var detallePedido={
       id: producto.id_detalle
     }
-
+    this.loading = 1;
     this.comprasService.sumarDetallePedido(detallePedido).subscribe(res=>{
+      this.loading = 0;
       this.comprasService.getPedidosPendientes();
     });
   }

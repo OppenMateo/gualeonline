@@ -1,53 +1,94 @@
-<div class="div-container row">
-    <div class="div-info-envio" col-md-6>
-        <div class="div-titulo">Finalizá tu pedido</div>
-        <div class="div-datos-entrega">
-            <div class="div-titulo-direccion">Dirección de entrega</div>
-            <div class="div-subtitulo-direccion">Selecciona la dirección de entrega</div>
-            <div class="div-datos-direccion">
-                <div class="div-direccion">DATO DIRECCION</div>
-                <div class="div-editar"><button>Editar</button></div>
-            </div>
-            <div class="div-lista-direcciones"><button>Ver todas mis direcciones</button></div>
+<div class="todo">
+  <div class="row" *ngIf="panel == 1">
+    <div class="col-md-4" id="seccion_datosCompra">
+      <h4 >Datos de compra</h4>
+      <div class="seccion">
+        <span><b>Dirección de entrega</b></span>
+        <br>
+        <span>Selecciona la dirección de entrega.</span>
+        <br>
+        <div *ngFor="let direccion of direcciones">
+          <li>
+            <span><b>{{direccion.nombre}} - </b>{{direccion.nombre_calle}}</span>
+            <br>
+            {{direccion.descripcion_barrio}}
+            <br>
+            <button class="btn btn-sm btn-light" (click)="modoEditar(direccion)">Editar</button>
+            <button class="btn btn-sm btn-light" (click)="eliminarDireccion(direccion)">Eliminar</button>
+          </li>
         </div>
-        <div class="div-datos-pago">
-            <div class="div-titulo-pago">Datos de pago</div>
-            <div class="div-subtitulo-pago">Elegí como queres abonar</div>
-            <div class="div-opciones-pago">
-                <div class="div-pago">Pago en el domcilio</div>
-                <div class="div-pago">Pago online</div>
-            </div>
-        </div>
-        <div class="div-nota-aclaracion" placeholder="Notas adicionales"></div>   
+        <br>
+        <button class="btn btn-sm btn-light" (click)="panel = 2">Ver todas mis direcciones</button>
+      </div>
+      <div class="seccion">
+          <span><b>Datos de pago</b></span>
+          <br>
+          <span>Selecciona la forma de pago correspondiente.</span>
+          <br>
+          <input class="form-check-input" type="radio" name="formaPago" id="forma1" value="option1" checked>
+          <label class="form-check-label" for="forma1">
+            Efectivo en puerta
+          </label>
+          <br>
+          <input class="form-check-input" type="radio" name="formaPago" id="forma2" value="option2">
+          <label class="form-check-label" for="forma2">
+            Pago online
+          </label>
+      </div>
+      <br>
+
+        <button class="btn btn-lg btn-danger" style="margin-left: 35%;">Finalizar</button>
+
     </div>
-    <div class="div-info-pedido" col-md-6>
-        <div class="div-nombre-pedido">DATO NOMBRE PEDIDO</div>
-        <div class="div-pedido">        
-            <div class="div-datos-pedidos">
-                <div class="div-comercio">DATO NOMBRE COMERCIO</div>
-                <div class="div-lista-productos"><button>Ver más productos</button></div>
-                <div class="div-borrar-pedido"><button>Eliminar</button></div>
-            </div>
-            <div class="div-detalles-pedido">
-                <div class="div-cantidad">DATO CANTIDAD</div>
-                <div class="div-producto">DATO PRODUCTO</div>
-                <div class="div-precio">DATO PRECIO</div>
-            </div>
-        </div>
-        <div class="div-resumen">
-            <div class="div-datos">
-                <div class="div-dato">Envío</div>
-                <div class="div-dato">DATO PRECIO ENVIO</div>
-            </div>
-            <div class="div-datos">
-                <div class="div-dato">Subtotal</div>
-                <div class="div-dato">DATO PRECIO SUBTOTAL</div>
-            </div>
-            <div class="div-datos">
-                <div class="div-dato">Total</div>
-                <div class="div-dato">DATO PRECIO TOTAL</div>
-            </div>
-        </div>
-        <div class="div-finalizar"><button>Finalizar</button></div>
-    </div>        
+    <div class="col-md-4" id="seccion_datosPedido">
+      <h4>Tu pedido</h4>
+      <br>
+      <div *ngFor="let producto of comprasService.pedidoActivo">
+        <span>{{producto.nombre_producto}}___${{producto.cantidad * producto.precio_producto}}</span>
+      </div>
+      <br>
+      <b>Envío = $0</b>
+      <br>
+      <b>Subtotal = ${{comprasService.totalPagar}}</b>
+      <br>
+      <b>TOTAL = ${{comprasService.totalPagar}}</b>
+      <br>
+    </div>
+    <div>
+
+    </div>
+  </div>
+
+  <div *ngIf="panel == 2">
+    <div *ngFor="let direccion of direcciones">
+      <li>
+        <span><b>{{direccion.nombre}} - </b>{{direccion.nombre_calle}}</span>
+        <br>
+        {{direccion.descripcion_barrio}}
+        <br>
+        <button class="btn btn-sm btn-light" (click)="modoEditar(direccion)">Editar</button>
+        <button class="btn btn-sm btn-light" (click)="eliminarDireccion(direccion)">Eliminar</button>
+      </li>
+    </div>
+    <br>
+    <button (click)="panel = 3">Agregar dirección</button>
+    <br>
+    <button (click)="panel = 1">Atrás</button>
+  </div>
+
+  <div *ngIf="panel == 3 || panel == 4">
+    <h4 *ngIf="panel == 3">Agregar nueva dirección</h4>
+    <h4 *ngIf="panel == 4">Editar nueva dirección</h4>
+    <br>
+    <input type="text" placeholder="Nombre" [(ngModel)]="nuevaDireccion.nombre">
+    <br>
+    <input type="text" placeholder="Calle y número" [(ngModel)]="nuevaDireccion.nombre_calle">
+    <br>
+    <input type="text" placeholder="Barrio (opcional)" [(ngModel)]="nuevaDireccion.descripcion_barrio">
+    <br>
+    <button (click)="guardarDireccion()" *ngIf="panel == 3">Guardar</button>
+    <button (click)="editarDireccion()" *ngIf="panel == 4">Aceptar</button>
+    <button (click)="atras()">Atrás</button>
+  </div>
+
 </div>

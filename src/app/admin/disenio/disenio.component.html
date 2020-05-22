@@ -40,20 +40,20 @@
       </div>
       <div class="col-md-4">
         <div>
-            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/sushi_template_1.jpg">
-            <input type="radio" class="radioImg" name="portada" value="sushi_template_1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_1.jpg">
+            <input type="radio" class="radioImg" name="portada" value="template_sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
         </div>
         <div>
-          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/sushi_template_2.jpg">
-          <input type="radio" class="radioImg" name="portada" value="sushi_template_2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_2.jpg">
+          <input type="radio" class="radioImg" name="portada" value="template_sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
         </div>
         <div>
-          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/sushi_template_3.jpg">
-          <input type="radio" class="radioImg" name="portada" value="sushi_template_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_3.jpg">
+          <input type="radio" class="radioImg" name="portada" value="template_sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
         </div>
       </div>
     </div>
-    <div class="div-input" style="font-size: 1rem;">
+    <!-- <div class="div-input" style="font-size: 1rem;">
         <div class="div-file">
             <input #file type="file" class="input-file" accept='image/*' (change)="preview(file.files)" />
             <label for="fileDropRef" class="label-file">
@@ -61,7 +61,7 @@
                 Subir foto
             </label>
         </div>
-    </div>
+    </div> -->
 
     <input type="file" (change)="fileChangeEvent($event)" />
     <image-cropper style="width: 200px; height: 200px;"
@@ -82,7 +82,7 @@
     <div class="title">Logo</div>
     <div class="desc gris">Logo que aparecerá en la<br> página de su comercio.</div>
 
-    <img [src]="imgLogoURL" *ngIf="imgURL !==''" class="logo">
+    <img [src]="imgLogoURL" *ngIf="imgLogoURL !==''" class="logo">
 
     <div class="div-input" style="font-size: 1rem;">
         <div class="div-file">
