@@ -40,11 +40,13 @@
     src: url(./assets/fonts/OpenSans/OpenSans-Light.ttf)
 }
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 body
 {
     font-size: calc(8px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));    
 }
-
 
 *
 {
@@ -54,11 +56,21 @@ body
    --black: #222222;
 }
 
+*:active
+{
+    outline: none !important;
+}
+
 .gr { color: var(--gris)}
 
 .grc { color: var(--gris-claro)}
 
 .neg {color: var(--black)}
+
+.bold
+{
+    font-family: opensans-semibold;
+}
 
 button 
 {
@@ -125,18 +137,21 @@ input { font-size: inherit }
     border:solid 1px var(--black)
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
 
 /* ADMIN */
 
 .titulo-top-admin
 {
-    font-size:1.2rem;
+    font-size:2rem;
     color:var(--black);
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
+}
+
+.desc-admin
+{    
+    font-size: 1rem;
+    margin: 0.5rem 0 1.3rem 0;   
+    color: var(--gris);
 }
 
 .input-admin   

@@ -25,7 +25,7 @@ export class DisenioComponent implements OnInit {
   extensionLogo = '.jpeg';
   extensionPortada = '.jpeg';
 
-  imgURL:any;
+  imgURL:any = '';
   imgLogoURL:any;
   imagePath;
   imgPortada = '';

@@ -1,40 +1,87 @@
 <div class="div-container box-shadow">
-  <div class="title-lugar">
+  <div class="titulo-top-admin br-admin">
       Diseño de comercio
+  </div>    
+  <div class="desc-admin gris">
+    Seleccione el diseño que quiere para la página de su comercio.
   </div>
-  <div class="lineadivisora"></div>
 
-  <div class="title">Estilo</div>
-  <div class="desc gris">
-    Seleccione el diseño que quiere para la<br> página de su comercio.
-  </div>
-  <br>
-
-  <div (mouseover)="hover=true" (mouseleave)="hover=false" style="display: inline;">
-    <button class="btnDiseño" (click)="design = 1" >
-      <img src="../../../assets/imgs/comercios/ImagenTemplate_1.png" alt="" class="opcion-design" [ngStyle]="{opacity: hover==true  ? '1' : '0.75' }">
-      <!-- <button class="btnOpcion" *ngIf="hover">Elegí este diseño</button>
-      <button class="btnOpcion" *ngIf="hover">Vista previa</button> -->
-    </button>
-  </div>
-  <div (mouseover)="hover2=true" (mouseleave)="hover2=false" style="display: inline;">
-    <button class="btnDiseño" (click)="design = 2">
-        <img src="../../../assets/imgs/comercios/ImagenTemplate_2.png" alt="" class="opcion-design" [ngStyle]="{opacity: hover2==true  ? '1' : '0.75' }">
-      </button>
-  </div>
+  <div class="div-cont-templates flex">
+    <div class="div-template">
+      <div class="div-over-templates">
+        <div class="div-btns-temp">
+          <button class="btn-template bold br-10" (click)="design = 1">Elegí este diseño</button>
+          <button class="btn-template bold br-10" (click)="design = 1">Vista Previa</button>
+        </div>
+      </div>
+      <div class="div-img-template">
+        <img src="../../../assets/imgs/comercios/ImagenTemplate_1.png" alt="" class="img-template">
+      </div>
+    </div>
+    <div class="div-template">
+      <div class="div-over-templates">
+        <div class="div-btns-temp">
+          <button class="btn-template bold br-10" (click)="design = 2">Elegí este diseño</button>
+          <button class="btn-template bold br-10" (click)="design = 2">Vista Previa</button>
+        </div>
+      </div>
+      <div class="div-img-template">
+        <img src="../../../assets/imgs/comercios/ImagenTemplate_2.png" alt="" class="img-template">
+      </div>
+    </div>
+  </div>  
 
   <div class="design_1" *ngIf="design == 1">
     <h4 style="font-size: 6rem;">diseño uno jajjaj</h4>
   </div>
 
-  <div class="design_2" *ngIf="design == 2">
-    <div class="title">Portada</div>
-    <div class="desc gris">
-      Seleccionar portada predeterminada o cargar<br> tu propia portada de comercio.
+  <div class="design_2" *ngIf="design == 2">    
+    <div class="titulo-top-admin br-admin">Portada</div>
+    <div class="desc-admin">
+      Selecciona una predeterminada o carga tu propia portada.
     </div>
-    <br>
+
 
     <div class="row">
+      <div class="col-md-8 no-pad-h">
+        <div class="load-imagen br-10" *ngIf="imgURL!=''">
+          <div class="cont-load-imagen m-auto">
+            <div class="icon-camera"><i class="fa fa-camera"></i></div>
+            <div class="div-subir-img">+ Cargar foto</div>
+          </div>
+        </div>
+        <!-- <img class="imagen portada" [src]="imgURL" *ngIf="imgURL!=''"> -->
+      </div>
+      <div class="col-md-4">
+        <div>
+            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_1.jpg">
+            <input type="radio" class="radioImg" name="portada" value="template_sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+        </div>
+        <div>
+          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_2.jpg">
+          <input type="radio" class="radioImg" name="portada" value="template_sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+        </div>
+        <div>
+          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_3.jpg">
+          <input type="radio" class="radioImg" name="portada" value="template_sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+        </div>
+      </div>
+    </div>
+
+  <!-- <div (mouseover)="hover=true" (mouseleave)="hover=false">
+    <button class="btnDiseño" (click)="design = 1" >
+      <img src="../../../assets/imgs/comercios/ImagenTemplate_1.png" alt="" class="opcion-design" [ngStyle]="{opacity: hover==true  ? '1' : '0.75' }">
+      <button class="btnOpcion" *ngIf="hover">Elegí este diseño</button>
+      <button class="btnOpcion" *ngIf="hover">Vista previa</button>
+    </button>
+  </div>
+  <div (mouseover)="hover2=true" (mouseleave)="hover2=false">
+    <button class="btnDiseño" (click)="design = 2">
+        <img src="../../../assets/imgs/comercios/ImagenTemplate_2.png" alt="" class="opcion-design" [ngStyle]="{opacity: hover2==true  ? '1' : '0.75' }">
+      </button>
+  </div> -->
+
+    <!-- <div class="row">
       <div class="col-md-8">
         <img class="imagen portada" [src]="imgURL" *ngIf="imgURL">
       </div>
@@ -52,7 +99,7 @@
           <input type="radio" class="radioImg" name="portada" value="template_sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="div-input" style="font-size: 1rem;">
         <div class="div-file">
             <input #file type="file" class="input-file" accept='image/*' (change)="preview(file.files)" />
