@@ -12,9 +12,11 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import {MatMenuModule} from '@angular/material/menu';
 import { DisenioComponent } from './disenio/disenio.component';
+import { CategoriasComponent } from './categorias/categorias.component';
+
 
 @NgModule({
-  declarations: [AdminIndexComponent, NavbarComponent, DatosLugarComponent, ProductosComponent, DisenioComponent],
+  declarations: [AdminIndexComponent, NavbarComponent, DatosLugarComponent, ProductosComponent, DisenioComponent, CategoriasComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

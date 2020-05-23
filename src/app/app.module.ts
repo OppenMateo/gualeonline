@@ -11,6 +11,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { User } from '../app/models/user'
 import { FormNuevoComercioComponent } from './Compras-module/form-nuevo-comercio/form-nuevo-comercio.component';
 import { ModalIniciarSesionComponent } from './modal-iniciar-sesion/modal-iniciar-sesion.component';
+import { CategoriasAdminComponent } from './categorias-admin/categorias-admin.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ModalIniciarSesionComponent } from './modal-iniciar-sesion/modal-inicia
     ModalLoginComponent,
     ModalRegisterComponent,
     FormNuevoComercioComponent,
-    ModalIniciarSesionComponent
+    ModalIniciarSesionComponent,
+    CategoriasAdminComponent
   ],
   imports: [
     HttpClientModule,

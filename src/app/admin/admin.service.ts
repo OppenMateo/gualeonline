@@ -27,6 +27,14 @@ export class AdminService {
     this.authService.currentUser.subscribe(x=>this.currentUser = x);
   }
 
+  //  COMERCIO //
+
+  getComercioSeleccionado()
+  {
+    var id = 4;
+    return this.http.get(`${API_URL}/api/getComercio/`+id);
+  }
+
   guardarDatosComercio(datos)
   {
     return this.http.post(`${API_URL}/api/updateComercio`, datos);
@@ -35,6 +43,8 @@ export class AdminService {
   guardarImagenesComercio(datos){
     return this.http.post(`${API_URL}/api/updateImagenesComercio`, datos);
   }
+
+  // HORARIOS //
 
   guardarHorarios(datos)
   {
@@ -54,10 +64,23 @@ export class AdminService {
     return this.http.delete(`${API_URL}/api/deleteHorario/`+id);
   }
 
-  getComercioSeleccionado()
+  //CATEGORIAS Y SUBCATEGORIAS //
+
+  getCategoriasProducto()
   {
-    var id = 4;
-    return this.http.get(`${API_URL}/api/getComercio/`+id);
+    return this.http.get(`${API_URL}/api/getSubCategoriasProductos/`+this.comercioSeleccionado[0].id)
+  }
+
+  guardarCategoriaProducto(catprod){
+    return this.http.post(`${API_URL}/api/guardarSubcatProducto`, catprod);
+  }
+
+  editarCategoriaProducto(catprod){
+    return this.http.post(`${API_URL}/api/editarSubcatProducto`, catprod);
+  }
+
+  eliminarCategoriaProducto(catprod){
+    return this.http.post(`${API_URL}/api/borrarSubCatProd`, catprod);
   }
 
   getSubCategoriasComercios()

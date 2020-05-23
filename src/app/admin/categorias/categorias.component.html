@@ -1,0 +1,98 @@
+<div class="div-container box-shadow">
+  <div class="title">
+      Categorías
+  </div>
+  <div class="lineadivisora"></div>
+</div>
+<br>
+
+<div class="categorias">
+  <div class="row top">
+    <div class="col-md-3">
+      Imagen
+    </div>
+    <div class="col-md-3">
+      Nombre
+    </div>
+    <div class="col-md">
+      Opciones
+    </div>
+  </div>
+  <div class="lista row">
+    <div class="col-md-3">
+      <!-- <img [src]="new_cat.imagen" alt=""> -->
+      <br>
+      <input type="file" (change)="fileChangeEvent($event)" />
+      <image-cropper style="width: 200px; height: 200px;"
+        *ngIf="newCrop"
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 3"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
+
+    </div>
+    <div class="col-md-3">
+      <input type="text" placeholder="nombre" [(ngModel)]="new_cat.nombre">
+    </div>
+    <div class="col-md-3">
+      <button class="btn-success" (click)="guardarCategoriaProd(new_cat)">Guardar nueva</button>
+    </div>
+  </div>
+  <div class="lista row"  *ngFor="let categoria of categorias; index as i">
+    <div class="col-md-3">
+      <img [src]="categoria.imagen" alt="" *ngIf="!categoria.cropper">
+
+      <input *ngIf="edit == i" type="file"  id="file_{{i}}" (change)="fileChangeEventLista($event,categoria,i)" />
+      <image-cropper style="width: 200px; height: 200px;"
+          id="cropper_{{i}}"
+          [hidden]="!categoria.cropper"
+          [imageChangedEvent]="imageChangedEventLista"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 3"
+          format="png"
+          (imageCropped)="imageCroppedLista($event,categoria)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
+
+    </div>
+    <div class="col-md-3">
+      <input type="text" value="{{categoria.nombre_categoria}}" [disabled]="edit != i" id={{i}}>
+    </div>
+    <div class="col-md">
+      <button class="btn btn-primary" (click)="edit = i" *ngIf="edit == 10000">Editar</button>
+      <button class="btn btn-danger" (click)="eliminarCategoriaProd(categoria)" *ngIf="edit == 10000">Eliminar</button>
+      <button class="btn btn-success" (click)="editarCategoriaProd(categoria,i)" *ngIf="edit == i">Guardar</button>
+      <button class="btn btn-danger" (click)="edit = 10000" *ngIf="edit == i">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="div-container">
+  <div class="div-titulo">Categorias</div>
+  <div class="div-buscar-container flex">
+      <div class="div-buscar">Buscar categoria por nombre</div>
+      <div class="div-btn-buscar">Buscar</div>
+  </div>
+  <div class="div-acciones">Acciones</div>
+  <div class="div-opciones">Elegí una opcion '(Desplegable)'</div>
+  <div class="div-titulo-categorias">(Seleccionar?) Categorias</div>
+  <div class="div-categorias-container flex">
+      <div class="div-img">(Seleccionar) Imagen</div>
+      <div class="div-categoria">Categoria 1</div>
+  </div>
+  <div class="div-btn-nuevo-prod">Crear producto (Deberia ir arriba)</div>
+  <div class="div-botones-container flex">
+      <div class="div-guardar">Guardar</div>
+      <div class="div-cancelar">Cancelar</div>
+  </div>
+</div> -->
+
