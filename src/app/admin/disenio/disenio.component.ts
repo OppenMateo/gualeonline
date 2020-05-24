@@ -59,10 +59,10 @@ export class DisenioComponent implements OnInit {
           portada_file: File = null,
           logo_file: File = null
         }
-        // if (this.comercio.img_portada == null) {
-        //   this.comercio.img_portada = "template_sushi_1.jpg";
-        //   this.template = true;
-        // }
+         if (this.comercio.img_portada == null) {
+           this.comercio.img_portada = "template_sushi_1.jpg";
+           this.template = true;
+         }
 
         if(this.comercio.img_portada != null)
         {
@@ -77,7 +77,7 @@ export class DisenioComponent implements OnInit {
         }else{
           this.extensionLogo = '.' + this.comercio.imagen.split('.')[1];
         }
-        
+
         this.imgLogoURL = '';
         this.design = this.comercio.disenio;
         this.changeImgPortada(this.comercio.img_portada);
@@ -182,7 +182,7 @@ export class DisenioComponent implements OnInit {
     )
   }
 
-  imageCropped(event: ImageCroppedEvent) 
+  imageCropped(event: ImageCroppedEvent)
   {
     this.croppedImage = event.base64;
     // this.imgURL = event.base64;
@@ -190,9 +190,9 @@ export class DisenioComponent implements OnInit {
     this.template = false;
   }
 
-  fileChangeEvent(event: any): void 
-  {    
-    this.cropping = true;    
+  fileChangeEvent(event: any): void
+  {
+    this.cropping = true;
     this.imageChangedEvent = event;
   }
 
@@ -200,7 +200,7 @@ export class DisenioComponent implements OnInit {
 
   }
 
-  cropperReady(){    
+  cropperReady(){
   }
 
   loadImageFailed(){
@@ -215,6 +215,7 @@ export class DisenioComponent implements OnInit {
   aceptarCropper()
   {
     this.cropping = false;
+    this.imgURL = this.croppedImage;
     this.imageChangedEvent = '';
   }
 
