@@ -40,6 +40,7 @@ export class DisenioComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   template = false;
+  cropping:boolean = false;
 
   constructor(private adminService:AdminService, private fb: FormBuilder) { }
 
@@ -58,10 +59,16 @@ export class DisenioComponent implements OnInit {
           portada_file: File = null,
           logo_file: File = null
         }
-        if (this.comercio.img_portada == null) {
-          this.comercio.img_portada = "template_sushi_1.jpg";
-          this.template = true;
+        // if (this.comercio.img_portada == null) {
+        //   this.comercio.img_portada = "template_sushi_1.jpg";
+        //   this.template = true;
+        // }
+
+        if(this.comercio.img_portada != null)
+        {
+          this.imgURL = this.pathPortadas + this.imgPortada;
         }
+
         if (this.comercio.img_portada.split('_')[0] == 'template') {
           this.template = true;
         }
@@ -70,7 +77,7 @@ export class DisenioComponent implements OnInit {
         }else{
           this.extensionLogo = '.' + this.comercio.imagen.split('.')[1];
         }
-        this.imgURL = this.pathPortadas + this.imgPortada;
+        
         this.imgLogoURL = '';
         this.design = this.comercio.disenio;
         this.changeImgPortada(this.comercio.img_portada);
@@ -85,11 +92,14 @@ export class DisenioComponent implements OnInit {
 
   changeImgPortada(event){
     if (typeof event == 'object') {
-      this.imgURL = this.pathPortadas + (event.target.value)
+      this.imgURL = this.pathPortadas + (event.target.value);
       this.template = true;
       this.comercio.img_portada = event.target.value;
+      this.croppedImage = this.pathPortadas + (event.target.value);
     }else{
       this.imgURL = this.pathPortadas + event;
+      this.croppedImage = this.pathPortadas + event;
+      this.cropping = false;
     }
   }
 
@@ -172,29 +182,45 @@ export class DisenioComponent implements OnInit {
     )
   }
 
-  imageCropped(event: ImageCroppedEvent) {
+  imageCropped(event: ImageCroppedEvent) 
+  {
     this.croppedImage = event.base64;
-    this.imgURL = event.base64;
+    // this.imgURL = event.base64;
     this.comercio.img_portada = this.comercio.id_comercio + "_portada.jpeg";
     this.template = false;
   }
 
-  fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
-      //console.log(this.imageChangedEvent);
-      //console.log(this.imageChangedEvent.target.files[0]);
-
+  fileChangeEvent(event: any): void 
+  {    
+    this.cropping = true;    
+    this.imageChangedEvent = event;
   }
 
   imageLoaded(){
 
   }
 
-  cropperReady(){
-
+  cropperReady(){    
   }
 
   loadImageFailed(){
+  }
 
+  mostrarLoadImg()
+  {
+    this.imgURL = '';
+    this.cropping = true;
+  }
+
+  aceptarCropper()
+  {
+    this.cropping = false;
+    this.imageChangedEvent = '';
+  }
+
+  cancelarCropper()
+  {
+    this.cropping = false;
+    this.imageChangedEvent = '';
   }
 }
