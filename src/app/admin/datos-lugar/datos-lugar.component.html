@@ -1,9 +1,57 @@
-<div class="div-container box-shadow">
-  <div class="title-lugar">
-      Datos del comercio
-  </div>
-  <div class="lineadivisora"></div>
-
+<div class="div-container">
+  <div class="div-titulo">DATOS DE COMERCIO</div>
+  <form [formGroup]="form" (submit)="guardarDatos(form)">
+    <div class="div-datos row">
+      <div class="div-item col-md-4">
+        <div class="titulo-item">NOMBRE</div>
+        <input type="text" class="input-form form-control form-item" value={{comercio.nombre}} formControlName="nombre" required>
+      </div>
+      <div class="div-item col-md-4">
+        <div class="titulo-item">CATEGORIA</div>
+        <select name="" id="" class="select-subcat form-control form-item" formControlName="subcategoria">
+            <option value={{cat.id}} class="opt-subcat" *ngFor="let cat of adminService.listaSubCategorias">{{cat.nombre_subcat}}</option>
+        </select>
+      </div>
+      <div class="div-item col-md-4">
+        <div class="titulo-item">DESCRIPCION</div>
+        <textarea class="input-form form-control form-item" maxlength="300" value={{comercio.descripcion}} formControlName="descripcion" required></textarea>
+      </div>
+      <div class="div-item col-md-4">
+        <div class="titulo-item">DIRECCION</div>
+        <input type="text" class="input-form form-control form-item" value={{comercio.direccion}} formControlName="direccion" required>
+      </div>
+      <div class="div-item col-md-4">
+        <div class="titulo-item">ENTREGA ESTIMADA</div>
+        <input type="text" class="input-form form-control form-estim" value={{comercio.entrega}} formControlName="entrega" required>
+        <select name="" id="" class="select-subcat form-control form-estim" value={{comercio.medida_entrega}} formControlName="medida_entrega" >
+            <option class="opt-subcat">MINUTOS</option>
+            <option class="opt-subcat">HORAS</option>
+            <option class="opt-subcat">DIAS</option>
+        </select>
+      </div>    
+        <div class="div-item col-md-4">
+          <div class="titulo-item">TELEFONO</div>
+          <div class="desc gris">
+            INGRESE EL TELEFONO DE SU COMERCIO
+          </div>
+          <input type="Number" id="telefono" class="form-control form-estim" formControlName="telefono" style="width:10rem;">          
+        </div>
+        <div class="col-md-6">
+          <div class="titulo-item">MEDIOS DE PAGO</div>
+          <div class="desc gris">
+            MEDIOS DE PAGO HABILITADOS
+          </div>
+          <select class="form-control form-estim" formControlName="medio_pago">
+              <option value=1>EFECTIVO Y TARJETAS</option>
+              <option value=2>EFECTIVO</option>
+              <option value=3>EFECTIVO</option>
+          </select>
+        </div>
+    </div>
+    <!-- <a href="">Vista previa</a>     -->
+    <button class="btn btn-success btn-sm" type="submit">Guardar</button>
+    <button class="btn btn-dark btn-sm">Cancelar</button>
+  </form>
 
   <div class="row">
     <div class="col-md-12">
@@ -34,8 +82,6 @@
             <label for="domingo"> Domingo</label><br>
           </div>
         </div>
-
-
         <div class="div-item-form col-md-3">
           <div class="title">Horario</div>
           <div class="desc gris">
@@ -44,19 +90,16 @@
           <input type="Number" id="desde" class="form-control form-estim" style="font-size:1rem !important;">
           <span> a </span>
           <input type="Number" id="hasta" class="form-control form-estim" style="font-size:1rem !important;">
-          <span> hs.</span>
-          <br>
+          <span> hs.</span>          
           <input type="Number" id="desde2" class="form-control form-estim" style="font-size:1rem !important;">
           <span> a </span>
           <input type="Number" id="hasta2" class="form-control form-estim" style="font-size:1rem !important;">
           <span> hs.</span>
-        </div>
-        <br>
+        </div>        
 
         <button class="btn btn-success btn-sm" (click)="newHorario('',[], '', '', '', '', '')">Aceptar</button>
         <button class="btn btn-danger btn-sm" (click)="toggleHorarios()">Cancelar</button>
-      </div>
-      <br><br>
+      </div>      
       <div id="horarios">
         <div *ngFor="let horario of horarios" id="horario_{{horario.id}}">
           <span>{{horario.dias}} de {{horario.desde}} a {{horario.hasta}} hs.</span>
@@ -64,77 +107,6 @@
           <button class="btn btn-danger btn-sm" (click)="deleteHorario(horario)">X</button>
         </div>
       </div>
-      <br>
     </div>
   </div>
-
-  <form [formGroup]="form" (submit)="guardarDatos(form)">
-    <div class="row">
-      <div class="div-item-form col-md-3">
-        <div class="title">Categoría</div>
-        <select name="" id="" class="select-subcat form-control form-item" formControlName="subcategoria">
-            <option value={{cat.id}} class="opt-subcat" *ngFor="let cat of adminService.listaSubCategorias">{{cat.nombre_subcat}}</option>
-        </select>
-      </div>
-
-      <div class="div-item-form col-md-3">
-          <div class="title">Nombre</div>
-          <input type="text" class="input-form form-control form-item" value={{comercio.nombre}} formControlName="nombre" required>
-      </div>
-
-      <div class="div-item-form col-md-3">
-        <div class="title">Dirección</div>
-        <input type="text" class="input-form form-control form-item" value={{comercio.direccion}} formControlName="direccion" required>
-      </div>
-
-      <div class="div-item-form col-md-3">
-        <div class="title">Entrega estimada</div>
-        <input type="text" class="input-form form-control form-estim" value={{comercio.entrega}} formControlName="entrega" required>
-        <select name="" id="" class="select-subcat form-control form-estim" value={{comercio.medida_entrega}} formControlName="medida_entrega" >
-            <option class="opt-subcat">min</option>
-            <option class="opt-subcat">hs</option>
-            <option class="opt-subcat">días</option>
-        </select>
-      </div>
-
-      <div class="div-item-form col-md-5">
-        <div class="title">Descripción</div>
-        <textarea class="input-form form-control form-item" maxlength="300" value={{comercio.descripcion}} formControlName="descripcion" required></textarea>
-      </div>
-
-    </div>
-    <br><br>
-
-    <div class="row">
-        <div class="col-md-4">
-          <div class="title">Teléfono</div>
-          <div class="desc gris">
-            Ingrese un teléfono de contacto<br> para el comprador.
-          </div>
-          <input type="Number" id="telefono" class="form-control form-estim" formControlName="telefono" style="width:10rem;">
-          <br><br>
-        </div>
-
-
-        <div class="col-md-6">
-          <div class="title">Medios de pago</div>
-          <div class="desc gris">
-            Medios de pago habilitados<br> para su comercio.
-          </div>
-          <select class="form-control form-estim" formControlName="medio_pago">
-              <option value=1>Efectivo y tarjeta</option>
-              <option value=2>Tarjeta</option>
-          </select>
-        </div>
-      </div>
-
-
-    <a href="">Vista previa</a>
-    <br><br>
-    <button class="btn btn-success btn-sm" type="submit">Guardar</button>
-    <button class="btn btn-dark btn-sm">Cancelar</button>
-  </form>
-
-  <br><br><br>
-
 </div>

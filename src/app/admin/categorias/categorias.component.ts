@@ -10,9 +10,24 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 })
 export class CategoriasComponent implements OnInit {
 
+  nuevo:boolean=false;
+
   constructor(private adminService:AdminService, private fb: FormBuilder) { }
 
+  
+  showNuevo()
+  {
+    this.nuevo=true;
+    this.newCrop=false;
+  }
+
+  hideNuevo()
+  {
+    this.nuevo=false;
+  }
+
   categorias;
+
   new_cat={
     imagen: '',
     imagen_nombre: '',
@@ -48,12 +63,13 @@ export class CategoriasComponent implements OnInit {
     if (categoriaProd.imagen_nombre == '' || categoriaProd.imagen_nombre == null) {
       let currentDate = new Date();
       let fechaHora = currentDate.getDate()
-      + '-' + (currentDate.getMonth()+1)
-      + '-' + currentDate.getFullYear()
-      + '_' + currentDate.getHours()
-      + ":" + currentDate.getMinutes()
-      + ":" + currentDate.getSeconds();
+      + (currentDate.getMonth()+1)
+      + currentDate.getFullYear()
+      + currentDate.getHours()
+      + currentDate.getMinutes()
+      + currentDate.getSeconds();
       categoriaProd.imagen_nombre = comercio + '_' + fechaHora;
+      this.hideNuevo();
     }
 
     if (categoriaProd.imagen == '') {
