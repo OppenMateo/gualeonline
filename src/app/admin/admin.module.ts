@@ -13,10 +13,11 @@ import { ColorSketchModule } from 'ngx-color/sketch';
 import {MatMenuModule} from '@angular/material/menu';
 import { DisenioComponent } from './disenio/disenio.component';
 import { CategoriasComponent } from './categorias/categorias.component';
+import { ModalImgsProductoComponent } from './modal-imgs-producto/modal-imgs-producto.component';
 
 
 @NgModule({
-  declarations: [AdminIndexComponent, NavbarComponent, DatosLugarComponent, ProductosComponent, DisenioComponent, CategoriasComponent],
+  declarations: [AdminIndexComponent, NavbarComponent, DatosLugarComponent, ProductosComponent, DisenioComponent, CategoriasComponent, ModalImgsProductoComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -27,6 +28,9 @@ import { CategoriasComponent } from './categorias/categorias.component';
     NgxFileDropModule,
     ColorSketchModule,
     MatMenuModule
+  ],
+  entryComponents: [
+    ModalImgsProductoComponent
   ]
 })
 export class AdminModule { }

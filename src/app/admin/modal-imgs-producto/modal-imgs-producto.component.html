@@ -1,0 +1,30 @@
+<button class="btn btn-success btn-sm" *ngIf="!formNewImg" (click)="formNewImg = true">Nueva foto</button>
+<div class="new-img" *ngIf="formNewImg">
+
+  <input type="file" (change)="fileChangeEvent($event)" />
+  <image-cropper *ngIf="editando_crop" style="width: 200px; height: 200px;"
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+
+  <button class="btn btn-danger btn-sm" (click)="nuevaImagen()">Guardar</button>
+  <button class="btn btn-dark btn-sm" (click)="cancelarCrop()">Cancelar</button>
+</div>
+<div *ngIf="!formNewImg">
+  <div class="row" *ngFor="let img of imgs">
+    <div class="col-md-4">
+        <img [src]="ruta_imagenes + img.imagen" alt="">
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-success btn-sm">Editar</button>
+        <button class="btn btn-danger btn-sm" (click)="eliminarImagen(img)">Eliminar</button>
+    </div>
+    <br>
+  </div>
+</div>

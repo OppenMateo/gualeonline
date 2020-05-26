@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ModalImgsProductoComponent } from './modal-imgs-producto/modal-imgs-producto.component';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -21,11 +23,14 @@ export class AdminService {
   listaSubCategorias;
   listaSubcategoriasProductos;
   listaSubcategoriasProductosAdmin = [];
+  prod;
 
-  constructor(private http:HttpClient, private authService:AuthService)
+  constructor(private http:HttpClient, private authService:AuthService, public dialog: MatDialog)
   {
     this.authService.currentUser.subscribe(x=>this.currentUser = x);
   }
+
+
 
   //  COMERCIO //
 
@@ -89,6 +94,8 @@ export class AdminService {
     return this.http.get(`${API_URL}/api/getSubCategoriasComercios/`+id)
   }
 
+  //  PRODUCTOS //
+
   getSubProdComercio()
   {
     var id = this.currentUser.usuario.id_comercio;
@@ -100,5 +107,54 @@ export class AdminService {
     var id = this.currentUser.usuario.id_comercio;
     return this.http.get(`${API_URL}/api/getSubcategoriasProductosImgsComercio/`+id)
   }
+
+  guardarProducto(prod){
+    return this.http.post(`${API_URL}/api/guardarProducto`, prod);
+  }
+
+  editarProducto(prod){
+    return this.http.post(`${API_URL}/api/updateProducto`, prod);
+  }
+
+  eliminarProducto(id)
+  {
+    this.http.delete(`${API_URL}/api/borrarProducto`, id).subscribe(res=> {
+      this.http.delete(`${API_URL}/api/borrarImgsProducto`, id);
+    });
+  }
+
+    // IMAGENES PRODUCTOS //
+
+    openModalImgs(prod): void
+    {
+      this.prod = prod;
+
+      const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
+        height: 'fit-content',
+        width: 'fit-content',
+        panelClass: 'custom-modalbox'
+      });
+
+      dialogRef.afterClosed().subscribe(res=>
+        {
+        });
+
+    }
+
+    getImagenesProducto(id){
+      return this.http.get(`${API_URL}/api/getImagenesProducto/`+id)
+    }
+
+    nuevaImagen(imagen){
+      return this.http.post(`${API_URL}/api/guardarImagen`, imagen);
+    }
+
+    editarImagen(imagen){
+      return this.http.post(`${API_URL}/api/editarImagen`, imagen);
+    }
+
+    eliminarImagen(imagen){
+      return this.http.post(`${API_URL}/api/eliminarImagen`, imagen);
+    }
 
 }

@@ -16,33 +16,63 @@ export class ProductosComponent implements OnInit {
   listaRes;
   listaSubProd;
   formEdicion;
+  cat_selected="0";
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
+
+  prod_edit=10000;
+  buscar='';
+  agregarProducto=false;
+  new_producto = {
+    nombre: '',
+    descripcion: '',
+    precio: '',
+    subcategoria: '',
+    idComercio: 0
+  }
 
   constructor(private adminService:AdminService,private FormBuilder: FormBuilder) { }
 
   ngOnInit()
   {
+    this.adminService.getComercioSeleccionado().subscribe(res=>{
+      this.adminService.comercioSeleccionado = res[0];
+    });
     this.getProductosComercio();
-
+/*
     this.formEdicion = new FormGroup({
       'nombre': new FormControl('', [ Validators.required ]),
       'descripcion': new FormControl('', [ Validators.required ]),
       'precio': new FormControl('', [ Validators.required ]),
       'promocional': new FormControl('', [ Validators.required ])
     })
+    */
   }
-
+/*
   get nombre() { return this.formEdicion.get('nombre'); }
   get descripcion() { return this.formEdicion.get('descripcion'); }
   get precio() { return this.formEdicion.get('precio'); }
   get promocional() { return this.formEdicion.get('promocional'); }
+*/
+
+  openModalImgs(prod){
+    this.adminService.openModalImgs(prod);
+  }
+
+  filtrarXcat(id_subcat){
+    if (id_subcat == null) {
+      this.cat_selected;
+    }else{
+      this.cat_selected = id_subcat;
+    }
+  }
 
   getProductosComercio()
   {
     this.adminService.getSubProdImgsComercio().subscribe(
       res=>{
+        console.log('getsubprodimgscomercio:')
         console.log(res);
         this.listaRes = res;
         this.agruparProdSubcat();
@@ -66,6 +96,7 @@ export class ProductosComponent implements OnInit {
         {
           listaImgs = [
           {
+            nombre: item.imagen,
             image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
             thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
           }];
@@ -102,6 +133,7 @@ export class ProductosComponent implements OnInit {
           {
             listaImgs = [
               {
+                nombre: item.imagen,
                 image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
                 thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
               }];
@@ -136,6 +168,7 @@ export class ProductosComponent implements OnInit {
           if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.imagen == item.imagen).length==0)
           {
             var img = {
+              nombre: item.imagen,
               image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
               thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
             };
@@ -146,12 +179,63 @@ export class ProductosComponent implements OnInit {
       }
     });
 
+    console.log("listaSubProd:");
     console.log(this.listaSubProd);
   }
 
-  modificarProducto(form)
-  {
+  guardarProducto(){
+    this.new_producto.idComercio = this.adminService.comercioSeleccionado.id;
+    this.adminService.guardarProducto(this.new_producto).subscribe(res=>{
+      this.new_producto = {
+        nombre: '',
+        descripcion: '',
+        precio: '',
+        subcategoria: '',
+        idComercio: 0
+      }
+      this.agregarProducto = false;
+    });
+  }
 
+  editProducto(prod, i){
+    this.prod_edit = i;
+  }
+
+  modifProducto(prod,subcat_id, i){
+
+    let nombre_html = document.getElementById('nombre_'+i) as HTMLInputElement;
+    let desc_html = document.getElementById('desc_'+i) as HTMLInputElement;
+    let precio_html = document.getElementById('precio_'+i) as HTMLInputElement;
+    let nombre_value = nombre_html.value;
+    let desc_value = desc_html.value;
+    let precio_value = precio_html.value;
+
+    let producto = {
+      id: prod.id_prod,
+      nombre: nombre_value,
+      descripcion: desc_value,
+      precio: precio_value,
+      idComercio: this.adminService.comercioSeleccionado.id,
+      subcategoria: subcat_id
+    }
+/*
+    const formData: FormData = new FormData();
+    formData.append("id", prod.id_prod);
+    formData.append("nombre", nombre_value);
+    formData.append("descripcion", desc_value);
+    formData.append("precio", precio_value);
+    formData.append("idComercio", this.adminService.comercioSeleccionado.id);
+    formData.append("subcategoria", subcat_id);
+*/
+    this.adminService.editarProducto(producto).subscribe(res=>{
+
+    });
+  }
+
+  eliminarProducto(prod){
+    if (confirm("¿Eliminar este producto?")) {
+      this.adminService.eliminarProducto(prod.id_prod);
+    }
   }
 
   // FUNCIONES DRAG & DROP //
@@ -209,12 +293,10 @@ export class ProductosComponent implements OnInit {
     // FUNCIONES CROPPER //
 
     fileChangeEvent(event: any): void {
-      debugger;
         this.imageChangedEvent = event;
     }
 
     imageCropped(event: ImageCroppedEvent) {
-      debugger;
         this.croppedImage = event.base64;
     }
     imageLoaded() {
@@ -227,10 +309,6 @@ export class ProductosComponent implements OnInit {
         // show message
     }
 
-    aceptarImg(prod, elem)
-    {
-      debugger;
-    }
 
     handleChange($event: ColorEvent) {
       console.log($event.color);
