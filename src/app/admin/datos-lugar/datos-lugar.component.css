@@ -5,40 +5,22 @@
   border-bottom: solid 2px;
 }
 
-/* .gris {
-  color: rgb(140, 140, 140);
-} */
-
-/* .lineadivisora {
-  width: 100%;
-  height: 1px;
-  background-color: #696969;
-  margin: 0 auto;
-} */
-
-.titulo-item {
+.titulo-item
+{
   font-family: opensans-reg;
   font-size: 1.5rem;
-  margin: .5rem auto;
+  /* margin: .5rem auto; */
 }
-
-/* .desc {
-  font-size: 0.8rem;
-  margin: 0.5rem;
-} */
-
-/* .subirFoto {
-  font-size: 0.9rem;
-  margin: 0.5rem;
-} */
-
-/* .btnEliminar {
-  text-decoration: underline;
-} */
 
 .div-item
 {
-  padding: 1.5rem 0;
+  padding : 1rem 0;
+}
+
+.div-sub-item
+{
+  padding-bottom: .3rem;
+  font-size: .7rem;
 }
 
 .form-item {
@@ -47,16 +29,21 @@
   width: 90%;
 }
 
-.form-estim {
-  border-radius: 10px;
-  font-size: 0.8rem;
-  width: 30%;
-  display: inline;
+.form-select
+{
+  border-radius: 5px;  
+  max-width: 45%;  
 }
 
 textarea {
   height: calc(1.5em + .75rem + 2px);
   resize: none;
+}
+
+.div-dia
+{
+  margin: 0 1rem;
+  width: 15vh;
 }
 
 .imgSelect {
