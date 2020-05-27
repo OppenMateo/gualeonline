@@ -6,86 +6,104 @@
     Seleccione el diseño que quiere para la página de su comercio.
   </div>
 
-  <div class="div-cont-templates flex">
-    <div class="div-template">
-      <div class="div-over-templates">
+  <div class="div-cont-templates row">
+    <div class="div-template col-md-5 col-xs-12 no-pad-h">
+      <!-- <div class="div-over-templates">
         <div class="div-btns-temp">
-          <button class="btn-template bold br-10" (click)="design = 1">Elegí este diseño</button>
-          <button class="btn-template bold br-10" (click)="design = 1">Vista Previa</button>
+          <button class="btn-template br-10" (click)="design = 1">Elegir diseño</button>
+          <button class="btn-template br-10" (click)="design = 1">Ver Diseño</button>
+        </div>
+      </div> -->
+      <div class="div-cont-imgs rel">
+        <div class="div-img-template">
+          <img src="../../../assets/imgs/templates/Template_Web_Diseño1.png" alt="" class="img-template imagen">
+        </div>
+        <div class="div-img-template-mob abs">
+          <img src="../../../assets/imgs/templates/Template_mobile_Diseño1.png" alt="" class="img-template imagen">
         </div>
       </div>
-      <div class="div-img-template">
-        <img src="../../../assets/imgs/comercios/ImagenTemplate_1.png" alt="" class="img-template">
+      <div class="div-btns-temp">
+        <button class="btn-template br-10" (click)="design = 1">Elegir diseño</button>
+        <button class="btn-template br-10" (click)="design = 1">Ver Diseño</button>
       </div>
     </div>
-    <div class="div-template">
-      <div class="div-over-templates">
+    <div class="div-template col-md-5 col-xs-12 no-pad-h">
+      <!-- <div class="div-over-templates">
         <div class="div-btns-temp">
-          <button class="btn-template bold br-10" (click)="design = 2">Elegí este diseño</button>
-          <button class="btn-template bold br-10" (click)="design = 2">Vista Previa</button>
+          <button class="btn-template br-10" (click)="design = 2">Elegir diseño</button>
+          <button class="btn-template br-10" (click)="design = 2">Ver Diseño</button>
+        </div>
+      </div> -->
+      <div class="div-cont-imgs rel">
+        <div class="div-img-template">
+          <img src="../../../assets/imgs/templates/Template_Web_Diseño2.png" alt="" class="img-template imagen">
+        </div>
+        <div class="div-img-template-mob abs">
+          <img src="../../../assets/imgs/templates/Template_mobile_Diseño2.png" alt="" class="img-template imagen">
         </div>
       </div>
-      <div class="div-img-template">
-        <img src="../../../assets/imgs/comercios/ImagenTemplate_2.png" alt="" class="img-template">
+      <div class="div-btns-temp">
+        <button class="btn-template br-10" (click)="design = 2">Elegir diseño</button>
+        <button class="btn-template br-10" (click)="design = 2">Ver Diseño</button>
       </div>
     </div>
   </div>
 
-  <div class="design_1" *ngIf="design == 1">
+  <div class="design_1 m-b-3 br-admin" *ngIf="design == 1">
     <h4 style="font-size: 6rem;">diseño uno jajjaj</h4>
   </div>
 
-  <div class="design_2" *ngIf="design == 2">
-    <div class="titulo-top-admin br-admin">Portada</div>
-    <div class="desc-admin">
-      Selecciona una predeterminada o carga tu propia portada.
-    </div>
-
-
-    <div class="row">
-      <div class="col-md-8 no-pad-h rel">
-        <div class="div-img-load-cropper" *ngIf="imgURL==''">
-          <image-cropper style="width: 100%; height: 315px;" *ngIf="imageChangedEvent!='' && this.cropping==true"
-              [imageChangedEvent]="imageChangedEvent"
-              [maintainAspectRatio]="false"
-              [resizeToHeight]=314
-              [aspectRatio]="4 / 3"
-              format="png"
-              (imageCropped)="imageCropped($event)"
-              (imageLoaded)="imageLoaded()"
-              (cropperReady)="cropperReady()"
-              (loadImageFailed)="loadImageFailed()"
-          ></image-cropper>
-
-          <img class="imagen" [src]="croppedImage" *ngIf="imageChangedEvent!='' && !cropping" />
-
-          <div class="load-imagen br-10" *ngIf="imageChangedEvent==''">
-            <input type="file" class="input-file" (change)="fileChangeEvent($event)"/>
-            <div class="cont-load-imagen m-auto">
-              <div class="icon-camera"><i class="fa fa-camera"></i></div>
-              <div class="div-subir-img">+ Cargar foto</div>
-            </div>
-          </div>
-          <button class="btn-ok-admin" (click)="aceptarCropper()">Aceptar</button>
-          <button class="btn-cancel-admin" (click)="cancelarCropper()">Cancelar</button>
-        </div>
-        <div class="div-img-port-temp" *ngIf="imgURL!='' && !cropping">
-          <img class="imagen portada" [src]="imgURL">
-          <button class="btn-ok-admin" (click)="mostrarLoadImg()">Cargar Imagen</button>
-        </div>
+  <div class="design_2 m-b-3 br-admin" *ngIf="design == 2">
+    <div class="div-portada m-b-3">
+      <div class="titulo-top-admin br-admin">Portada</div>
+      <div class="desc-admin">
+        Selecciona una predeterminada o carga tu propia portada.
       </div>
-      <div class="col-md-4">
-        <div>
-            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_1.jpg">
-            <input type="radio" class="radioImg" name="portada" value="template_sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+      <div class="row">
+        <div class="col-md-8 no-pad-h rel">
+          <div class="div-img-load-cropper" *ngIf="imgURL==''">
+            <image-cropper style="width: 100%; height: 315px;" *ngIf="imageChangedEvent!='' && this.cropping==true"
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="false"
+                [resizeToHeight]=314
+                [aspectRatio]="4 / 3"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+  
+            <img class="imagen" [src]="croppedImage" *ngIf="imageChangedEvent!='' && !cropping" />
+  
+            <div class="load-imagen br-10" *ngIf="imageChangedEvent==''">
+              <input type="file" class="input-file" (change)="fileChangeEvent($event)"/>
+              <div class="cont-load-imagen m-auto">
+                <div class="icon-camera"><i class="fa fa-camera"></i></div>
+                <div class="div-subir-img">+ Cargar foto</div>
+              </div>
+            </div>
+            <button class="btn-ok-admin" (click)="aceptarCropper()">Aceptar</button>
+            <button class="btn-cancel-admin" (click)="cancelarCropper()">Cancelar</button>
+          </div>
+          <div class="div-img-port-temp" *ngIf="imgURL!='' && !cropping">
+            <img class="imagen portada" [src]="imgURL">
+            <button class="btn-sub-img bold" (click)="mostrarLoadImg()">+ Subir Foto</button>
+          </div>
         </div>
-        <div>
-          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_2.jpg">
-          <input type="radio" class="radioImg" name="portada" value="template_sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
-        </div>
-        <div>
-          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_3.jpg">
-          <input type="radio" class="radioImg" name="portada" value="template_sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+        <div class="col-md-4">
+          <div>
+              <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_1.jpg">
+              <input type="radio" class="radioImg" name="portada" value="template_sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          </div>
+          <div>
+            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_2.jpg">
+            <input type="radio" class="radioImg" name="portada" value="template_sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          </div>
+          <div>
+            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_3.jpg">
+            <input type="radio" class="radioImg" name="portada" value="template_sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          </div>
         </div>
       </div>
     </div>
@@ -93,8 +111,8 @@
   <!-- <div (mouseover)="hover=true" (mouseleave)="hover=false">
     <button class="btnDiseño" (click)="design = 1" >
       <img src="../../../assets/imgs/comercios/ImagenTemplate_1.png" alt="" class="opcion-design" [ngStyle]="{opacity: hover==true  ? '1' : '0.75' }">
-      <button class="btnOpcion" *ngIf="hover">Elegí este diseño</button>
-      <button class="btnOpcion" *ngIf="hover">Vista previa</button>
+      <button class="btnOpcion" *ngIf="hover">Elegir diseño</button>
+      <button class="btnOpcion" *ngIf="hover">Ver Diseño</button>
     </button>
   </div>
   <div (mouseover)="hover2=true" (mouseleave)="hover2=false">
@@ -103,41 +121,38 @@
       </button>
   </div> -->
 
-    <!-- <div class="row">
-      <div class="col-md-8">
-        <img class="imagen portada" [src]="imgURL" *ngIf="imgURL">
+  <!-- <div class="row">
+    <div class="col-md-8">
+      <img class="imagen portada" [src]="imgURL" *ngIf="imgURL">
+    </div>
+    <div class="col-md-4">
+      <div>
+          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_1.jpg">
+          <input type="radio" class="radioImg" name="portada" value="template_sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
       </div>
-      <div class="col-md-4">
-        <div>
-            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_1.jpg">
-            <input type="radio" class="radioImg" name="portada" value="template_sushi_1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
-        </div>
-        <div>
-          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_2.jpg">
-          <input type="radio" class="radioImg" name="portada" value="template_sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
-        </div>
-        <div>
-          <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_3.jpg">
-          <input type="radio" class="radioImg" name="portada" value="template_sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
-        </div>
+      <div>
+        <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_2.jpg">
+        <input type="radio" class="radioImg" name="portada" value="template_sushi_2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
       </div>
-    </div> -->
-    <!-- <div class="div-input" style="font-size: 1rem;">
-        <div class="div-file">
-            <input #file type="file" class="input-file" accept='image/*' (change)="preview(file.files)" />
-            <label for="fileDropRef" class="label-file">
-                <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i>
-                Subir foto
-            </label>
-        </div>
-    </div> -->
+      <div>
+        <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/template_sushi_3.jpg">
+        <input type="radio" class="radioImg" name="portada" value="template_sushi_3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+      </div>
+    </div>
+  </div> -->
+  <!-- <div class="div-input" style="font-size: 1rem;">
+      <div class="div-file">
+          <input #file type="file" class="input-file" accept='image/*' (change)="preview(file.files)" />
+          <label for="fileDropRef" class="label-file">
+              <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i>
+              Subir foto
+          </label>
+      </div>
+  </div> -->
+  <!-- <button (click)="aceptarImg(item, prod)">Aceptar</button> -->
 
-
-
-    <!-- <button (click)="aceptarImg(item, prod)">Aceptar</button> -->
-
-    <div class="title">Logo</div>
-    <div class="desc gris">Logo que aparecerá en la<br> página de su comercio.</div>
+    <div class="titulo-top-admin br-admin">Logo</div>    
+    <div class="desc-admin gris">Logo que aparecerá en la página de su comercio.</div>
 
     <img [src]="imgLogoURL" *ngIf="imgLogoURL !==''" class="logo">
 
@@ -145,14 +160,22 @@
         <div class="div-file">
             <input #file2 type="file" class="input-file" accept='image/*' (change)="uploadLogo(file2.files)" />
             <label for="fileDropRef" class="label-file">
-                <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i>
-                Subir foto
+                <!-- <i class="fa fa-paperclip" style="padding: 0px 8px 0px 0px !important;"></i> -->
+                <div class="div-icon-label">
+                  <img src="../../../assets/imgs/icons/Cámara_Gris.png" alt="" class="icon-cam">
+                  <div class="label-subir-foto">
+                    + Subir foto
+                  </div>
+                </div>
             </label>
         </div>
     </div>
     <br>
   </div>
 
-  <button class="btn btn-success btn-sm" *ngIf="this.design != 0" (click)="guardarImagenes()" style="display:block; margin: 2rem;">Guardar cambios</button>
+  <div class="div-btn-okcancel-admin spc-btw flex m-b-3">
+    <button class="btn-ok-admin br-10" *ngIf="this.design != 0" (click)="guardarImagenes()">Guardar</button>
+    <button class="btn-cancel-admin br-10" *ngIf="this.design != 0" (click)="Cancelar()">Cancelar</button>
+  </div>
 
 </div>

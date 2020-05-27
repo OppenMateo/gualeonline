@@ -1,12 +1,23 @@
 .div-cont-templates
 {
-  margin-bottom: 2rem;
+  margin-bottom: 4rem !important;
 }
 
 .div-template 
 {
   position: relative;
-  margin-right: 2rem;
+  /* margin-right: 150px; */
+}
+
+/* .div-img-template
+{
+  width: calc(100% + 65px);
+} */
+
+.div-img-template-mob
+{
+  top: 92px;
+  right: -53px;
 }
 
 .div-over-templates:hover
@@ -23,18 +34,27 @@
   height: 100%;
   background: rgb(35,35,35, .8);  
   border-radius: 18px;
-  opacity: 0;
+  /* opacity: 0; */
+}
+
+.div-cont-imgs
+{
+  width: 80%;
 }
 
 .div-btns-temp
+{  
+  display: flex; 
+  justify-content: space-around;  
+  width: 80%;
+}
+
+.btn-template
 {
-  width: 75%;
-  margin: auto;    
-  height: 100%;
-  display: flex;
-  flex-direction: column;    
-  justify-content: space-around;
-  padding: 4%;
+  color: white;
+  background-color: var(--gris-oscuro);  
+  padding: 7px 10px;
+  width: 45%;
 }
 
 .load-imagen
@@ -76,6 +96,31 @@
 .subirFoto {
   font-size: 0.9rem;
   margin: 0.5rem;
+}
+
+.div-icon-label
+{
+  border: dashed 2px var(--gris);
+  padding: 50px;
+  text-align: center;
+}
+
+.icon-cam
+{
+  width: 50px;
+}
+
+.label-subir-foto
+{
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--gris);
+}
+
+.btn-sub-img
+{
+  color: var(--black);
+  font-size: 1.3rem !important;
 }
 
 .portada {

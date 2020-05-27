@@ -11,7 +11,7 @@ const routes: Routes =
 [
   {path: '', component: AdminIndexComponent, children:
   [
-    {path: '',redirectTo:'/diseño', pathMatch:'full', component: DatosLugarComponent},
+    {path: '',redirectTo:'diseño', pathMatch:'full', component: DatosLugarComponent},
     {path: 'comercio', component: DatosLugarComponent},
     {path: 'Productos', component: ProductosComponent},
     {path: 'diseño', component: DisenioComponent},

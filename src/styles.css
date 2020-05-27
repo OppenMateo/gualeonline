@@ -53,7 +53,9 @@ body
     font-family: opensans-reg;
    --gris-claro: #f7f7f7;
    --gris:  #9d9d9d;
-   --black: #222222;
+   --gris-oscuro: #878787;
+   --black: #333333;
+   --naranja:#ff6700;
 }
 
 *:active
@@ -102,6 +104,11 @@ input { font-size: inherit }
 .m-h-auto {margin: 0 auto;}
 
 .m-v-auto {margin: auto 0;}
+
+.m-b-3
+{
+    margin-bottom: 3rem;
+}
 
 .flex {display: flex;}
 
@@ -187,11 +194,11 @@ input { font-size: inherit }
 
 .label-file
 {
-    width: auto;
+    /* width: auto;
     height: auto;
     border-radius: 4px;
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 500; */
     cursor: pointer;
 }
 
@@ -210,13 +217,23 @@ input { font-size: inherit }
 }
 
 .btn-ok-admin
-{
-
+{    
+    background: var(--gris-oscuro);
+    color: white;
+    padding: 5px;
+    height: fit-content;
+    font-size: 2rem !important;
+    width: 20%;
 }
 
 .btn-cancel-admin
 {
-
+    border:solid 1px var(--gris-oscuro);
+    color:  var(--gris-oscuro);
+    padding: 5px;
+    height: fit-content;
+    font-size: 2rem !important;
+    width: 20%;
 }
 
 .br-admin   
