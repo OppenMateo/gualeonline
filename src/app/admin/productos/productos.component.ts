@@ -84,7 +84,7 @@ export class ProductosComponent implements OnInit {
 
   agruparProdSubcat()
   {
-    this.listaSubProd = [];    
+    this.listaSubProd = [];
     var subcatProd;
 
     this.listaRes.forEach(item =>
@@ -108,7 +108,7 @@ export class ProductosComponent implements OnInit {
         {
           listaImgs = [];
         }
-        
+
         if(item.color != null)
         {
           listaColores = [{color:item.color}];
@@ -203,6 +203,20 @@ export class ProductosComponent implements OnInit {
     console.log(this.listaSubProd);
   }
 
+  cancelarNewProducto(){
+    this.agregarProducto = false;
+    this.new_producto.nombre = '';
+    this.new_producto.descripcion = '';
+    this.new_producto.precio = '';
+    this.new_producto.subcategoria = '';
+    this.colores = [];
+    this.adminService.eliminarImgsProducto(0).subscribe();
+  }
+
+  probando(i){
+    this.colores.splice(i,1);
+  }
+
   guardarProducto(){
     this.new_producto.idComercio = this.adminService.comercioSeleccionado[0].id;
     this.adminService.guardarProducto(this.new_producto).subscribe(res=>{
@@ -214,7 +228,6 @@ export class ProductosComponent implements OnInit {
         idComercio: 0
       }
       this.colores.forEach(element => {
-        console.log("ENTRA FORICH");
         element.id_producto = res;
         this.adminService.guardarColores(element).subscribe();
       });
@@ -340,6 +353,7 @@ export class ProductosComponent implements OnInit {
     handleChangeComplete($event: ColorEvent) {
       console.log($event.color);
       this.newColor.color = $event.color.hex;
+      this.pushColor();
     }
 
     pushColor(){
@@ -350,7 +364,4 @@ export class ProductosComponent implements OnInit {
       }
     }
 
-    guardarColores(){
-
-    }
 }

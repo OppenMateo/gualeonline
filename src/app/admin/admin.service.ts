@@ -118,16 +118,25 @@ export class AdminService {
 
   eliminarProducto(id)
   {
-   // this.http.delete(`${API_URL}/api/borrarProducto`, id).subscribe(res=> {
-      return this.http.get(`${API_URL}/api/borrarImgsProducto/`+id);
-   // });
+    return this.http.delete(`${API_URL}/api/borrarProducto/`+id);
+  }
+
+  eliminarImgsProducto(id){
+    return this.http.delete(`${API_URL}/api/borrarImgsProducto/`+id);
   }
 
     // IMAGENES PRODUCTOS //
 
     openModalImgs(prod): void
     {
-      this.prod = prod;
+      if (prod == 0) {
+        this.prod = {
+          id_prod: 0
+        }
+      }else{
+        this.prod = prod;
+      }
+
 
       const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
         height: 'fit-content',

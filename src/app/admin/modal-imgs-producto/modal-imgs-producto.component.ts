@@ -29,7 +29,10 @@ export class ModalImgsProductoComponent implements OnInit {
   constructor(private adminService:AdminService) { }
 
   ngOnInit(): void {
-    this.imagen_croppeada.id_producto = this.adminService.prod.id_prod;
+    if (this.adminService.prod !== 0) {
+      this.imagen_croppeada.id_producto = this.adminService.prod.id_prod;
+    }
+
     this.adminService.getComercioSeleccionado().subscribe(res=> {
       this.imagen_croppeada.id_comercio = res[0].id;
       this.getImagenes();
@@ -44,7 +47,6 @@ export class ModalImgsProductoComponent implements OnInit {
 
   nuevaImagen(){
     this.editando_crop = false;
-    //this.imagen_croppeada.nombre = this.imagen_croppeada.id_comercio + "_" + this.imagen_croppeada.id_producto + "_" + this.imageChangedEvent.target.files[0].name;
     let currentDate = new Date();
       let fechaHora = currentDate.getDate().toString()
       + (currentDate.getMonth()+1).toString()
