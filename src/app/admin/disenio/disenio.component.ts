@@ -99,6 +99,11 @@ export class DisenioComponent implements OnInit {
     }
   }
 
+  cancelar()
+  {
+    //limpiar campos form
+  }
+  
   mostrarTemplate(temp)
   {
 
