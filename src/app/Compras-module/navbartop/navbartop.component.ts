@@ -19,6 +19,14 @@ export class NavbartopComponent implements OnInit {
   ngOnInit() {
   }
 
+  openNav() {
+    document.getElementById("mySidenav").style.width = "300px";
+  }
+
+  closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
   openModalRegister()
   {
     this.authService.openModalRegister();

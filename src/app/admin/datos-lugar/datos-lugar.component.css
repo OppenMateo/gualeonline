@@ -1,55 +1,96 @@
-.title-lugar {
-  font-size: 1.4rem;
-  font-family: RalewayBold;
-  margin: 0.5rem;
+.div-titulo {
+  font-size: 2rem;
+  font-family: opensans-semibold;
+  margin: 1rem auto;
+  border-bottom: solid 2px;
 }
 
-.gris {
-  color: rgb(140, 140, 140);
+.div-datos
+{
+  padding: 1rem 0;
 }
 
-.lineadivisora {
-  width: 100%;
-  height: 1px;
-  background-color: #696969;
-  margin: 0 auto;
+.titulo-item
+{
+  font-family: opensans-reg;
+  font-size: 1.5rem;
+  margin: .5rem auto;
 }
 
-.title {
-  font-size: 1.1rem;
-  margin: 0.5rem;
+.div-item
+{
+  padding : 1rem 0;
+  /* border-bottom: solid 1px var(--gris); */
 }
 
-.desc {
-  font-size: 0.8rem;
-  margin: 0.5rem;
-}
-
-.subirFoto {
-  font-size: 0.9rem;
-  margin: 0.5rem;
-}
-
-.btnEliminar {
-  text-decoration: underline;
+.div-sub-item
+{
+  padding-bottom: .3rem;
+  font-size: .7rem;
 }
 
 .form-item {
-  border-radius: 10px;
-  font-size: 0.8rem;
+  border-radius: 5px;  
   width: 90%;
 }
 
-.form-estim {
-  border-radius: 10px;
-  font-size: 0.8rem;
-  width: 30%;
-  display: inline;
+.form-select
+{
+  border-radius: 5px;  
+  max-width: 30%;
+  margin-right: .5rem;  
 }
 
 textarea {
+  height: calc(1.5em + .75rem + 2px);
   resize: none;
-  width: 115% !important;
+}
+
+.btn-horario
+{
+  margin: .5rem 0;
+  background-color: var(--gris-claro);
+  font-size: 1.2rem !important;
+  font-family: opensans-semibold;
+}
+
+.div-dia
+{
+  margin-right: 1rem;
+  width: 15vh;
+}
+
+.input-dia
+{
+  margin-right: 5px;
+}
+
+.div-horas
+{
+  margin-bottom: 1rem;
+}
+
+.form-hora
+{
+  max-width: 15% ;
+}
+
+.btn-hora
+{
+  padding: .5rem;
+  margin: .5rem .5rem;
+  background-color: var(--gris-claro);
+  font-size: .8rem !important;
+  font-family: opensans-semibold;
+  border-radius: 5px;
+}
+
+.btn
+{
+  margin: 1.5rem 1.5rem;
+  background-color: var(--gris-claro);
+  font-size: 2rem !important;
+  font-family: opensans-semibold;
 }
 
 .imgSelect {

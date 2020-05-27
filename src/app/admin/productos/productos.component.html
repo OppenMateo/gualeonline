@@ -1,113 +1,152 @@
 <div class="div-container">
-    <div class="titulo-top-admin br-admin">Productos</div>    
-    <div class="div-buscar br-10 border-solid flex">
-        <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow">
-        <button class="btn-black-admin">Buscar</button>
+  <div class="titulo-top-admin br-admin">Productos</div>
+  <div class="div-buscar br-10 border-solid flex">
+    <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow" [(ngModel)]="buscar">
+    <button class="btn-black-admin">Buscar</button>
+  </div>
+  <div class="div-filtros flex spc-btw">
+    <div class="div-filtro-categoria">
+      <div class="titulo-input-admin">Seleccione Categoría</div>
+      <select name="" id="" class="select-admin" (change)="filtrarXcat($event.target.value)">
+        <option value="0">Todas</option>
+        <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
+      </select>
     </div>
-    <div class="div-filtros flex spc-btw">
-        <div class="div-filtro-categoria">
-            <div class="titulo-input-admin">Seleccione Categoría</div>
-            <select name="" id="" class="select-admin">
-                <option value=null>Todas</option>                
-                <option *ngFor="let item of listaSubProd" value={{item.subcat.id}}>{{item.subcat.nombre}}</option>                
-            </select>
+    <!-- <div class="div-filtro-acciones">
+        <div class="titulo-input-admin">Acciones</div>
+        <select class="select-admin">
+            <option value="">Ver Productos</option>
+            <option value="">Eliminar</option>
+            <option value="">Mostrar en la tienda</option>
+            <option value="">Ocultar en la tienda</option>
+        </select>
+    </div> -->
+  </div>
+
+
+  <div class="nuevoProducto">
+    <button class="btn btn-primary" (click)="agregarProducto = true" *ngIf="!agregarProducto">Añadir nuevo producto</button>
+    <div class="formNewProducto" *ngIf="agregarProducto">
+      <div class="div-nombre-descripcion col-md-5">
+          <input type="text" placeholder="Nombre" class="dato-prod" [(ngModel)]="new_producto.nombre">
+          <textarea placeholder="Descripción" class="dato-prod" [(ngModel)]="new_producto.descripcion"></textarea>
+      </div>
+      <input type="text" placeholder="Precio" class="dato-prod" [(ngModel)]="new_producto.precio">
+      <br>
+      <div class="titulo-input-admin">Categoría</div>
+      <!-- <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
+        <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
+      </select> -->
+      <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
+        <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
+      </select>
+      <br>
+
+      <!-- <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch> -->
+      <div class="div-menu grow">
+          <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+      </div>
+      <mat-menu #color>
+          <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+      </mat-menu>
+      <br>
+      <div *ngFor="let color of colores; index as i">
+        <span [ngStyle]="{'color': color.color, 'background': color.color}"><b>C{{i+1}}</b></span>
+      </div>
+      <button class="btn btn-primary" (click)="pushColor()" *ngIf="newColor.color !== ''">Guardar color</button>
+      <br>
+      <button class="btn btn-success" (click)="guardarProducto()">Guardar</button>
+      <button class="btn btn-danger" (click)="agregarProducto = false">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="div-productos">
+    <div class="producto" *ngFor="let item of listaSubProd">
+      <div class="div-lista-subprod" *ngIf="cat_selected == '0' || cat_selected == item.subcat.id_subcat">
+        <div class="titulo-input-admin">{{item.subcat.nombre}}</div>
+        <div class="div-titulos-form row">
+          <div class="titulo-form txt-center col-md-1 no-pad-h"></div>
+          <div class="titulo-form col-md-4 no-pad-h">Fotos</div>
+          <div class="col-md-7 no-pad-h row">
+            <div class="titulo-form col-md-5">Nombre y descripción</div>
+            <div class="titulo-form col-md-2">Precio</div>
+            <div class="titulo-form col-md-2">Promocional</div>
+            <div class="titulo-form col-md-2">Opciones</div>
+            <!-- <div class="titulo-form col-md-3">Opciónes</div> -->
+          </div>
         </div>
-        <div class="div-filtro-acciones">
-            <div class="titulo-input-admin">Acciones</div>
-            <select class="select-admin">
-                <option value="">Ver Productos</option>
-                <option value="">Eliminar</option>
-                <option value="">Mostrar en la tienda</option>
-                <option value="">Ocultar en la tienda</option>                
-            </select>
+        <div class="div-lista-prod row" *ngFor="let prod of item.prod; index as i">
+          <div class="titulo-form div-check col-md-1 no-pad-h">
+              <input type="checkbox" id="cbox2" value="">
+          </div>
+          <div class="div-fotos col-md-2 no-pad-h">
+            <ng-image-slider [images]="prod.imgs" style="position: absolute;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100%;
+            height: 100%;
+            max-height: 100px;" #nav></ng-image-slider>
+            <button class="btn btn-dark btn-sm" (click)="openModalImgs(prod)" style="position:absolute; bottom:0%">Imagenes</button>
+
+            <!-- <ngx-file-drop dropZoneLabel="Drop files here" (change)="fileChangeEvent($event)"  (onFileDrop)="dropped($event)" style="position:absolute; bottom: 0; width: 100%;"
+            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                  <button type="button" (click)="openFileSelector()">Arrastre o Seleccione <br> una nueva imagen</button>
+                </ng-template>
+            </ngx-file-drop> -->
+          </div>
+
+          <!-- <div class="col-md-2">
+            <input type="file" (change)="fileChangeEvent($event)" *ngIf="prod_edit == i" />
+
+            <image-cropper style="width: 200px; height: 200px;"
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 3"
+              format="png"
+              (imageCropped)="imageCropped($event)"
+              (imageLoaded)="imageLoaded()"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+          </div> -->
+
+          <div class="form-edicion col-md-7 row no-pad-h">
+            <form class="row col-12 no-pad-h">
+              <div class="div-nombre-descripcion col-md-5">
+                <input type="text" id="nombre_{{i}}" class="dato-prod" value={{prod.nombre}} placeholder={{prod.nombre}} [disabled]="prod_edit != i">
+                <textarea id="desc_{{i}}" class="dato-prod" style="resize: none;" [disabled]="prod_edit != i">{{prod.descripcion}}</textarea>
+              </div>
+              <div class="div-input-prod col-md-2">
+                <input type="text" id="precio_{{i}}" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
+                <select class="select-admin" *ngIf="prod_edit == i">
+                  <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
+                </select>
+              </div>
+              <div class="div-input-prod col-md-2">
+                <input type="text" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
+              </div>
+              <div class="div-input-prod col-md-2">
+                <button class="btn btn-primary btn-sm" *ngIf="prod_edit == 10000" (click)="editProducto(prod,i)">Editar</button>
+                <button class="btn btn-danger btn-sm" *ngIf="prod_edit == 10000" (click)="eliminarProducto(prod)">Eliminar</button>
+                <button class="btn btn-primary btn-sm" *ngIf="prod_edit == i" (click)="modifProducto(prod,item.subcat.id_subcat, i)">Aceptar</button>
+                <button class="btn btn-danger btn-sm" *ngIf="prod_edit == i" (click)="prod_edit = 10000">Cancelar</button>
+              </div>
+              <!-- <div class="div-opciones-avanzadas col-md-3">
+                  <div class="div-opcion col-12">
+                      <div class="div-menu grow">
+                          <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+                      </div>
+                      <mat-menu [id]="'color'+prod.item.prod_id">
+                          <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch>
+                      </mat-menu>
+                  </div><div class="div-opcion col-12">Talle</div>
+                  <div class="div-opcion col-12">Material</div>
+              </div>           -->
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-    <!-- <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>    
-    <div class="div-menu grow">
-        <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
-    </div>
-    <mat-menu id="color">        
-        <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-    </mat-menu> -->
-
-    
-
-    <div class="div-productos">
-        <div class="div-lista-subprod" *ngFor="let item of listaSubProd">
-            <div class="titulo-input-admin">{{item.subcat.nombre}}</div>
-            <div class="div-titulos-form row">
-                <div class="titulo-form txt-center col-md-1 no-pad-h"></div>
-                <div class="titulo-form col-md-4 no-pad-h">Fotos</div>
-                <div class="col-md-7 no-pad-h row">
-                    <div class="titulo-form col-md-5">Nombre y descripción</div>
-                    <div class="titulo-form col-md-2">Precio</div>
-                    <div class="titulo-form col-md-2">Promocional</div>
-                    <!-- <div class="titulo-form col-md-3">Opciónes</div> -->
-                </div>
-            </div>
-            <div class="div-lista-prod row" *ngFor="let prod of item.prod">
-                <div class="titulo-form div-check col-md-1 no-pad-h">
-                    <input type="checkbox" id="cbox2" value="">                    
-                </div>
-                <div class="div-fotos col-md-2 no-pad-h">
-                    <ng-image-slider [images]="prod.imgs" style="position: absolute;
-                    top: 0 !important;
-                    left: 0 !important;
-                    width: 100%;
-                    height: 100%;
-                    max-height: 100px;" #nav></ng-image-slider>
-                    <!-- <ngx-file-drop dropZoneLabel="Drop files here" (change)="fileChangeEvent($event)"  (onFileDrop)="dropped($event)" style="position:absolute; bottom: 0; width: 100%;"
-                    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">                          
-                          <button type="button" (click)="openFileSelector()">Arrastre o Seleccione <br> una nueva imagen</button>
-                        </ng-template>
-                    </ngx-file-drop> -->                   
-                </div>
-                <div class="col-md-2">
-                    <input type="file" (change)="fileChangeEvent($event)" />
-
-                    <image-cropper style="width: 200px; height: 200px;"
-                        [imageChangedEvent]="imageChangedEvent"
-                        [maintainAspectRatio]="true"
-                        [aspectRatio]="4 / 3"
-                        format="png"
-                        (imageCropped)="imageCropped($event)"
-                        (imageLoaded)="imageLoaded()"
-                        (cropperReady)="cropperReady()"
-                        (loadImageFailed)="loadImageFailed()"
-                    ></image-cropper>
-
-                    <button (click)="aceptarImg(item, prod)">Aceptar</button>
-                    <div class="div-img-cropped">
-                        <img [src]="croppedImage" class="imagen"/>
-                    </div>
-                </div>
-                <div class="form-edicion col-md-7 row no-pad-h">
-                    <form [formGroup]="formEdicion" class="row col-12 no-pad-h" (submit)="modificarProducto(formEdicion)">
-                        <div class="div-nombre-descripcion col-md-5">
-                            <input type="text" formControlName="nombre" class="dato-prod" value={{prod.nombre}}>                                                                               
-                            <textarea class="dato-prod" style="resize: none;">{{prod.descripcion}}</textarea>
-                        </div>
-                        <div class="div-input-prod col-md-2">
-                            <input type="text" value={{prod.precio}} class="dato-prod">
-                        </div>
-                        <div class="div-input-prod col-md-2">
-                            <input type="text" value={{prod.precio}} class="dato-prod">
-                        </div>              
-                        <!-- <div class="div-opciones-avanzadas col-md-3">
-                            <div class="div-opcion col-12">                            
-                                <div class="div-menu grow">
-                                    <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
-                                </div>
-                                <mat-menu [id]="'color'+prod.item.prod_id">
-                                    <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch>
-                                </mat-menu>
-                            </div><div class="div-opcion col-12">Talle</div>
-                            <div class="div-opcion col-12">Material</div>
-                        </div>           -->
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
