@@ -36,7 +36,7 @@ export class AdminService {
 
   getComercioSeleccionado()
   {
-    var id = 4;
+    var id = this.currentUser.usuario.id_comercio;
     return this.http.get(`${API_URL}/api/getComercio/`+id);
   }
 

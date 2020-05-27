@@ -5,16 +5,22 @@
   border-bottom: solid 2px;
 }
 
+.div-datos
+{
+  padding: 1rem 0;
+}
+
 .titulo-item
 {
   font-family: opensans-reg;
   font-size: 1.5rem;
-  /* margin: .5rem auto; */
+  margin: .5rem auto;
 }
 
 .div-item
 {
   padding : 1rem 0;
+  /* border-bottom: solid 1px var(--gris); */
 }
 
 .div-sub-item
@@ -24,15 +30,15 @@
 }
 
 .form-item {
-  border-radius: 5px;
-  /* font-size: 0.8rem; */
+  border-radius: 5px;  
   width: 90%;
 }
 
 .form-select
 {
   border-radius: 5px;  
-  max-width: 45%;  
+  max-width: 30%;
+  margin-right: .5rem;  
 }
 
 textarea {
@@ -40,10 +46,51 @@ textarea {
   resize: none;
 }
 
+.btn-horario
+{
+  margin: .5rem 0;
+  background-color: var(--gris-claro);
+  font-size: 1.2rem !important;
+  font-family: opensans-semibold;
+}
+
 .div-dia
 {
-  margin: 0 1rem;
+  margin-right: 1rem;
   width: 15vh;
+}
+
+.input-dia
+{
+  margin-right: 5px;
+}
+
+.div-horas
+{
+  margin-bottom: 1rem;
+}
+
+.form-hora
+{
+  max-width: 15% ;
+}
+
+.btn-hora
+{
+  padding: .5rem;
+  margin: .5rem .5rem;
+  background-color: var(--gris-claro);
+  font-size: .8rem !important;
+  font-family: opensans-semibold;
+  border-radius: 5px;
+}
+
+.btn
+{
+  margin: 1.5rem 1.5rem;
+  background-color: var(--gris-claro);
+  font-size: 2rem !important;
+  font-family: opensans-semibold;
 }
 
 .imgSelect {

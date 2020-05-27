@@ -12,10 +12,13 @@ import { User } from '../app/models/user'
 import { FormNuevoComercioComponent } from './Compras-module/form-nuevo-comercio/form-nuevo-comercio.component';
 import { ModalIniciarSesionComponent } from './modal-iniciar-sesion/modal-iniciar-sesion.component';
 import { CategoriasAdminComponent } from './categorias-admin/categorias-admin.component';
+import { NavbartopComponent } from './Compras-module/navbartop/navbartop.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
   declarations: [
+    NavbartopComponent,
     AppComponent,
     ModalLoginComponent,
     ModalRegisterComponent,
@@ -30,7 +33,8 @@ import { CategoriasAdminComponent } from './categorias-admin/categorias-admin.co
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule
   ],
   entryComponents:  [ModalLoginComponent, ModalRegisterComponent, FormNuevoComercioComponent],
   providers: [],

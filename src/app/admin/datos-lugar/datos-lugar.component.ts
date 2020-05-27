@@ -23,7 +23,8 @@ export class DatosLugarComponent implements OnInit {
     subcategoria:'',
     descripcion:'',
     entrega:'',
-    medida_entrega:''
+    medida_entrega:'',
+    url:'',
   }
 
   message;
@@ -52,8 +53,11 @@ export class DatosLugarComponent implements OnInit {
           subcategoria: res[0].subcategoria,
           descripcion: res[0].descripcion,
           entrega: res[0].entrega,
-          medida_entrega: res[0].medida_entrega
+          medida_entrega: res[0].medida_entrega,
+          url: res[0].url,
         }
+
+        console.log(res[0])
 
         this.form.controls['subcategoria'].setValue(this.comercio.subcategoria);
         this.form.controls['nombre'].setValue(this.comercio.nombre);
@@ -63,6 +67,7 @@ export class DatosLugarComponent implements OnInit {
         this.form.controls['medida_entrega'].setValue(this.comercio.medida_entrega);
         this.form.controls['telefono'].setValue(this.comercio.telefono);
         this.form.controls['medio_pago'].setValue(this.comercio.medio_pago);
+        this.form.controls['url'].setValue(this.comercio.url);
 
         this.getHorarios();
 
@@ -89,6 +94,7 @@ export class DatosLugarComponent implements OnInit {
       'direccion': new FormControl('', [ Validators.required ]),
       'entrega': new FormControl('', [ Validators.required ]),
       'medida_entrega': new FormControl('', [ Validators.required ]),
+      'url': new FormControl('', [ Validators.required ]),
     });
   }
 
@@ -100,6 +106,7 @@ export class DatosLugarComponent implements OnInit {
   get direccion() { return this.form.get('direccion'); }
   get entrega() { return this.form.get('entrega'); }
   get medida_entrega() { return this.form.get('medida_entrega'); }
+  get url() { return this.form.get('url'); }
 
   getSubcategoriasComercio()
   {
@@ -126,6 +133,7 @@ export class DatosLugarComponent implements OnInit {
     formData.append("medida_entrega", form.value.medida_entrega);
     formData.append("telefono", form.value.telefono);
     formData.append("medio_pago", form.value.medio_pago);
+    formData.append("url", form.value.url);
 
 
 
