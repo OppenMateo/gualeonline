@@ -22,13 +22,6 @@
         </select>
     </div> -->
   </div>
-  <!-- <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-  <div class="div-menu grow">
-      <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
-  </div>
-  <mat-menu id="color">
-      <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-  </mat-menu> -->
 
 
   <div class="nuevoProducto">
@@ -41,11 +34,26 @@
       <input type="text" placeholder="Precio" class="dato-prod" [(ngModel)]="new_producto.precio">
       <br>
       <div class="titulo-input-admin">Categoría</div>
-      <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
+      <!-- <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
         <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
+      </select> -->
+      <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
+        <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
       </select>
       <br>
-      <!-- <button class="btn btn-dark btn-sm" (click)="openModalImgs()">Imagenes</button> -->
+
+      <!-- <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch> -->
+      <div class="div-menu grow">
+          <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+      </div>
+      <mat-menu #color>
+          <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+      </mat-menu>
+      <br>
+      <div *ngFor="let color of colores; index as i">
+        <span [ngStyle]="{'color': color.color, 'background': color.color}"><b>C{{i+1}}</b></span>
+      </div>
+      <button class="btn btn-primary" (click)="pushColor()" *ngIf="newColor.color !== ''">Guardar color</button>
       <br>
       <button class="btn btn-success" (click)="guardarProducto()">Guardar</button>
       <button class="btn btn-danger" (click)="agregarProducto = false">Cancelar</button>
@@ -111,6 +119,9 @@
               </div>
               <div class="div-input-prod col-md-2">
                 <input type="text" id="precio_{{i}}" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
+                <select class="select-admin" *ngIf="prod_edit == i">
+                  <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
+                </select>
               </div>
               <div class="div-input-prod col-md-2">
                 <input type="text" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">

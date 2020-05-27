@@ -17,6 +17,7 @@ export class ProductosComponent implements OnInit {
   listaSubProd;
   formEdicion;
   cat_selected="0";
+  categorias;
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
@@ -32,29 +33,30 @@ export class ProductosComponent implements OnInit {
     idComercio: 0
   }
 
+  colores = [];
+  newColor = {
+    color: '',
+    id_producto: 0
+  }
+
   constructor(private adminService:AdminService,private FormBuilder: FormBuilder) { }
 
   ngOnInit()
   {
     this.adminService.getComercioSeleccionado().subscribe(res=>{
-      this.adminService.comercioSeleccionado = res[0];
+      this.adminService.comercioSeleccionado = res;
+      this.getCategorias();
     });
     this.getProductosComercio();
-/*
-    this.formEdicion = new FormGroup({
-      'nombre': new FormControl('', [ Validators.required ]),
-      'descripcion': new FormControl('', [ Validators.required ]),
-      'precio': new FormControl('', [ Validators.required ]),
-      'promocional': new FormControl('', [ Validators.required ])
-    })
-    */
   }
-/*
-  get nombre() { return this.formEdicion.get('nombre'); }
-  get descripcion() { return this.formEdicion.get('descripcion'); }
-  get precio() { return this.formEdicion.get('precio'); }
-  get promocional() { return this.formEdicion.get('promocional'); }
-*/
+
+  getCategorias(){
+    this.adminService.getCategoriasProducto().subscribe(res=>{
+      this.categorias = res;
+      console.log("categorias:");
+      console.log(this.categorias);
+    });
+  }
 
   openModalImgs(prod){
     this.adminService.openModalImgs(prod);
@@ -72,9 +74,9 @@ export class ProductosComponent implements OnInit {
   {
     this.adminService.getSubProdImgsComercio().subscribe(
       res=>{
-        console.log('getsubprodimgscomercio:')
-        console.log(res);
         this.listaRes = res;
+        console.log("Lista Res:");
+        console.log(this.listaRes);
         this.agruparProdSubcat();
       }
       ,err => {console.log(err);});
@@ -178,13 +180,12 @@ export class ProductosComponent implements OnInit {
         }
       }
     });
-
-    console.log("listaSubProd:");
+    console.log("Lista Sub Prod:");
     console.log(this.listaSubProd);
   }
 
   guardarProducto(){
-    this.new_producto.idComercio = this.adminService.comercioSeleccionado.id;
+    this.new_producto.idComercio = this.adminService.comercioSeleccionado[0].id;
     this.adminService.guardarProducto(this.new_producto).subscribe(res=>{
       this.new_producto = {
         nombre: '',
@@ -193,7 +194,13 @@ export class ProductosComponent implements OnInit {
         subcategoria: '',
         idComercio: 0
       }
+      this.colores.forEach(element => {
+        console.log("ENTRA FORICH");
+        element.id_producto = res;
+        this.adminService.guardarColores(element).subscribe();
+      });
       this.agregarProducto = false;
+      this.getProductosComercio();
     });
   }
 
@@ -215,26 +222,21 @@ export class ProductosComponent implements OnInit {
       nombre: nombre_value,
       descripcion: desc_value,
       precio: precio_value,
-      idComercio: this.adminService.comercioSeleccionado.id,
+      idComercio: this.adminService.comercioSeleccionado[0].id,
       subcategoria: subcat_id
     }
-/*
-    const formData: FormData = new FormData();
-    formData.append("id", prod.id_prod);
-    formData.append("nombre", nombre_value);
-    formData.append("descripcion", desc_value);
-    formData.append("precio", precio_value);
-    formData.append("idComercio", this.adminService.comercioSeleccionado.id);
-    formData.append("subcategoria", subcat_id);
-*/
-    this.adminService.editarProducto(producto).subscribe(res=>{
 
+    this.prod_edit = 10000;
+    this.adminService.editarProducto(producto).subscribe(res=>{
+      this.getProductosComercio();
     });
   }
 
   eliminarProducto(prod){
     if (confirm("¿Eliminar este producto?")) {
-      this.adminService.eliminarProducto(prod.id_prod);
+      this.adminService.eliminarProducto(prod.id_prod).subscribe(res=>{
+        this.getProductosComercio();
+      });
     }
   }
 
@@ -310,7 +312,26 @@ export class ProductosComponent implements OnInit {
     }
 
 
+
+    // COLOR COSO //
     handleChange($event: ColorEvent) {
       console.log($event.color);
+    }
+
+    handleChangeComplete($event: ColorEvent) {
+      console.log($event.color);
+      this.newColor.color = $event.color.hex;
+    }
+
+    pushColor(){
+      this.colores.push(this.newColor);
+      this.newColor = {
+        color: '',
+        id_producto: 0
+      }
+    }
+
+    guardarColores(){
+
     }
 }

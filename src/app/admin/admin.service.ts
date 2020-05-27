@@ -118,9 +118,9 @@ export class AdminService {
 
   eliminarProducto(id)
   {
-    this.http.delete(`${API_URL}/api/borrarProducto`, id).subscribe(res=> {
-      this.http.delete(`${API_URL}/api/borrarImgsProducto`, id);
-    });
+   // this.http.delete(`${API_URL}/api/borrarProducto`, id).subscribe(res=> {
+      return this.http.get(`${API_URL}/api/borrarImgsProducto/`+id);
+   // });
   }
 
     // IMAGENES PRODUCTOS //
@@ -137,6 +137,7 @@ export class AdminService {
 
       dialogRef.afterClosed().subscribe(res=>
         {
+          this.getSubProdImgsComercio()
         });
 
     }
@@ -155,6 +156,24 @@ export class AdminService {
 
     eliminarImagen(imagen){
       return this.http.post(`${API_URL}/api/eliminarImagen`, imagen);
+    }
+
+    // COLORES //
+
+    getColores(){
+
+    }
+
+    guardarColores(colores){
+      return this.http.post(`${API_URL}/api/guardarColores`, colores);
+    }
+
+    editarColor(){
+
+    }
+
+    eliminarColor(){
+
     }
 
 }
