@@ -19,6 +19,20 @@
     width: 45%;
 }
 
+.formNewProducto
+{
+    border: solid 1px;    
+    margin-top: 2rem !important;
+}
+
+.div-color
+{
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    margin: 0 2px;
+}
+
 .div-lista-subprod
 {
     margin-top: 6vh;
@@ -42,7 +56,7 @@
 .dato-prod
 {
     width: 100%;
-    border: dashed 1px var(--gris);
+    border: solid 1px var(--gris);
     font-size: .8rem;
     margin-bottom: .1rem;
     padding-left: 5px;
