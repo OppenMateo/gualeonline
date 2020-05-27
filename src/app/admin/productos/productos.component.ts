@@ -84,7 +84,7 @@ export class ProductosComponent implements OnInit {
 
   agruparProdSubcat()
   {
-    this.listaSubProd = [];
+    this.listaSubProd = [];    
     var subcatProd;
 
     this.listaRes.forEach(item =>
@@ -93,6 +93,7 @@ export class ProductosComponent implements OnInit {
       {
         var subcat= {id_subcat:item.id_subcat, nombre:item.nombre_categoria };
         var listaImgs;
+        var listaColores;
 
         if(item.imagen != null)
         {
@@ -107,6 +108,11 @@ export class ProductosComponent implements OnInit {
         {
           listaImgs = [];
         }
+        
+        if(item.color != null)
+        {
+          listaColores = [{color:item.color}];
+        }
 
         var prod =
         {
@@ -114,7 +120,8 @@ export class ProductosComponent implements OnInit {
           nombre:item.nombre_producto,
           descripcion:item.descripcion_producto,
           precio:item.precio_producto,
-          imgs:listaImgs
+          imgs:listaImgs,
+          colores:listaColores
         }
 
         var subcatProd = {
@@ -145,13 +152,19 @@ export class ProductosComponent implements OnInit {
             listaImgs = [];
           }
 
+          if(item.color != null)
+          {
+            listaColores = [{color:item.color}];
+          }
+
           var prod =
           {
             id_prod:item.id_prod,
             nombre:item.nombre_producto,
             descripcion:item.descripcion_producto,
             precio:item.precio_producto,
-            imgs:listaImgs
+            imgs:listaImgs,
+            colores:listaColores
           }
 
           this.listaSubProd[index].prod.push(prod);
@@ -176,6 +189,12 @@ export class ProductosComponent implements OnInit {
             };
 
             this.listaSubProd[index].prod[indexProd].imgs.push(img);
+          }
+
+          if(item.color != null && this.listaSubProd[index].prod[indexProd].colores.filter(x=>x.color == item.color).length==0)
+          {
+            var color = { color: item.color };
+            this.listaSubProd[index].prod[indexProd].colores.push(color);
           }
         }
       }
