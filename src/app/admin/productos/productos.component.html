@@ -1,8 +1,45 @@
 <div class="div-container">
-  <div class="titulo-top-admin br-admin m-b-3">Productos</div>
-  <div class="div-buscar br-10 border-solid flex">
-    <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow" [(ngModel)]="buscar">
-    <button class="btn-black-admin">Buscar</button>
+  <div class="div-titulo">Productos</div>
+  <div class="div-nuevo-producto"  *ngIf="!agregarProducto">
+    <button class="btn-nuevo" (click)="agregarProducto = true">Añadir nuevo producto</button>
+  </div>
+  <div class="div-nuevo">    
+    <div class="formNewProducto row" *ngIf="agregarProducto">
+      <div class="div-imagen label-file col-md-2"><button class="btn"></button><img src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></div>
+      <div class="div-nombre-descripcion col-md-3 no-pad-h">
+          <input type="text" placeholder="Nombre" class="form-item" [(ngModel)]="new_producto.nombre">
+          <textarea placeholder="Descripción" class="form-item" [(ngModel)]="new_producto.descripcion"></textarea>
+      </div>
+      <div class="precio col-md-2">
+        <div class="div-input-prod">
+          <input type="text" placeholder="Precio" class="form-item" [(ngModel)]="new_producto.precio">
+        </div>            
+        <div class="div-input-prod">
+          <input type="text" placeholder="Precio promocional" class="form-item" [(ngModel)]="new_producto.precio">
+        </div>
+      </div>
+      <div class="div-info col-md-2">
+        <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
+          <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
+        </select>      
+        <div class="div-menu">
+            <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+            <mat-menu #color>
+              <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+            </mat-menu>
+            <div class="div-cont-colores flex">
+              <div *ngFor="let color of colores; index as i">
+                <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}"></div>
+              </div>
+            </div>
+            <!-- <button class="btn-ok-admin" (click)="pushColor()" *ngIf="newColor.color !== ''">Guardar color</button> -->
+        </div>  
+      </div>              
+      <div class="div-btn-okcancel-admin spc-btw flex col-md-1">
+        <button class="btn" (click)="guardarProducto()"><i class="fa fa-save"></i></button>
+        <button class="btn" (click)="agregarProducto = false"><i class="fa fa-window-close"></i></button>
+      </div>
+    </div>
   </div>
   <div class="div-filtros flex spc-btw">
     <div class="div-filtro-categoria">
@@ -12,59 +49,11 @@
         <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
       </select>
     </div>
-    <!-- <div class="div-filtro-acciones">
-        <div class="titulo-input-admin">Acciones</div>
-        <select class="select-admin">
-            <option value="">Ver Productos</option>
-            <option value="">Eliminar</option>
-            <option value="">Mostrar en la tienda</option>
-            <option value="">Ocultar en la tienda</option>
-        </select>
-    </div> -->
-    <button class="btn-admin br-10" (click)="agregarProducto = true" *ngIf="!agregarProducto">Añadir nuevo producto</button>
   </div>
-
-
-  <div class="nuevoProducto">
-    
-    <div class="formNewProducto br-10 row no-pad-h" *ngIf="agregarProducto">
-      <div class="div-nombre-descripcion col-md-4 no-pad-h">
-          <input type="text" placeholder="Nombre" class="dato-prod" [(ngModel)]="new_producto.nombre">
-          <textarea placeholder="Descripción" class="dato-prod" [(ngModel)]="new_producto.descripcion"></textarea>
-      </div>
-      <div class="div-input-prod col-md-2">
-        <input type="text" placeholder="Precio" class="dato-prod" [(ngModel)]="new_producto.precio">
-      </div>            
-      <div class="div-input-prod col-md-2">
-        <input type="text" placeholder="Precio Prom" class="dato-prod" [(ngModel)]="new_producto.precio">
-      </div>
-      <!-- <div class="titulo-input-admin">Categoría</div> -->
-      <!-- <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
-        <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
-      </select> -->
-      <select class="select-admin col-md-2 br-10" [(ngModel)]="new_producto.subcategoria">
-        <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
-      </select>
-      <br>      
-      <div class="div-menu grow col-md-2">
-          <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
-          <mat-menu #color>
-            <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-          </mat-menu>
-          <div class="div-cont-colores flex">
-            <div *ngFor="let color of colores; index as i">
-              <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}"></div>
-            </div>
-          </div>
-          <button class="btn-ok-admin" (click)="pushColor()" *ngIf="newColor.color !== ''">Guardar color</button>
-      </div>                
-      <div class="div-btn-okcancel-admin spc-btw flex col-md-12">
-        <button class="btn-ok-admin br-10" (click)="guardarProducto()">Guardar</button>
-        <button class="btn-cancel-admin br-10" (click)="agregarProducto = false">Cancelar</button>
-      </div>
-    </div>
+  <div class="div-buscar br-10 border-solid flex">
+    <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow" [(ngModel)]="buscar">
+    <button class="btn-black-admin">Buscar</button>
   </div>
-
   <div class="div-productos">
     <div class="producto" *ngFor="let item of listaSubProd">
       <div class="div-lista-subprod" *ngIf="cat_selected == '0' || cat_selected == item.subcat.id_subcat">
@@ -119,17 +108,17 @@
           <div class="form-edicion col-md-7 row no-pad-h">
             <form class="row col-12 no-pad-h">
               <div class="div-nombre-descripcion col-md-5">
-                <input type="text" id="nombre_{{i}}" class="dato-prod" value={{prod.nombre}} placeholder={{prod.nombre}} [disabled]="prod_edit != i">
-                <textarea id="desc_{{i}}" class="dato-prod" style="resize: none;" [disabled]="prod_edit != i">{{prod.descripcion}}</textarea>
+                <input type="text" id="nombre_{{i}}" class="form-item" value={{prod.nombre}} placeholder={{prod.nombre}} [disabled]="prod_edit != i">
+                <textarea id="desc_{{i}}" class="form-item" style="resize: none;" [disabled]="prod_edit != i">{{prod.descripcion}}</textarea>
               </div>
               <div class="div-input-prod col-md-2">
-                <input type="text" id="precio_{{i}}" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
+                <input type="text" id="precio_{{i}}" value={{prod.precio}} class="form-item" [disabled]="prod_edit != i">
                 <!-- <select class="select-admin" *ngIf="prod_edit == i">
                   <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
                 </select> -->
               </div>
               <div class="div-input-prod col-md-2">
-                <input type="text" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
+                <input type="text" value={{prod.precio}} class="form-item" [disabled]="prod_edit != i">
               </div>
 
               
@@ -158,3 +147,8 @@
     </div>
   </div>
 </div>
+
+      <!-- <div class="titulo-input-admin">Categoría</div> -->
+      <!-- <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
+        <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
+      </select> -->

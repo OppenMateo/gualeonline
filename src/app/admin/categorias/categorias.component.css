@@ -2,25 +2,23 @@
 {
   font-family: opensans-semibold;
   font-size: 2rem;
-  padding-bottom: 1rem;
+  padding-bottom: .5rem;
   border-bottom: solid 2px;
-}
-
-.btn-nuevo
-{
-  padding: 1rem;
-  font-size: 1.4 !important;
-  /* margin: 1rem 0; */
-  font-family: opensans-semibold;
-  background-color: var(--gris-claro);
 }
 
 .div-nueva-categoria
 {
   border-bottom: solid 1px var(--gris);
   padding: 1rem 0;  
-  font-family: opensans-reg;
   font-size: 1.3rem;
+}
+
+.btn-nuevo
+{
+  padding: 1rem;
+  font-size: 1.4 !important;
+  font-family: opensans-semibold;
+  background-color: var(--gris-claro);
 }
 
 .div-nuevo 

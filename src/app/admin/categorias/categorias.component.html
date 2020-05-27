@@ -1,12 +1,12 @@
 <div class="div-container">
-  <div class="div-titulo">CATEGORIAS</div>
-  <div class="div-nueva-categoria"><button class="btn-nuevo" (click)="showNuevo()">AGREGAR CATEGORIA</button></div>
+  <div class="div-titulo">Categorias</div>
+  <div class="div-nueva-categoria" *ngIf="!nuevo"><button class="btn-nuevo" (click)="showNuevo()">Añadir nueva categoria</button></div>
   <div class="div-categorias">
     <div *ngIf="nuevo" class="div-nuevo row">
       <div class="div-empty col-md-1"><button class="btn"><i class="fa fa-check-square"></i></button></div>
       <div class="div-imagen col-md-4 rel">
         <!-- <img [src]="new_cat.imagen" alt=""> -->        
-        <div class="div-opciones label-file"><button class="btn"><i class="fa fa-camera"></i></button></div>
+        <div class="div-opciones label-file"><button class="btn"></button><img src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></div>
         <div class="input-file">
           <input type="file" (change)="fileChangeEvent($event)" />
         </div>
@@ -23,7 +23,7 @@
         ></image-cropper>  
       </div>
       <div class="div-nombre col-md-5">
-        <input class="nombre" type="text" placeholder="INGRESA EL NOMBRE DE LA CATEGORIA" [(ngModel)]="new_cat.nombre">
+        <input class="nombre" type="text" placeholder="Ingresa el nombre de la categoria" [(ngModel)]="new_cat.nombre">
       </div>
       <div class="div-opciones col-md-2">
         <button class="btn" (click)="guardarCategoriaProd(new_cat)"><i class="fa fa-save"></i></button>
@@ -62,26 +62,4 @@
     </div>
   </div>
 </div>
-
-
-
-<!-- <div class="div-container">
-  <div class="div-titulo">Categorias</div>
-  <div class="div-buscar-container flex">
-      <div class="div-buscar">Buscar categoria por nombre</div>
-      <div class="div-btn-buscar">Buscar</div>
-  </div>
-  <div class="div-acciones">Acciones</div>
-  <div class="div-opciones">Elegí una opcion '(Desplegable)'</div>
-  <div class="div-titulo-categorias">(Seleccionar?) Categorias</div>
-  <div class="div-categorias-container flex">
-      <div class="div-img">(Seleccionar) Imagen</div>
-      <div class="div-categoria">Categoria 1</div>
-  </div>
-  <div class="div-btn-nuevo-prod">Crear producto (Deberia ir arriba)</div>
-  <div class="div-botones-container flex">
-      <div class="div-guardar">Guardar</div>
-      <div class="div-cancelar">Cancelar</div>
-  </div>
-</div> -->
 
