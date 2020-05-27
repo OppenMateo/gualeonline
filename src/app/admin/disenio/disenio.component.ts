@@ -90,6 +90,20 @@ export class DisenioComponent implements OnInit {
     return "../../../assets/imgs/comercios/"+this.adminService.comercioSeleccionado.imagen;
   }
 
+  cambiarDiseno(temp)
+  {
+    this.design = temp;
+    if(this.design!=temp)
+    {
+      this.imgURL = '';
+    }
+  }
+
+  mostrarTemplate(temp)
+  {
+
+  }
+
   changeImgPortada(event){
     if (typeof event == 'object') {
       this.imgURL = this.pathPortadas + (event.target.value);

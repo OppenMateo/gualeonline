@@ -23,8 +23,8 @@
         </div>
       </div>
       <div class="div-btns-temp">
-        <button class="btn-template br-10" (click)="design = 1">Elegir diseño</button>
-        <button class="btn-template br-10" (click)="design = 1">Ver Diseño</button>
+        <button class="btn-template br-10" (click)="cambiarDiseno(1)">Elegir diseño</button>
+        <button class="btn-template br-10" (click)="mostrarTemplate(1)">Ver Diseño</button>
       </div>
     </div>
     <div class="div-template col-md-5 col-xs-12 no-pad-h">
@@ -43,14 +43,66 @@
         </div>
       </div>
       <div class="div-btns-temp">
-        <button class="btn-template br-10" (click)="design = 2">Elegir diseño</button>
-        <button class="btn-template br-10" (click)="design = 2">Ver Diseño</button>
+        <button class="btn-template br-10" (click)="cambiarDiseno(2)">Elegir diseño</button>
+        <button class="btn-template br-10" (click)="mostrarTemplate(2)">Ver Diseño</button>
       </div>
     </div>
   </div>
 
   <div class="design_1 m-b-3 br-admin" *ngIf="design == 1">
-    <h4 style="font-size: 6rem;">diseño uno jajjaj</h4>
+    <div class="div-portada m-b-3">
+      <div class="titulo-top-admin br-admin">Portada</div>
+      <div class="desc-admin">
+        Selecciona una predeterminada o carga tu propia portada.
+      </div>
+      <div class="row">
+        <div class="col-md-8 no-pad-h rel">
+          <div class="div-img-load-cropper" *ngIf="imgURL==''">
+            <image-cropper style="width: 100%; height: 315px;" *ngIf="imageChangedEvent!='' && this.cropping==true"
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="false"
+                [resizeToHeight]=314
+                [aspectRatio]="4 / 3"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+  
+            <img class="imagen" [src]="croppedImage" *ngIf="imageChangedEvent!='' && !cropping" />
+  
+            <div class="load-imagen br-10" *ngIf="imageChangedEvent==''">
+              <input type="file" class="input-file" (change)="fileChangeEvent($event)"/>
+              <div class="cont-load-imagen m-auto">
+                <div class="icon-camera"><i class="fa fa-camera"></i></div>
+                <div class="div-subir-img">+ Cargar foto</div>
+              </div>
+            </div>
+            <button class="btn-ok-admin" (click)="aceptarCropper()">Aceptar</button>
+            <button class="btn-cancel-admin" (click)="cancelarCropper()">Cancelar</button>
+          </div>
+          <div class="div-img-port-temp" *ngIf="imgURL!='' && !cropping">
+            <img class="imagen portada" [src]="imgURL">
+            <button class="btn-sub-img bold" (click)="mostrarLoadImg()">+ Subir Foto</button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div>
+              <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/Portada_Diseno1.jpg">
+              <input type="radio" class="radioImg" name="portada" value="Portada_Diseno1.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          </div>
+          <div>
+            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/Portada_Diseno2.jpg">
+            <input type="radio" class="radioImg" name="portada" value="Portada_Diseno2.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          </div>
+          <div>
+            <img class="imgSelect" src="https://api.gualeonline.com.ar/public/img/portadas/Portada_Diseno3.jpg">
+            <input type="radio" class="radioImg" name="portada" value="Portada_Diseno3.jpg" [(ngModel)]="imgPortada" (change)="changeImgPortada($event)">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="design_2 m-b-3 br-admin" *ngIf="design == 2">
