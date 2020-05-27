@@ -1,123 +1,132 @@
 <div class="div-container">
   <div class="div-titulo">DATOS DE COMERCIO</div>
   <form [formGroup]="form" (submit)="guardarDatos(form)">
-    <div class="div-datos row">
-      <div class="div-item col-md-4">
-        <div class="titulo-item">NOMBRE</div>
-        <div class="div-sub-item">INGRESAR NOMBRE DE COMERCIO</div>
-        <input type="text" class="input-form form-control form-item" value={{comercio.nombre}} formControlName="nombre" required>
-      </div>
-      <div class="div-item col-md-4">
+      <!-- <div class="div-item col-md-4">
         <div class="titulo-item">CATEGORIA</div>
         <div class="div-sub-item">SELECCIONAR CATEGORIA</div>
         <select name="" id="" class="select-subcat form-control form-item" formControlName="subcategoria">
             <option value={{cat.id}} class="opt-subcat" *ngFor="let cat of adminService.listaSubCategorias">{{cat.nombre_subcat}}</option>
         </select>
-      </div>
-      <div class="div-item col-md-4">
-        <div class="titulo-item">DESCRIPCION</div>
-        <div class="div-sub-item">INGRESAR DESCRIPCION</div>
-        <textarea class="input-form form-control form-item" maxlength="300" value={{comercio.descripcion}} formControlName="descripcion" required></textarea>
-      </div>
-      <div class="div-item col-md-4">
-        <div class="titulo-item">DIRECCION</div>
-        <div class="div-sub-item">INGRESAR DIRECCION</div>
-        <input type="text" class="input-form form-control form-item" value={{comercio.direccion}} formControlName="direccion" required>
-      </div>
-      <div class="div-item col-md-4">
-        <div class="titulo-item">ENTREGA ESTIMADA</div>
-        <div class="div-sub-item">SELECCIONAR TIEMPO DE ENTREGA ESTIMADA</div>
-        <div class="from-item flex">
-          <input type="text" class="input-form form-control form-select" value={{comercio.entrega}} formControlName="entrega" required>
-          <select name="" id="" class="select-subcat form-control form-select" value={{comercio.medida_entrega}} formControlName="medida_entrega" >
-              <option class="opt-subcat">MINUTOS</option>
-              <option class="opt-subcat">HORAS</option>
-              <option class="opt-subcat">DIAS</option>
-          </select>
+      </div> -->
+      <div class="div-datos row col-md-12">
+        <div class="div-item col-md-4">
+          <div class="titulo-item">NOMBRE</div>
+          <!-- <div class="div-sub-item">INGRESAR NOMBRE DE COMERCIO</div> -->
+          <input type="text" class="input-form form-control form-item" value={{comercio.nombre}} formControlName="nombre" required placeholder="INGRESAR NOMBRE DE COMERCIO">
         </div>
-      </div>    
+        <div class="div-item col-md-4">
+          <div class="titulo-item">DESCRIPCION</div>
+          <!-- <div class="div-sub-item">INGRESAR DESCRIPCION</div> -->
+          <textarea class="input-form form-control form-item" maxlength="300" value={{comercio.descripcion}} formControlName="descripcion" required placeholder="INGRESAR DESCRIPCION"></textarea>
+        </div>
+      </div>
+      <div class="div-item col-md-4">
+        <div class="titulo-item">URL</div>
+        <input type="text" class="input-form form-control form-item" value={{comercio.url}} formControlName="url" required placeholder="INGRESAR NOMBRE DE LA WEB">
+      </div>
+      <div class="div-datos row col-md-12">
+        <div class="div-item col-md-4">
+          <div class="titulo-item">DIRECCION</div>
+          <!-- <div class="div-sub-item">INGRESAR DIRECCION</div> -->
+          <input type="text" class="input-form form-control form-item" value={{comercio.direccion}} formControlName="direccion" required placeholder="INGRESAR DIRECCION">
+        </div>
         <div class="div-item col-md-4">
           <div class="titulo-item">TELEFONO</div>
-          <div class="div-sub-item">INGRESAR TELEFONO DE CONTACTO</div>
-          <input type="Number" id="telefono" class="form-control form-item" formControlName="telefono">          
+          <!-- <div class="div-sub-item">INGRESAR TELEFONO DE CONTACTO</div> -->
+          <input type="Number" id="telefono" class="form-control form-item" formControlName="telefono" placeholder="INGRESAR TELEFONO DE CONTACTO">          
         </div>
+      </div>
+      <div class="div-datos row col-md-12">
         <div class="div-item col-md-4">
           <div class="titulo-item">MEDIOS DE PAGO</div>
-          <div class="div-sub-item">MEDIOS DE PAGO HABILITADOS</div>
+          <!-- <div class="div-sub-item">MEDIOS DE PAGO HABILITADOS</div> -->
           <select class="form-control form-item" formControlName="medio_pago">
               <option value=1>EFECTIVO Y TARJETA</option>
               <option value=2>EFECTIVO</option>
               <option value=3>TARJETA</option>
           </select>
         </div>
+        <div class="div-item col-md-4">
+          <div class="titulo-item">ENTREGA ESTIMADA</div>
+          <!-- <div class="div-sub-item">SELECCIONAR TIEMPO DE ENTREGA ESTIMADA</div> -->
+          <div class="from-item flex">
+            <input type="text" class="input-form form-control form-select" value={{comercio.entrega}} formControlName="entrega" required placeholder="40">
+            <select name="" id="" class="select-subcat form-control form-select" value={{comercio.medida_entrega}} formControlName="medida_entrega" >
+                <option class="opt-subcat">MINUTOS</option>
+                <option class="opt-subcat">HORAS</option>
+                <option class="opt-subcat">DIAS</option>
+            </select>
+          </div>
+        </div>
+      </div>
         <div class="div-item col-md-12">        
-            <div class="titulo-item">HORARIOS DE ATENCION</div>
-            <div class="div-sub-item">SELECCIONAR DIAS Y HORARIOS</div>      
-            <button class="btn btn-primary btn-sm" (click)="toggleHorarios()" *ngIf="!agregarHorario">Agregar horario</button>
-            <div *ngIf="agregarHorario" class="div-item">              
-                <div class="div-item flex">
+            <div class="titulo-item">HORARIOS DE ATENCION</div>                 
+            <button class="btn-horario" (click)="toggleHorarios()" *ngIf="!agregarHorario">AGREGAR HORARIO</button>
+            <div *ngIf="agregarHorario" class="div-item"> 
+                <div class="titulo-item">DIAS</div>
+                <div class="div-sub-item">SELECCIONAR LOS DIAS DE ATENCION</div>             
+                <div class="div-horario flex">
                   <div class="div-dia">
-                    <input type="checkbox" id="lunes" value="lunes" codigo=0>
+                    <input class="input-dia" type="checkbox" id="lunes" value="lunes" codigo=0>
                     <label for="lunes">LUNES</label><br>
                   </div>
                   <div class="div-dia">
-                    <input type="checkbox" id="martes" value="martes" codigo=1>
+                    <input class="input-dia" type="checkbox" id="martes" value="martes" codigo=1>
                     <label for="martes">MARTES</label><br>
                   </div>
                   <div class="div-dia">
-                    <input type="checkbox" id="miércoles" value="miércoles" codigo=2>
+                    <input class="input-dia" type="checkbox" id="miércoles" value="miércoles" codigo=2>
                     <label for="miércoles">MIERCOLES</label><br>
                   </div>
                   <div class="div-dia">
-                    <input type="checkbox" id="jueves" value="jueves" codigo=3>
+                    <input class="input-dia" type="checkbox" id="jueves" value="jueves" codigo=3>
                     <label for="jueves">JUEVES</label><br>
                   </div>
                 </div>
                 <div class="div-item flex">
                   <div class="div-dia">
-                    <input type="checkbox" id="viernes" value="viernes" codigo=4>
+                    <input class="input-dia" type="checkbox" id="viernes" value="viernes" codigo=4>
                     <label for="viernes">VIERNES</label><br>
                   </div>
                   <div class="div-dia">
-                    <input type="checkbox" id="sábado" value="sábado" codigo=5>
+                    <input class="input-dia" type="checkbox" id="sábado" value="sábado" codigo=5>
                     <label for="sábado">SABADO</label><br>
                   </div>
                   <div class="div-dia">
-                    <input type="checkbox" id="domingo" value="domingo" codigo=6>
+                    <input class="input-dia" type="checkbox" id="domingo" value="domingo" codigo=6>
                     <label for="domingo">DOMINGO</label><br>
                   </div>
                 </div>
-              <div class="div-item-form col-md-8">
-                <div class="title">Horario</div>
-                <div class="desc gris">
-                  Ingrese uno dos horarios distintos para<br> los días seleccionados.
+              <div class="div-item-form">
+                <div class="titulo-item">HORARIOS</div>
+                <div class="div-sub-item">INGRESAR HORARIOS DE ATENCION</div>
+                <div class="div-horas flex">
+                  <input type="Number" id="desde" class="form-control form-hora" placeholder="9:00">
+                  <span style="padding: 0 .5rem; margin: auto 0">A</span>
+                  <input type="Number" id="hasta" class="form-control form-hora" placeholder="13:00">
+                  <span style="padding: 0 .5rem; margin: auto 0">HS</span>
+                </div>          
+                <div class="div-horas flex">
+                  <input type="Number" id="desde2" class="form-control form-hora" placeholder="16:30">
+                  <span style="padding: 0 .5rem; margin: auto 0">A </span>
+                  <input type="Number" id="hasta2" class="form-control form-hora" placeholder="20:30">
+                  <span style="padding: 0 .5rem; margin: auto 0">HS</span>
                 </div>
-                <input type="Number" id="desde" class="form-control form-item" style="font-size:1rem !important;">
-                <span> a </span>
-                <input type="Number" id="hasta" class="form-control form-item" style="font-size:1rem !important;">
-                <span> hs.</span>          
-                <input type="Number" id="desde2" class="form-control form-item" style="font-size:1rem !important;">
-                <span> a </span>
-                <input type="Number" id="hasta2" class="form-control form-item" style="font-size:1rem !important;">
-                <span> hs.</span>
-              </div>        
-      
-              <button class="btn btn-success btn-sm" (click)="newHorario('',[], '', '', '', '', '')">Aceptar</button>
-              <button class="btn btn-danger btn-sm" (click)="toggleHorarios()">Cancelar</button>
+              </div>
+              <button class="btn-hora" (click)="newHorario('',[], '', '', '', '', '')">GUARDAR HORARIO</button>
+              <button class="btn-hora" (click)="toggleHorarios()">CANCELAR</button>
             </div>      
-            <div id="horarios">
+            <div id="horarios" style="border-bottom: solid 1px var(--gris)">
               <div *ngFor="let horario of horarios" id="horario_{{horario.id}}">
                 <span>{{horario.dias}} de {{horario.desde}} a {{horario.hasta}} hs.</span>
                 <span *ngIf="horario.desde2 !==''"> y de {{horario.desde2}} a {{horario.hasta2}} hs.</span>
                 <button class="btn btn-danger btn-sm" (click)="deleteHorario(horario)">X</button>
               </div>
             </div>
-        </div>
+        </div>   
+    <div class="div-botones" style="text-align: center;">
+      <button class="btn" type="submit">GUARDAR</button>
+      <button class="btn">CANCELAR</button>
     </div>
-    <!-- <a href="">Vista previa</a>     -->
-    <button class="btn btn-success btn-sm" type="submit">Guardar</button>
-    <button class="btn btn-dark btn-sm">Cancelar</button>
   </form>
-
-
 </div>
