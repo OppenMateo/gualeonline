@@ -177,12 +177,14 @@ export class AdminService {
       return this.http.post(`${API_URL}/api/guardarColores`, colores);
     }
 
-    editarColor(){
+    // TAMAÑOS Y MATERIALES //
 
+    guardarTamaños(tamaños){
+      return this.http.post(`${API_URL}/api/guardarTamaños`, tamaños);
     }
 
-    eliminarColor(){
-
+    guardarMateriales(materiales){
+      return this.http.post(`${API_URL}/api/guardarMateriales`, materiales);
     }
 
 }

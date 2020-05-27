@@ -38,6 +38,8 @@ export class ProductosComponent implements OnInit {
     color: '',
     id_producto: 0
   }
+  materiales = [];
+  tamaneos = [];
 
   constructor(private adminService:AdminService,private FormBuilder: FormBuilder) { }
 
@@ -94,6 +96,8 @@ export class ProductosComponent implements OnInit {
         var subcat= {id_subcat:item.id_subcat, nombre:item.nombre_categoria };
         var listaImgs;
         var listaColores;
+        var listaTamaneos;
+        var listaMateriales;
 
         if(item.imagen != null)
         {
@@ -114,6 +118,16 @@ export class ProductosComponent implements OnInit {
           listaColores = [{color:item.color}];
         }
 
+        if(item.tamaño != null)
+        {
+          listaTamaneos = [{tamaneo:item.tamaño}];
+        }
+
+        if(item.material != null)
+        {
+          listaMateriales = [{material:item.material}];
+        }
+
         var prod =
         {
           id_prod:item.id_prod,
@@ -121,7 +135,9 @@ export class ProductosComponent implements OnInit {
           descripcion:item.descripcion_producto,
           precio:item.precio_producto,
           imgs:listaImgs,
-          colores:listaColores
+          colores:listaColores,
+          materiales: listaMateriales,
+          tamaneos: listaTamaneos
         }
 
         var subcatProd = {
@@ -157,6 +173,16 @@ export class ProductosComponent implements OnInit {
             listaColores = [{color:item.color}];
           }
 
+          if(item.tamaño != null)
+          {
+            listaTamaneos = [{tamaneo:item.tamaño}];
+          }
+
+          if(item.material != null)
+          {
+            listaMateriales = [{material:item.material}];
+          }
+
           var prod =
           {
             id_prod:item.id_prod,
@@ -164,7 +190,9 @@ export class ProductosComponent implements OnInit {
             descripcion:item.descripcion_producto,
             precio:item.precio_producto,
             imgs:listaImgs,
-            colores:listaColores
+            colores:listaColores,
+            tamaneos: listaTamaneos,
+            materiales: listaMateriales
           }
 
           this.listaSubProd[index].prod.push(prod);
@@ -196,6 +224,18 @@ export class ProductosComponent implements OnInit {
             var color = { color: item.color };
             this.listaSubProd[index].prod[indexProd].colores.push(color);
           }
+          /*
+          if(item.tamaño != null && this.listaSubProd[index].prod[indexProd].tamaneos.filter(x=>x.tamaneo == item.tamaño).length==0)
+          {
+            var tamaneo = { tamaneo: item.tamaño };
+            this.listaSubProd[index].prod[indexProd].tamaneos.push(tamaneo);
+          }
+          */
+          if(item.material != null && this.listaSubProd[index].prod[indexProd].materiales.filter(x=>x.material == item.material).length==0)
+          {
+            var material = { material: item.material };
+            this.listaSubProd[index].prod[indexProd].materiales.push(material);
+          }
         }
       }
     });
@@ -213,8 +253,28 @@ export class ProductosComponent implements OnInit {
     this.adminService.eliminarImgsProducto(0).subscribe();
   }
 
-  probando(i){
+  quitarNewColor(i){
     this.colores.splice(i,1);
+  }
+
+  addMaterial(){
+    let material = {
+      material: '',
+      id_producto: 0
+    }
+    this.materiales.push(material);
+  }
+
+  prueba(){
+    console.log(this.tamaneos);
+  }
+
+  addTamaneo(){
+    let tamaneo = {
+      tamaneo: '',
+      id_producto: 0
+    }
+    this.tamaneos.push(tamaneo);
   }
 
   guardarProducto(){
@@ -227,10 +287,25 @@ export class ProductosComponent implements OnInit {
         subcategoria: '',
         idComercio: 0
       }
-      this.colores.forEach(element => {
-        element.id_producto = res;
-        this.adminService.guardarColores(element).subscribe();
-      });
+      if (this.colores.length > 0) {
+        this.colores.forEach(element => {
+          element.id_producto = res;
+          this.adminService.guardarColores(element).subscribe();
+        });
+      }
+      if (this.materiales.length > 0) {
+        this.materiales.forEach(mat => {
+          mat.id_producto = res;
+          this.adminService.guardarMateriales(mat).subscribe();
+        });
+      }
+      if (this.tamaneos.length > 0) {
+        this.tamaneos.forEach(tam => {
+          tam.id_producto = res;
+          this.adminService.guardarTamaños(tam).subscribe();
+        });
+      }
+
       this.agregarProducto = false;
       this.getProductosComercio();
     });

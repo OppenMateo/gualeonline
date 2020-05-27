@@ -31,6 +31,18 @@
       <div class="div-nombre-descripcion col-md-4 no-pad-h">
           <input type="text" placeholder="Nombre" class="dato-prod" [(ngModel)]="new_producto.nombre">
           <textarea placeholder="Descripción" class="dato-prod" [(ngModel)]="new_producto.descripcion"></textarea>
+          <button class="btn-admin br-10" (click)="addMaterial()">Añadir material</button>
+          <div *ngIf="materiales.length > 0">
+            <div *ngFor="let material of materiales; index as i">
+                <input type="text" placeholder="Nombre del material" [(ngModel)]="materiales[i].material"><button class="btn-black-admin" (click)="materiales.splice(i,1);">X</button>
+            </div>
+          </div>
+          <button class="btn-admin br-10" (click)="addTamaneo()">Añadir tamaño</button>
+          <div *ngIf="tamaneos.length > 0">
+              <div *ngFor="let tamaneo of tamaneos; index as i">
+                  <input type="text" placeholder="Ingresar tamaño" [(ngModel)]="tamaneos[i].tamaneo"><button class="btn-black-admin" (click)="tamaneos.splice(i,1);">X</button>
+              </div>
+          </div>
       </div>
       <div class="div-input-prod col-md-2">
         <input type="text" placeholder="Precio" class="dato-prod" [(ngModel)]="new_producto.precio">
@@ -47,15 +59,16 @@
       </select>
       <br>
       <div class="div-menu grow col-md-2">
-          <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
-          <mat-menu #color>
-            <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-          </mat-menu>
-          <div class="div-cont-colores flex">
-            <div *ngFor="let color of colores; index as i">
-              <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}" (click)="probando(i)"></div>
-            </div>
+        <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+        <mat-menu #color>
+          <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+        </mat-menu>
+        <div class="div-cont-colores flex">
+          <div *ngFor="let color of colores; index as i">
+            <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}" (click)="colores.splice(i,1);"></div>
           </div>
+        </div>
+
       </div>
       <div>
         <button class="btn btn-dark btn-sm" (click)="openModalImgs(0)">Cargar fotos</button>
@@ -109,6 +122,11 @@
                 <div class="div-nombre-descripcion col-md-5">
                   <input type="text" id="nombre_{{i}}" class="dato-prod" value={{prod.nombre}} placeholder={{prod.nombre}} [disabled]="prod_edit != i">
                   <textarea id="desc_{{i}}" class="dato-prod" style="resize: none;" [disabled]="prod_edit != i">{{prod.descripcion}}</textarea>
+                  <br>
+                  <span>Colores:</span>
+                  <div *ngFor="let color of prod.colores; index as i">
+                    <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}"></div>
+                  </div>
                 </div>
                 <div class="div-input-prod col-md-2">
                   <input type="text" id="precio_{{i}}" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
@@ -117,7 +135,7 @@
                   </select> -->
                 </div>
                 <div class="div-input-prod col-md-2">
-                  <input type="text" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
+                  <input type="text" class="dato-prod" [disabled]="prod_edit != i">
                 </div>
 
 
