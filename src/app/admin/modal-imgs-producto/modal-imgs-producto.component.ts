@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { AdminService } from '../admin.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal-imgs-producto',
@@ -16,6 +17,7 @@ export class ModalImgsProductoComponent implements OnInit {
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  file;
   ruta_imagenes = 'https://api.gualeonline.com.ar/public/img/productos/';
   imgs;
   prod_id;
@@ -26,11 +28,16 @@ export class ModalImgsProductoComponent implements OnInit {
     id_comercio: 0
   }
 
-  constructor(private adminService:AdminService) { }
+  constructor(public adminService:AdminService, public dialogRef: MatDialogRef<ModalImgsProductoComponent>) { }
 
   ngOnInit(): void {
     if (this.adminService.prod !== 0) {
       this.imagen_croppeada.id_producto = this.adminService.prod.id_prod;
+    }
+    else
+    {
+      this.editando= false;
+      this.formNewImg= true;
     }
 
     this.adminService.getComercioSeleccionado().subscribe(res=> {
@@ -45,7 +52,7 @@ export class ModalImgsProductoComponent implements OnInit {
     });
   }
 
-  nuevaImagen(){
+  nuevaImagen(file){
     this.editando_crop = false;
     let currentDate = new Date();
       let fechaHora = currentDate.getDate().toString()
@@ -56,10 +63,18 @@ export class ModalImgsProductoComponent implements OnInit {
       + currentDate.getSeconds().toString();
       this.imagen_croppeada.nombre = fechaHora + ".png";
 
-    this.adminService.nuevaImagen(this.imagen_croppeada).subscribe(res=>{
-      this.cancelarCrop();
-      this.getImagenes();
-    });
+      debugger;
+
+      this.adminService.imagenProd.push({
+        file:this.imagen_croppeada.url,
+        nombreImg:this.imagen_croppeada.nombre
+      })
+      this.dialogRef.close();
+
+    // this.adminService.nuevaImagen(this.imagen_croppeada).subscribe(res=>{
+    //   this.cancelarCrop();
+    //   this.getImagenes();
+    // });
   }
 
   cancelarCrop(){
@@ -96,8 +111,20 @@ export class ModalImgsProductoComponent implements OnInit {
   }
 
   fileChangeEvent(event: any): void {
+    // this.nuevaImagen(event);
     this.editando_crop = true;
     this.imageChangedEvent = event;
+    var reader = new FileReader();
+    // this.imagePath = files;
+    reader.readAsDataURL(event.files[0]); 
+    reader.onload = (_event) => { 
+      this.file = reader.result; 
+    }
+  }
+
+  guardarImagen()
+  {
+    this.nuevaImagen(this.file)
   }
 
   imageCropped(event: ImageCroppedEvent) {

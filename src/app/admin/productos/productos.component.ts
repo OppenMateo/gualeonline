@@ -5,6 +5,7 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ColorEvent } from 'ngx-color';
 import { of } from 'rxjs';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-productos',
@@ -39,13 +40,14 @@ export class ProductosComponent implements OnInit {
     id_producto: 0
   }
 
-  constructor(private adminService:AdminService,private FormBuilder: FormBuilder) { }
+  constructor(public adminService:AdminService,private FormBuilder: FormBuilder, public authService: AuthService) { }
 
   ngOnInit()
   {
     this.adminService.getComercioSeleccionado().subscribe(res=>{
       this.adminService.comercioSeleccionado = res;
       this.getCategorias();
+      console.log(res)
     });
     this.getProductosComercio();
   }
@@ -129,6 +131,7 @@ export class ProductosComponent implements OnInit {
           prod:[prod]
         }
         this.listaSubProd.push(subcatProd);
+        console.log(this.listaSubProd);
       }
       else
       {
@@ -225,12 +228,13 @@ export class ProductosComponent implements OnInit {
         descripcion: '',
         precio: '',
         subcategoria: '',
-        idComercio: 0
+        idComercio: this.adminService.comercioSeleccionado.id,
       }
       this.colores.forEach(element => {
         element.id_producto = res;
         this.adminService.guardarColores(element).subscribe();
       });
+      this.adminService.imagenProd.forEach
       this.agregarProducto = false;
       this.getProductosComercio();
     });

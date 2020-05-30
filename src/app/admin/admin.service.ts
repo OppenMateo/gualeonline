@@ -24,6 +24,7 @@ export class AdminService {
   listaSubcategoriasProductos;
   listaSubcategoriasProductosAdmin = [];
   prod;
+  imagenProd = [];
 
   constructor(private http:HttpClient, private authService:AuthService, public dialog: MatDialog)
   {
@@ -133,7 +134,9 @@ export class AdminService {
         this.prod = {
           id_prod: 0
         }
-      }else{
+      }
+      else
+      {
         this.prod = prod;
       }
 

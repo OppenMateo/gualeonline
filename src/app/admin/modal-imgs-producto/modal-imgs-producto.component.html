@@ -13,7 +13,7 @@
     (loadImageFailed)="loadImageFailed()"
   ></image-cropper>
 
-  <button class="btn btn-danger btn-sm" (click)="nuevaImagen()" *ngIf="editando == false">Guardar</button>
+  <button class="btn btn-danger btn-sm" (click)="guardarImagen()" *ngIf="editando == false">Guardar</button>
   <button class="btn btn-danger btn-sm" (click)="editarImagen()" *ngIf="editando == true">Guardar</button>
   <button class="btn btn-dark btn-sm" (click)="cancelarCrop()">Cancelar</button>
 </div>
