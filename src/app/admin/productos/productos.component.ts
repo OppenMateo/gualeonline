@@ -31,7 +31,9 @@ export class ProductosComponent implements OnInit {
     descripcion: '',
     precio: '',
     subcategoria: '',
-    idComercio: 0
+    idComercio: 0,
+    imagenes:[],
+    colores:[],
   }
 
   colores = [];
@@ -115,6 +117,10 @@ export class ProductosComponent implements OnInit {
         {
           listaColores = [{color:item.color}];
         }
+        else
+        {
+          listaColores = [];
+        }
 
         var prod =
         {
@@ -159,6 +165,10 @@ export class ProductosComponent implements OnInit {
           {
             listaColores = [{color:item.color}];
           }
+          else
+          {
+            listaColores = [];
+          }
 
           var prod =
           {
@@ -177,13 +187,13 @@ export class ProductosComponent implements OnInit {
           var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
           var index = this.listaSubProd.indexOf(reg);
 
-          var regProd = this.listaSubProd[index].prod.filter(x=>x.prod_id==item.prod_id);
+          var regProd = this.listaSubProd[index].prod.filter(x=>x.id_prod==item.id_prod);
           if(regProd.length>0)
           {
             var indexProd = this.listaSubProd[index].prod.indexOf(regProd[0]);
           }
 
-          if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.imagen == item.imagen).length==0)
+          if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.nombre == item.imagen).length==0)
           {
             var img = {
               nombre: item.imagen,
@@ -221,34 +231,35 @@ export class ProductosComponent implements OnInit {
   }
 
   guardarProducto(){
-    this.new_producto.idComercio = this.adminService.comercioSeleccionado[0].id;
+    this.new_producto.imagenes = this.adminService.imagenProd;
+    this.new_producto.colores = this.colores;
+    this.new_producto.idComercio = this.adminService.currentUser.usuario.id_comercio;
+        
     this.adminService.guardarProducto(this.new_producto).subscribe(res=>{
       this.new_producto = {
         nombre: '',
         descripcion: '',
         precio: '',
         subcategoria: '',
-        idComercio: this.adminService.comercioSeleccionado.id,
-      }
-      this.colores.forEach(element => {
-        element.id_producto = res;
-        this.adminService.guardarColores(element).subscribe();
-      });
-      this.adminService.imagenProd.forEach
+        idComercio: 0,
+        imagenes: [],
+        colores: [],
+      };
+
       this.agregarProducto = false;
       this.getProductosComercio();
     });
   }
 
   editProducto(prod, i){
-    this.prod_edit = i;
+    this.prod_edit = prod.id_prod;
   }
 
   modifProducto(prod,subcat_id, i){
 
-    let nombre_html = document.getElementById('nombre_'+i) as HTMLInputElement;
-    let desc_html = document.getElementById('desc_'+i) as HTMLInputElement;
-    let precio_html = document.getElementById('precio_'+i) as HTMLInputElement;
+    let nombre_html = document.getElementById('nombre_'+prod.id_prod) as HTMLInputElement;
+    let desc_html = document.getElementById('desc_'+prod.id_prod) as HTMLInputElement;
+    let precio_html = document.getElementById('precio_'+prod.id_prod) as HTMLInputElement;
     let nombre_value = nombre_html.value;
     let desc_value = desc_html.value;
     let precio_value = precio_html.value;
@@ -266,6 +277,19 @@ export class ProductosComponent implements OnInit {
     this.adminService.editarProducto(producto).subscribe(res=>{
       this.getProductosComercio();
     });
+  }
+
+  editarNombre(event, prod)
+  {
+    var producto=
+    {
+      id: prod.id,
+      nombre: event.target.value,
+      descripcion: prod.descripcion,
+      precio: prod.precio,
+    }
+    console.log(prod)
+    this.adminService.editarProducto(producto).subscribe();
   }
 
   eliminarProducto(prod){
