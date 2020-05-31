@@ -31,10 +31,11 @@
               <button class="form-item" [matMenuTriggerFor]="color">Color</button>
               <mat-menu #color>
                 <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+                <!-- (click)="probando(i)" -->
               </mat-menu>
               <div class="div-colores flex">
                 <div *ngFor="let color of colores; index as i">
-                  <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}" (click)="probando(i)"></div>
+                  <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}"></div>
                 </div>
               </div>
           </div>
@@ -114,6 +115,10 @@
                       <button class="btn" *ngIf="prod_edit == prod.id_prod" (click)="prod_edit = 10000"><i class="fa fa-window-close"></i></button>
                     </div>
                     <div class="div-fotos col-md-10 flex">
+                      <div class="label-file col-md-2" style="padding: 0">
+                        <div class="div"></div>
+                        <button class="btn-img " (click)="openModalImgs(prod)"><img class="imagen" src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></button>
+                      </div>
                       <div class="btn-img col-md-2 no-pad-h" *ngFor="let elem of prod.imgs"><img class="imagen" [src]="elem.image" alt=""></div>
                       <!-- <ng-image-slider [images]="prod.imgs" style="position: absolute;
                         top: 0 !important;

@@ -378,6 +378,11 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  agregarImagen(prod)
+  {
+    console.log(prod);
+  }
+
   // FUNCIONES DRAG & DROP //
 
   public files: NgxFileDropEntry[] = [];
