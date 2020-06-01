@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { AdminService } from '../admin.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal-imgs-producto',
@@ -28,11 +28,11 @@ export class ModalImgsProductoComponent implements OnInit {
     id_comercio: 0
   }
 
-  constructor(public adminService:AdminService, public dialogRef: MatDialogRef<ModalImgsProductoComponent>) { }
+  constructor(public adminService:AdminService, public dialogRef: MatDialogRef<ModalImgsProductoComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     if (this.adminService.prod !== 0) {
-      this.imagen_croppeada.id_producto = this.adminService.prod.id_prod;
+      this.imagen_croppeada.id_producto = this.data.id_prod;
       console.log(this.adminService.prod)
     }
     else
@@ -47,11 +47,11 @@ export class ModalImgsProductoComponent implements OnInit {
     });
   }
 
-  getImagenes(){
-    this.adminService.getImagenesProducto(this.adminService.prod.id_prod).subscribe(res=>{
-      this.imgs = res;
-    });
-  }
+  // getImagenes(){
+  //   this.adminService.getImagenesProducto(this.data.id_prod).subscribe(res=>{
+  //     this.imgs = res;
+  //   });
+  // }
 
   nuevaImagen(file){
     this.editando_crop = false;
@@ -64,35 +64,40 @@ export class ModalImgsProductoComponent implements OnInit {
       + currentDate.getSeconds().toString();
       this.imagen_croppeada.nombre = fechaHora;
 
-      if(this.adminService.prod != 0)
+      if(this.data != 0)
       {
         // this.adminService.prod.imgs.push(
         //   {
         //     image:this.imagen_croppeada.url,
         //     nombre:this.imagen_croppeada.nombre
         //   });
-        this.adminService.nuevaImagen(
-          {
-            image:this.imagen_croppeada.url,
-            nombre:this.imagen_croppeada.nombre,
-            id_producto:this.adminService.prod.id_prod,
-            id_comercio:this.adminService.currentUser.usuario.id_comercio
-          }).subscribe(res=>{console.log(res)});
-        debugger;
+
+        var imagen=
+        {
+          image:this.imagen_croppeada.url,
+          nombre:this.imagen_croppeada.nombre,
+          id_producto:this.data.id_prod,
+          id_comercio:this.adminService.currentUser.usuario.id_comercio
+        }
+
+        this.adminService.nuevaImagen(imagen).subscribe();        
       }
       else
       {
-      this.adminService.imagenProd.push({
-        file:this.imagen_croppeada.url,
-        nombreImg:this.imagen_croppeada.nombre
-      })
+        this.adminService.imagenProd.push({
+          file:this.imagen_croppeada.url,
+          nombreImg:this.imagen_croppeada.nombre
+        })
       };
-      this.dialogRef.close();
 
-    // this.adminService.nuevaImagen(this.imagen_croppeada).subscribe(res=>{
-    //   this.cancelarCrop();
-    //   this.getImagenes();
-    // });
+      var ret=
+      {
+        image:this.imagen_croppeada.url,
+        nombre:this.imagen_croppeada.nombre,
+        thumbImage:null
+      }
+      
+      this.dialogRef.close(ret);
   }
 
   cancelarCrop(){
@@ -114,19 +119,19 @@ export class ModalImgsProductoComponent implements OnInit {
     }
     this.adminService.editarImagen(imagen).subscribe(res=>{
       this.cancelarCrop();
-      this.getImagenes();
+      // this.getImagenes();
     });
 
   }
 
-  eliminarImagen(img){
-    if (confirm("¿Eliminar la foto?")) {
-      this.adminService.eliminarImagen(img).subscribe(res=>{
-        this.getImagenes();
-      });
+  // eliminarImagen(img){
+  //   if (confirm("¿Eliminar la foto?")) {
+  //     this.adminService.eliminarImagen(img).subscribe(res=>{
+  //       this.getImagenes();
+  //     });
 
-    }
-  }
+  //   }
+  // }
 
   fileChangeEvent(event: any): void {
     // this.nuevaImagen(event);

@@ -128,31 +128,30 @@ export class AdminService {
 
     // IMAGENES PRODUCTOS //
 
-    openModalImgs(prod): void
-    {
-      if (prod == 0) {
-        this.prod = {
-          id_prod: 0
-        }
-      }
-      else
-      {
-        this.prod = prod;
-      }
+    // openModalImgs(prod): void
+    // {
+    //   if (prod == 0) {
+    //     this.prod = {
+    //       id_prod: 0
+    //     }
+    //   }
+    //   else
+    //   {
+    //     this.prod = prod;
+    //   }
+      
+    //   const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
+    //     height: 'fit-content',
+    //     width: 'fit-content',
+    //     panelClass: 'custom-modalbox',
+    //   });
 
+    //   dialogRef.afterClosed().subscribe(res=>
+    //     {
+    //       this.getSubProdImgsComercio()
+    //     });
 
-      const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
-        height: 'fit-content',
-        width: 'fit-content',
-        panelClass: 'custom-modalbox'
-      });
-
-      dialogRef.afterClosed().subscribe(res=>
-        {
-          this.getSubProdImgsComercio()
-        });
-
-    }
+    // }
 
     getImagenesProducto(id){
       return this.http.get(`${API_URL}/api/getImagenesProducto/`+id)

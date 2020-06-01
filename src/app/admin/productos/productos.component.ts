@@ -6,6 +6,8 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ColorEvent } from 'ngx-color';
 import { of } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
+import { ModalImgsProductoComponent } from '../modal-imgs-producto/modal-imgs-producto.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-productos',
@@ -39,12 +41,13 @@ export class ProductosComponent implements OnInit {
   colores = [];
   newColor = {
     color: '',
-    id_producto: 0
+    id_producto: '',
+    id_comercio:''
   }
   materiales = [];
   tamaneos = [];
 
-  constructor(public adminService:AdminService,private FormBuilder: FormBuilder, public authService: AuthService) { }
+  constructor(public adminService:AdminService,private FormBuilder: FormBuilder, public authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit()
   {
@@ -64,8 +67,28 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  openModalImgs(prod){
-    this.adminService.openModalImgs(prod);
+  openModalImgs(prod, index, i){
+    if (prod == 0) {
+        prod = {
+        id_prod: 0
+      }
+    }
+    else
+    {
+      prod = prod;
+    }
+    
+    const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      panelClass: 'custom-modalbox',
+      data:prod,
+    });
+
+    dialogRef.afterClosed().subscribe(res=>
+      {
+        this.listaSubProd[index].prod[i].imgs.push(res);
+      });
   }
 
   filtrarXcat(id_subcat){
@@ -81,7 +104,7 @@ export class ProductosComponent implements OnInit {
     this.adminService.getSubProdImgsComercio().subscribe(
       res=>{
         this.listaRes = res;
-        console.log("Lista Res:");
+        // console.log("Lista Res:");
         console.log(this.listaRes);
         this.agruparProdSubcat();
       }
@@ -109,7 +132,8 @@ export class ProductosComponent implements OnInit {
           {
             nombre: item.imagen,
             image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
-            thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+            thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+            id:item.id_imagen
           }];
         }
         else
@@ -158,7 +182,7 @@ export class ProductosComponent implements OnInit {
       else
       {
         var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
-        var index = this.listaSubProd.indexOf(reg);
+        var index = this.listaSubProd.indexOf(reg); 
 
         if(this.listaSubProd[index].prod.filter(x=>x.id_prod == item.id_prod).length==0)
         {
@@ -169,7 +193,8 @@ export class ProductosComponent implements OnInit {
               {
                 nombre: item.imagen,
                 image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
-                thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+                thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+                id:item.id_imagen
               }];
           }
           else
@@ -226,7 +251,8 @@ export class ProductosComponent implements OnInit {
             var img = {
               nombre: item.imagen,
               image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
-              thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+              thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+              id:item.id_imagen
             };
 
             this.listaSubProd[index].prod[indexProd].imgs.push(img);
@@ -378,9 +404,15 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  agregarImagen(prod)
-  {
-    console.log(prod);
+  eliminarImagen(img, indexImg, index, i){
+    if (confirm("¿Eliminar la foto?")) {
+      console.log(img);
+      this.adminService.eliminarImagen(img).subscribe(
+        res=>
+        {
+          this.listaSubProd[index].prod[i].imgs.splice(indexImg, 1);
+        });
+    }
   }
 
   // FUNCIONES DRAG & DROP //
@@ -395,31 +427,9 @@ export class ProductosComponent implements OnInit {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-
-          // Here you can access the real file
-          debugger;
           console.log(droppedFile.relativePath, file);
-          // this.imageChangedEvent = file;
-
-          /**
-          // You could upload it like this:
-          const formData = new FormData()
-          formData.append('logo', file, relativePath)
-
-          // Headers
-          const headers = new HttpHeaders({
-            'security-token': 'mytoken'
-          })
-
-          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-          .subscribe(data => {
-            // Sanitized logo returned from backend
-          })
-          **/
-
         });
       } else {
-        // It was a directory (empty directories are added, otherwise only files)
         const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
         console.log(droppedFile.relativePath, fileEntry);
       }
@@ -461,18 +471,40 @@ export class ProductosComponent implements OnInit {
       console.log($event.color);
     }
 
-    handleChangeComplete($event: ColorEvent) {
-      console.log($event.color);
-      this.newColor.color = $event.color.hex;
-      this.pushColor();
-    }
-
-    pushColor(){
-      this.colores.push(this.newColor);
-      this.newColor = {
-        color: '',
-        id_producto: 0
+    handleChangeComplete($event: ColorEvent, prod, index, i) {
+      var nuevo;
+      if(prod != null)
+      {
+        nuevo = {
+          color: $event.color.hex,
+          id_producto: prod.id_prod,
+          id_comercio: this.adminService.currentUser.usuario.id_comercio
+        }
+        this.adminService.guardarColores(nuevo).subscribe(
+          res=>
+          {
+            this.listaSubProd[index].prod[i].colores.push(nuevo);
+          });
+        console.log(this.newColor);
+      }
+      else
+      {
+        this.newColor = 
+        {
+          color: $event.color.hex,
+          id_producto: null,
+          id_comercio: this.adminService.currentUser.usuario.id_comercio
+        }
+        this.colores.push(this.newColor)
       }
     }
+
+    // pushColor(prod, newColor){
+    //   // this.colores.push(this.newColor);
+    //   this.newColor = {
+    //     color: this.newColor.color,
+    //     id_producto: prod.id_prod
+    //   }
+    // }
 
 }
