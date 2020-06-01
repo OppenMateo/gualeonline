@@ -35,7 +35,9 @@
               </mat-menu>
               <div class="div-colores flex">
                 <div *ngFor="let color of colores; index as i">
-                  <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}"></div>
+                  <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}">
+                    <button (click)="quitarNewColor(i)" class="btn-borrar-color">X</button>
+                  </div>
                 </div>
               </div>
           </div>
@@ -104,7 +106,9 @@
                         <mat-menu #color>
                           <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event, prod, index, i)"></color-sketch>
                         </mat-menu>
-                        <div class="div-color" *ngFor="let x of prod.colores" [ngStyle]="{'background': x.color}"></div>
+                        <div class="div-color" *ngFor="let x of prod.colores; index as indexColor" [ngStyle]="{'background': x.color}">
+                          <button (click)="quitarNewColor(indexColor)" class="btn-borrar-color"></button>
+                        </div>
                       </div>
                     </div>
                   </div>  
