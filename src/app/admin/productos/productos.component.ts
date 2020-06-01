@@ -143,7 +143,11 @@ export class ProductosComponent implements OnInit {
 
         if(item.color != null)
         {
-          listaColores = [{color:item.color}];
+          listaColores = [
+            {
+              color:item.color,
+              id_color:item.id_color
+            }];
         }
         else
         {
@@ -204,7 +208,11 @@ export class ProductosComponent implements OnInit {
 
           if(item.color != null)
           {
-            listaColores = [{color:item.color}];
+            listaColores = [
+              {
+                color:item.color,
+                id_color:item.id_color
+              }];
           }
           else
           {
@@ -260,7 +268,11 @@ export class ProductosComponent implements OnInit {
 
           if(item.color != null && this.listaSubProd[index].prod[indexProd].colores.filter(x=>x.color == item.color).length==0)
           {
-            var color = { color: item.color };
+            var color = 
+            {
+               color: item.color,
+               id_color: item.id_color
+            };
             this.listaSubProd[index].prod[indexProd].colores.push(color);
           }
           /*
@@ -292,8 +304,15 @@ export class ProductosComponent implements OnInit {
     this.adminService.eliminarImgsProducto(0).subscribe();
   }
 
-  quitarNewColor(i){
-    this.colores.splice(i,1);
+  quitarNewColor(index, i, indexColor, color){
+    this.colores.splice(indexColor,1);
+    this.adminService.borrarColor(color.id_color).subscribe(
+      res=>
+      {
+        this.listaSubProd[index].prod[i].colores.splice(indexColor, 1)
+      }
+    );
+    console.log(color.id_color)
   }
 
   addMaterial(){

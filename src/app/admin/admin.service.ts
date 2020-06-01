@@ -179,6 +179,10 @@ export class AdminService {
       return this.http.post(`${API_URL}/api/guardarColores`, colores);
     }
 
+    borrarColor(id){
+      return this.http.delete(`${API_URL}/api/borrarColor/`+id);
+    }
+
     // TAMAÑOS Y MATERIALES //
 
     guardarTamaños(tamaños){

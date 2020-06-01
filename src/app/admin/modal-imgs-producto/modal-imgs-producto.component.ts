@@ -47,11 +47,11 @@ export class ModalImgsProductoComponent implements OnInit {
     });
   }
 
-  // getImagenes(){
-  //   this.adminService.getImagenesProducto(this.data.id_prod).subscribe(res=>{
-  //     this.imgs = res;
-  //   });
-  // }
+  getImagenes(){
+    this.adminService.getImagenesProducto(this.data.id_prod).subscribe(res=>{
+      this.imgs = res;
+    });
+  }
 
   nuevaImagen(file){
     this.editando_crop = false;
