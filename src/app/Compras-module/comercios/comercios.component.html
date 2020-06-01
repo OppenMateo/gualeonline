@@ -1,4 +1,4 @@
-<div class="diseño2" *ngIf="comercio.disenio !== 1">
+<!-- <div class="diseño2" *ngIf="comercio.disenio !== 1">
   <div class="div-portada">
     <div class="div-body-portada"><img class="imagen" class="imagen-portada" src="{{'https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada}}" alt="">
         <div class="div-nombre-comercio">{{comercio.nombre}}</div>
@@ -46,9 +46,67 @@
         </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="diseño1" *ngIf="comercio.disenio == 1">
-  Diseño 1
+    <div class="div-img-background h-100vh rel flex" [ngStyle]="{'background-image': 'url(https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada+')'}">
+    <!-- <img src="{{'https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada}}" alt="" class="img-background imagen h-100"> -->
+        <div class="div-text-com">
+            <div class="div-title-com bold">{{comercio.nombre}}</div>
+            <div class="div-ig-com bold flex">
+                <div class="icon-ig"><i class="fa fa-instagram"></i></div>
+                <div class="text-ig">@{{comercio.nombre}}</div>
+            </div>
+        <div class="div-btn-ver-prod">
+            <button class="btn-ver-prod br-10">VER PRODUCTOS</button>
+        </div>
+        </div>
+    </div>
+
+    <div class="div-cont h-100vh flex">
+        <div class="div-cont-categorias br-10 flex flex-column">
+            <div class="div-text-com">
+                <div class="div-title-com-cat bold">{{comercio.nombre}}</div>
+                <div class="div-ig-com-cat bold flex">
+                    <div class="icon-ig"><i class="fa fa-instagram"></i></div>
+                    <div class="text-ig">@{{comercio.nombre}}</div>
+                </div>
+            </div>
+            <div class="div-list-categorias m-auto flex w-100">
+                <div class="div-categoria flex" *ngFor="let item of listaSubProd" [ngStyle]="{'background-image': 'url('+ item.prod[0].imgs[0].image +')'}">        
+                    <div class="div-nombre-cat m-auto w-fc btn-ver-prod br-10">{{item.subcat.nombre}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="div-cont flex">
+        <div class="div-cont-categorias br-10 flex flex-column">
+            <div class="div-text-com">
+                <div class="div-title-com-cat bold">{{comercio.nombre}}</div>
+                <div class="div-ig-com-cat bold flex">
+                    <div class="icon-ig"><i class="fa fa-instagram"></i></div>
+                    <div class="text-ig">@{{comercio.nombre}}</div>
+                </div>
+            </div>
+            <div class="div-list-categorias m-auto w-100">
+                <div class="div-categoria-prod m-auto txt-center" *ngFor="let item of listaSubProd">        
+                    <div class="div-nombre-cat-prod">{{item.subcat.nombre}}</div>
+                    <div class="div-cont-list-prod flex w-fc m-auto">
+                        <div class="div-cont-prod" *ngFor="let prod of item.prod">
+                            <div class="div-img-prod"><img class="img-prod" src={{prod.imgs[0].image}} alt=""></div>
+                            <div class="div-desc-prod">
+                                <div class="nombre-prod">{{prod.nombre}}</div>
+                                <div class="precio-prod">{{prod.precio}}</div>
+                                <div class="div-colores-prod flex w-fc m-auto">
+                                    <div class="div-color" *ngFor="let color of prod.colores" [ngStyle]="{'background': color.color}"></div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

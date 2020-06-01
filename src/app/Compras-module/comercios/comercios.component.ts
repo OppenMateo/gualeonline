@@ -3,7 +3,7 @@ import { ComprasService } from '../compras.service';
 import { MatDialog } from '@angular/material/dialog';
 import { isNgTemplate } from '@angular/compiler';
 import { ModalAddProductoComponent } from '../modal-add-producto/modal-add-producto.component';
-import { provideRoutes } from '@angular/router';
+import { provideRoutes, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { ModalDatosCompraComponent } from '../modal-datos-compra/modal-datos-compra.component';
 import { ModalLoginComponent } from 'src/app/modal-login/modal-login.component';
@@ -19,6 +19,7 @@ export class ComerciosComponent implements OnInit {
   listaProductosSubcategoria=[];
   comercio =
   {
+    id:0,
     imagen:'',
     nombre:'',
     subcategoria:'',
@@ -29,18 +30,25 @@ export class ComerciosComponent implements OnInit {
     disenio: 0
   }
   detalle=null;
+  listaSubProd;
+  listaRes;
 
-  constructor(private comprasService:ComprasService, private authService: AuthService, public dialog: MatDialog) { }
+  constructor(private comprasService:ComprasService, private authService: AuthService, public dialog: MatDialog, private router:Router) { }
 
-  ngOnInit() {
-    this.getProductosComercio();
-    this.comprasService.getComercioSeleccionado().subscribe(
+  ngOnInit() 
+  {
+    var url = this.router.url;
+    var urlComercio = url.substring(url.indexOf('/')+1, url.length);
+        
+    this.comprasService.getComercioUrl(urlComercio).subscribe(
       res=>
       {
         this.comprasService.comercioSeleccionado = res[0];
 
+        console.log(res);
         this.comercio =
         {
+          id:res[0].id,
           imagen: res[0].imagen,
           nombre: res[0].nombre,
           subcategoria: res[0].subcategoria,
@@ -50,6 +58,9 @@ export class ComerciosComponent implements OnInit {
           direccion: res[0].entrega,
           disenio: res[0].diseño
         }
+
+        this.getProductosComercio();
+        console.log(this.comercio);
       },
       err=>{
         console.log(err);})
@@ -57,35 +68,165 @@ export class ComerciosComponent implements OnInit {
 
   getProductosComercio()
   {
-    var listaSubcategorias=[];
-    var listaRes;
-    this.comprasService.getSubcategoriasProductosComercio().subscribe
-    (res=>
-      {
-        listaRes=res;
-        listaRes.forEach(elem=>
-        {
-          if(listaSubcategorias.filter(x=>x.subcat_id == elem.subcat_id).length<=0)
-          {
-            listaSubcategorias.push({
-              subcat_id : elem.subcat_id,
-              nombre: elem.nombre,
-            })
-          }
-        });
-
-        listaSubcategorias.forEach(item=>
-        {
-          this.listaProductosSubcategoria.push(
-          {
-            subcat:item,
-            prod:listaRes.filter(x=>x.subcat_id == item.subcat_id)
-          })
-        })
-
-      },
-      err=> {console.log(err);});
+    this.comprasService.getSubProdImgsComercio().subscribe(res=>
+    {
+      this.listaRes = res;
+      this.agruparProdSubcat();
+    });
   }
+
+  agruparProdSubcat()
+  {
+    this.listaSubProd = [];    
+    var subcatProd;
+
+    this.listaRes.forEach(item =>
+    {
+      if(this.listaSubProd.filter(x=>x.subcat.id_subcat == item.id_subcat).length==0)
+      {
+        var subcat= {id_subcat:item.id_subcat, nombre:item.nombre_categoria };
+        var listaImgs;
+        var listaColores;
+
+        if(item.imagen != null)
+        {
+          listaImgs = [
+          {
+            nombre: item.imagen,
+            image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+            thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+          }];
+        }
+        else
+        {
+          listaImgs = [];
+        }
+        
+        if(item.color != null)
+        {
+          listaColores = [{color:item.color}];
+        }
+
+        var prod =
+        {
+          id_prod:item.id_prod,
+          nombre:item.nombre_producto,
+          descripcion:item.descripcion_producto,
+          precio:item.precio_producto,
+          imgs:listaImgs,
+          colores:listaColores
+        }
+
+        var subcatProd = {
+          subcat : subcat,
+          prod:[prod]
+        }
+        this.listaSubProd.push(subcatProd);
+      }
+      else
+      {
+        var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
+        var index = this.listaSubProd.indexOf(reg);
+
+        if(this.listaSubProd[index].prod.filter(x=>x.id_prod == item.id_prod).length==0)
+        {
+          var listaImgs;
+          if(item.imagen != null)
+          {
+            listaImgs = [
+              {
+                nombre: item.imagen,
+                image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+                thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+              }];
+          }
+          else
+          {
+            listaImgs = [];
+          }
+
+          if(item.color != null)
+          {
+            listaColores = [{color:item.color}];
+          }
+
+          var prod =
+          {
+            id_prod:item.id_prod,
+            nombre:item.nombre_producto,
+            descripcion:item.descripcion_producto,
+            precio:item.precio_producto,
+            imgs:listaImgs,
+            colores:listaColores
+          }
+
+          this.listaSubProd[index].prod.push(prod);
+        }
+        else
+        {
+          var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
+          var index = this.listaSubProd.indexOf(reg);
+
+          var regProd = this.listaSubProd[index].prod.filter(x=>x.prod_id==item.prod_id);
+          if(regProd.length>0)
+          {
+            var indexProd = this.listaSubProd[index].prod.indexOf(regProd[0]);
+          }
+
+          if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.imagen == item.imagen).length==0)
+          {
+            var img = {
+              nombre: item.imagen,
+              image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+              thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+            };
+
+            this.listaSubProd[index].prod[indexProd].imgs.push(img);
+          }
+
+          if(item.color != null && this.listaSubProd[index].prod[indexProd].colores.filter(x=>x.color == item.color).length==0)
+          {
+            var color = { color: item.color };
+            this.listaSubProd[index].prod[indexProd].colores.push(color);
+          }
+        }
+      }
+    });
+    console.log("Lista Sub Prod:");
+    console.log(this.listaSubProd);
+  }
+
+  // getProductosComercio()
+  // {
+  //   var listaSubcategorias=[];
+  //   var listaRes;
+  //   this.comprasService.getSubcategoriasProductosComercio().subscribe
+  //   (res=>
+  //     {
+  //       listaRes=res;
+  //       listaRes.forEach(elem=>
+  //       {
+  //         if(listaSubcategorias.filter(x=>x.subcat_id == elem.subcat_id).length<=0)
+  //         {
+  //           listaSubcategorias.push({
+  //             subcat_id : elem.subcat_id,
+  //             nombre: elem.nombre,
+  //           })
+  //         }
+  //       });
+
+  //       listaSubcategorias.forEach(item=>
+  //       {
+  //         this.listaProductosSubcategoria.push(
+  //         {
+  //           subcat:item,
+  //           prod:listaRes.filter(x=>x.subcat_id == item.subcat_id)
+  //         })
+  //       })
+
+  //     },
+  //     err=> {console.log(err);});
+  // }
 
   openModalAddProducto(prod)
   {

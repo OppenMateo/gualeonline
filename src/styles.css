@@ -51,7 +51,7 @@ body
 *
 {
     font-family: opensans-reg;
-   --gris-claro: #f7f7f7;
+   --gris-claro: #f8f8f8;
    --gris:  #9d9d9d;
    --gris-oscuro: #878787;
    --black: #333333;
@@ -88,6 +88,11 @@ button
     padding: 1rem 2rem;
 }
 
+.flex-column
+{
+    flex-direction: column;
+}
+
 .spc-btw
 {
     justify-content: space-between;
@@ -98,6 +103,41 @@ input { font-size: inherit }
 .txt-center {text-align: center;}
 
 .txt-right {text-align: right;}
+
+.back-none
+{
+    background:none;
+}
+
+.h-100
+{
+    height: 100%;
+}
+
+.h-100vh
+{
+    height: 100vh;
+}
+
+.h-fc
+{
+    height: fit-content;
+}
+
+.w-100
+{
+    width: 100%;
+}
+
+.w-80
+{
+    width: 80%;
+}
+
+.w-fc
+{
+    width: fit-content;
+}
 
 .m-auto {margin: auto;}
 

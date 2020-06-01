@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-categorias',

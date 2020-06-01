@@ -69,10 +69,21 @@ export class ComprasService {
     return this.http.get(`${API_URL}/api/getSubcatProductosComercio/`+id)
   }
 
+  getSubProdImgsComercio()
+  {
+    var id = this.comercioSeleccionado.id;
+    return this.http.get(`${API_URL}/api/getSubcategoriasProductosImgsComercio/`+id)
+  }
+
   getComercioSeleccionado()
   {
     var id = 4;
     return this.http.get(`${API_URL}/api/getComercio/`+id);
+  }
+
+  getComercioUrl(url)
+  {    
+    return this.http.get(`${API_URL}/api/getComercioUrl/`+url);
   }
 
   openModalNuevoComercio(): void

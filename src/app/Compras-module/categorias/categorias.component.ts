@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ComprasService } from '../compras.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-categorias',
@@ -10,7 +11,7 @@ export class CategoriasComponent implements OnInit {
 
   listaCategorias;
 
-  constructor(private comprasService:ComprasService) { }
+  constructor(private comprasService:ComprasService, private authService:AuthService) { }
 
   ngOnInit() {
     this.getCategorias();
@@ -28,7 +29,18 @@ export class CategoriasComponent implements OnInit {
       {
         console.log(err);
       }
-    );
-  
+    );  
   }  
+
+
+  openModalRegister()
+  {
+    this.authService.openModalRegister();
+  }
+
+  openModalLogin()
+  {
+    this.authService.openModalLogin();
+  }
+
 }

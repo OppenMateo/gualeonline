@@ -1,8 +1,17 @@
 .div-container-navbar
 {
-    width: 90%;
+    /* width: 90%; */
+    padding: 0 5%;
+    position: fixed;
+    width: 100%;
     margin: 0.6rem auto;
+    z-index: 1;
     justify-content: space-between;
+}
+
+.div-logo
+{
+    color: var(--black);
 }
 
 .div-titulo
@@ -33,11 +42,30 @@
     margin: auto 0.5rem;
 }
 
+.div-usuario    
+{
+    font-size: 1.2rem;
+}
+
 .flecha-usuario
 {
-    padding: 0 .5rem;
-    margin: auto 0;
+    /* padding: 0 .5rem; */
+    /* margin: auto 0; */
+    margin:0 10px;
 }
+
+.div-icon-carro .fa
+{
+    font-size: 1.3rem !important;
+    padding: 0;
+}
+
+.span-carro
+{
+    font-size:.9rem;
+    margin: 0 10px;
+}
+
 
 .mat-menu-content
 {

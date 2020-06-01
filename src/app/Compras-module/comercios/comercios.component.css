@@ -131,3 +131,109 @@
     right: 0;
     bottom: 0;
 }
+
+
+
+/* DISEño DOS */
+.div-img-background
+{
+    background-size: cover;
+}
+
+.div-text-com
+{
+    margin: auto;    
+}
+
+.div-title-com
+{
+    font-size: 6rem;    
+}
+
+.div-ig-com
+{
+    font-size: 2rem;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.text-ig
+{    
+    margin-left: 10px;
+}
+
+.div-btn-ver-prod
+{
+    width: fit-content;
+    margin: 40px auto;
+}
+
+.btn-ver-prod
+{
+    font-family: opensans-light;
+    font-size: 1.6rem !important;
+    opacity: .5;
+    background: white;
+    padding: 17px;
+    width: 250px;
+    text-align: center;
+}
+
+.div-cont-categorias
+{
+    margin: 106px auto 20px auto;   
+    background-color: var(--gris-claro);
+    width: 96%;
+    padding:3rem 0;
+}
+
+.div-list-categorias
+{
+    justify-content: space-evenly;
+}
+
+.div-categoria 
+{
+    height: 60vh;
+    width: 400px;
+    background-size: cover;    
+}
+
+.div-title-com-cat
+{
+    font-size: 2.7rem;    
+}
+
+.div-ig-com-cat
+{
+    font-size:1.4rem;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.div-nombre-cat-prod
+{
+    text-transform: uppercase;
+    font-size: 2rem;
+    margin: 2rem auto;    
+}
+
+.img-prod
+{
+    width: 250px;
+    height: 400px;
+}
+
+.div-colores-prod
+{
+    flex-flow: wrap;
+}
+
+.div-color
+{
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    margin: 0 3px;
+}
+
