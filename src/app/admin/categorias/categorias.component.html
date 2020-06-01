@@ -1,14 +1,14 @@
 <div class="div-container">
-  <div class="div-titulo">CATEGORIAS</div>
-  <div class="div-nueva-categoria"><button class="btn-nuevo" (click)="showNuevo()">AGREGAR CATEGORIA</button></div>
+  <div class="div-titulo">Categorias</div>
+  <div class="div-nueva-categoria" *ngIf="!nuevo"><button class="btn-nuevo" (click)="showNuevo()">Añadir nueva categoria</button></div>
   <div class="div-categorias">
     <div *ngIf="nuevo" class="div-nuevo row">
-      <div class="div-empty col-md-1"><button class="btn"><i class="fa fa-check-square"></i></button></div>
-      <div class="div-imagen col-md-4 rel">
+      <!-- <div class="div-empty col-md-1"><button class="btn"><i class="fa fa-check-square"></i></button></div> -->
+      <div class="div-imagen col-md-3 rel">
         <!-- <img [src]="new_cat.imagen" alt=""> -->        
-        <div class="div-opciones label-file"><button class="btn"><i class="fa fa-camera"></i></button></div>
-        <div class="input-file">
-          <input type="file" (change)="fileChangeEvent($event)" />
+        <div class="div-opciones label-file" *ngIf="!newCrop"><button class="btn"></button><img src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></div>
+        <div class="input-file" *ngIf="!newCrop"> 
+          <input class="input-file" type="file" (change)="fileChangeEvent($event)" />
         </div>
         <image-cropper style="width: 200px; height: 200px;"
           *ngIf="newCrop"
@@ -23,7 +23,7 @@
         ></image-cropper>  
       </div>
       <div class="div-nombre col-md-5">
-        <input class="nombre" type="text" placeholder="INGRESA EL NOMBRE DE LA CATEGORIA" [(ngModel)]="new_cat.nombre">
+        <input class="nombre" type="text" placeholder="Ingresa el nombre de tu nueva categoria" [(ngModel)]="new_cat.nombre">
       </div>
       <div class="div-opciones col-md-2">
         <button class="btn" (click)="guardarCategoriaProd(new_cat)"><i class="fa fa-save"></i></button>
@@ -31,57 +31,40 @@
         <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
       </div>
     </div>
-    <div class="div-lista-categorias row"  *ngFor="let categoria of categorias; index as i">
-      <div class="div-opciones col-md-1"><button class="btn"><i class="fa fa-square"></i></button></div>
-      <div class="div-imagen col-md-4">
-        <img class="imagen" [src]="categoria.imagen" alt="" *ngIf="!categoria.cropper">  
-        <input *ngIf="edit == i" type="file"  id="file_{{i}}" (change)="fileChangeEventLista($event,categoria,i)" />
-        <image-cropper style="width: 200px; height: 200px;"
-            id="cropper_{{i}}"
-            [hidden]="!categoria.cropper"
-            [imageChangedEvent]="imageChangedEventLista"
-            [maintainAspectRatio]="true"
-            [aspectRatio]="4 / 3"
-            format="png"
-            (imageCropped)="imageCroppedLista($event,categoria)"
-            (imageLoaded)="imageLoaded()"
-            (cropperReady)="cropperReady()"
-            (loadImageFailed)="loadImageFailed()"
-        ></image-cropper>  
-      </div>
-      <div class="div-nombre col-md-5">
-        <input class="nombre" type="text" value="{{categoria.nombre_categoria}}" [disabled]="edit != i" id={{i}}>
-      </div>
-      <div class="div-opciones col-md-2 flex">
-        <button class="btn" (click)="edit = i" *ngIf="edit == 10000"><i class="fa fa-edit"></i></button>
-        <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
-        <button class="btn" (click)="eliminarCategoriaProd(categoria)" *ngIf="edit == 10000"><i class="fa fa-trash"></i></button>
-        <button class="btn" (click)="editarCategoriaProd(categoria,i)" *ngIf="edit == i"><i class="fa fa-save"></i></button>
-        <button class="btn" (click)="edit = 10000" *ngIf="edit == i"><i class="fa fa-window-close"></i></button>
+    <div class="div-buscar"><input class="buscar" type="text" placeholder="Buscar categoria por nombre"></div>
+    <div class="div-lista-categorias row">
+      <div class="div-categoria col-md-6"  *ngFor="let categoria of categorias; index as i">
+        <!-- <div class="div-opciones col-md-1"><button class="btn"><i class="fa fa-square"></i></button></div> -->
+        <!-- <div class="div-categoria col-md-4"> -->
+          <div class="div-imagen">
+            <img class="imagen" [src]="categoria.imagen" alt="" *ngIf="!categoria.cropper">  
+            <input *ngIf="edit == i" type="file"  id="file_{{i}}" (change)="fileChangeEventLista($event,categoria,i)" />
+            <image-cropper style="width: 200px; height: 200px;"
+                id="cropper_{{i}}"
+                [hidden]="!categoria.cropper"
+                [imageChangedEvent]="imageChangedEventLista"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 3"
+                format="png"
+                (imageCropped)="imageCroppedLista($event,categoria)"
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>  
+          </div>
+          <div class="div-nombre">
+            <input class="nombre" type="text" value="{{categoria.nombre_categoria}}" [disabled]="edit != i" id={{i}}>
+          </div>
+          <div class="div-opciones flex">
+            <button class="btn" (click)="edit = i" *ngIf="edit == 10000"><i class="fa fa-edit"></i></button>
+            <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
+            <button class="btn" (click)="eliminarCategoriaProd(categoria)" *ngIf="edit == 10000"><i class="fa fa-trash"></i></button>
+            <button class="btn" (click)="editarCategoriaProd(categoria,i)" *ngIf="edit == i"><i class="fa fa-save"></i></button>
+            <button class="btn" (click)="edit = 10000" *ngIf="edit == i"><i class="fa fa-window-close"></i></button>
+          </div>
+        <!-- </div> -->
       </div>
     </div>
   </div>
 </div>
-
-
-
-<!-- <div class="div-container">
-  <div class="div-titulo">Categorias</div>
-  <div class="div-buscar-container flex">
-      <div class="div-buscar">Buscar categoria por nombre</div>
-      <div class="div-btn-buscar">Buscar</div>
-  </div>
-  <div class="div-acciones">Acciones</div>
-  <div class="div-opciones">Elegí una opcion '(Desplegable)'</div>
-  <div class="div-titulo-categorias">(Seleccionar?) Categorias</div>
-  <div class="div-categorias-container flex">
-      <div class="div-img">(Seleccionar) Imagen</div>
-      <div class="div-categoria">Categoria 1</div>
-  </div>
-  <div class="div-btn-nuevo-prod">Crear producto (Deberia ir arriba)</div>
-  <div class="div-botones-container flex">
-      <div class="div-guardar">Guardar</div>
-      <div class="div-cancelar">Cancelar</div>
-  </div>
-</div> -->
 

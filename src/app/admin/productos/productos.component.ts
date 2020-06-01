@@ -5,6 +5,9 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ColorEvent } from 'ngx-color';
 import { of } from 'rxjs';
+import { AuthService } from 'src/app/auth.service';
+import { ModalImgsProductoComponent } from '../modal-imgs-producto/modal-imgs-producto.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-productos',
@@ -30,22 +33,28 @@ export class ProductosComponent implements OnInit {
     descripcion: '',
     precio: '',
     subcategoria: '',
-    idComercio: 0
+    idComercio: 0,
+    imagenes:[],
+    colores:[],
   }
 
   colores = [];
   newColor = {
     color: '',
-    id_producto: 0
+    id_producto: '',
+    id_comercio:''
   }
+  materiales = [];
+  tamaneos = [];
 
-  constructor(private adminService:AdminService,private FormBuilder: FormBuilder) { }
+  constructor(public adminService:AdminService,private FormBuilder: FormBuilder, public authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit()
   {
     this.adminService.getComercioSeleccionado().subscribe(res=>{
       this.adminService.comercioSeleccionado = res;
       this.getCategorias();
+      console.log(res)
     });
     this.getProductosComercio();
   }
@@ -58,8 +67,28 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  openModalImgs(prod){
-    this.adminService.openModalImgs(prod);
+  openModalImgs(prod, index, i){
+    if (prod == 0) {
+        prod = {
+        id_prod: 0
+      }
+    }
+    else
+    {
+      prod = prod;
+    }
+    
+    const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
+      height: 'fit-content',
+      width: 'fit-content',
+      panelClass: 'custom-modalbox',
+      data:prod,
+    });
+
+    dialogRef.afterClosed().subscribe(res=>
+      {
+        this.listaSubProd[index].prod[i].imgs.push(res);
+      });
   }
 
   filtrarXcat(id_subcat){
@@ -75,7 +104,7 @@ export class ProductosComponent implements OnInit {
     this.adminService.getSubProdImgsComercio().subscribe(
       res=>{
         this.listaRes = res;
-        console.log("Lista Res:");
+        // console.log("Lista Res:");
         console.log(this.listaRes);
         this.agruparProdSubcat();
       }
@@ -84,7 +113,7 @@ export class ProductosComponent implements OnInit {
 
   agruparProdSubcat()
   {
-    this.listaSubProd = [];    
+    this.listaSubProd = [];
     var subcatProd;
 
     this.listaRes.forEach(item =>
@@ -94,6 +123,8 @@ export class ProductosComponent implements OnInit {
         var subcat= {id_subcat:item.id_subcat, nombre:item.nombre_categoria };
         var listaImgs;
         var listaColores;
+        var listaTamaneos;
+        var listaMateriales;
 
         if(item.imagen != null)
         {
@@ -101,17 +132,32 @@ export class ProductosComponent implements OnInit {
           {
             nombre: item.imagen,
             image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
-            thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+            thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+            id:item.id_imagen
           }];
         }
         else
         {
           listaImgs = [];
         }
-        
+
         if(item.color != null)
         {
           listaColores = [{color:item.color}];
+        }
+        else
+        {
+          listaColores = [];
+        }
+
+        if(item.tamaño != null)
+        {
+          listaTamaneos = [{tamaneo:item.tamaño}];
+        }
+
+        if(item.material != null)
+        {
+          listaMateriales = [{material:item.material}];
         }
 
         var prod =
@@ -121,7 +167,9 @@ export class ProductosComponent implements OnInit {
           descripcion:item.descripcion_producto,
           precio:item.precio_producto,
           imgs:listaImgs,
-          colores:listaColores
+          colores:listaColores,
+          materiales: listaMateriales,
+          tamaneos: listaTamaneos
         }
 
         var subcatProd = {
@@ -129,11 +177,12 @@ export class ProductosComponent implements OnInit {
           prod:[prod]
         }
         this.listaSubProd.push(subcatProd);
+        console.log(this.listaSubProd);
       }
       else
       {
         var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
-        var index = this.listaSubProd.indexOf(reg);
+        var index = this.listaSubProd.indexOf(reg); 
 
         if(this.listaSubProd[index].prod.filter(x=>x.id_prod == item.id_prod).length==0)
         {
@@ -144,7 +193,8 @@ export class ProductosComponent implements OnInit {
               {
                 nombre: item.imagen,
                 image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
-                thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+                thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+                id:item.id_imagen
               }];
           }
           else
@@ -156,6 +206,20 @@ export class ProductosComponent implements OnInit {
           {
             listaColores = [{color:item.color}];
           }
+          else
+          {
+            listaColores = [];
+          }
+
+          if(item.tamaño != null)
+          {
+            listaTamaneos = [{tamaneo:item.tamaño}];
+          }
+
+          if(item.material != null)
+          {
+            listaMateriales = [{material:item.material}];
+          }
 
           var prod =
           {
@@ -164,7 +228,9 @@ export class ProductosComponent implements OnInit {
             descripcion:item.descripcion_producto,
             precio:item.precio_producto,
             imgs:listaImgs,
-            colores:listaColores
+            colores:listaColores,
+            tamaneos: listaTamaneos,
+            materiales: listaMateriales
           }
 
           this.listaSubProd[index].prod.push(prod);
@@ -174,18 +240,19 @@ export class ProductosComponent implements OnInit {
           var reg = this.listaSubProd.find(x=>x.subcat.id_subcat == item.id_subcat);
           var index = this.listaSubProd.indexOf(reg);
 
-          var regProd = this.listaSubProd[index].prod.filter(x=>x.prod_id==item.prod_id);
+          var regProd = this.listaSubProd[index].prod.filter(x=>x.id_prod==item.id_prod);
           if(regProd.length>0)
           {
             var indexProd = this.listaSubProd[index].prod.indexOf(regProd[0]);
           }
 
-          if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.imagen == item.imagen).length==0)
+          if(item.imagen != null && this.listaSubProd[index].prod[indexProd].imgs.filter(x=>x.nombre == item.imagen).length==0)
           {
             var img = {
               nombre: item.imagen,
               image:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
-              thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen
+              thumbImage:'https://api.gualeonline.com.ar/public/img/productos/'+item.imagen,
+              id:item.id_imagen
             };
 
             this.listaSubProd[index].prod[indexProd].imgs.push(img);
@@ -196,6 +263,18 @@ export class ProductosComponent implements OnInit {
             var color = { color: item.color };
             this.listaSubProd[index].prod[indexProd].colores.push(color);
           }
+          /*
+          if(item.tamaño != null && this.listaSubProd[index].prod[indexProd].tamaneos.filter(x=>x.tamaneo == item.tamaño).length==0)
+          {
+            var tamaneo = { tamaneo: item.tamaño };
+            this.listaSubProd[index].prod[indexProd].tamaneos.push(tamaneo);
+          }
+          */
+          if(item.material != null && this.listaSubProd[index].prod[indexProd].materiales.filter(x=>x.material == item.material).length==0)
+          {
+            var material = { material: item.material };
+            this.listaSubProd[index].prod[indexProd].materiales.push(material);
+          }
         }
       }
     });
@@ -203,35 +282,88 @@ export class ProductosComponent implements OnInit {
     console.log(this.listaSubProd);
   }
 
+  cancelarNewProducto(){
+    this.agregarProducto = false;
+    this.new_producto.nombre = '';
+    this.new_producto.descripcion = '';
+    this.new_producto.precio = '';
+    this.new_producto.subcategoria = '';
+    this.colores = [];
+    this.adminService.eliminarImgsProducto(0).subscribe();
+  }
+
+  quitarNewColor(i){
+    this.colores.splice(i,1);
+  }
+
+  addMaterial(){
+    let material = {
+      material: '',
+      id_producto: 0
+    }
+    this.materiales.push(material);
+  }
+
+  prueba(){
+    console.log(this.tamaneos);
+  }
+
+  addTamaneo(){
+    let tamaneo = {
+      tamaneo: '',
+      id_producto: 0
+    }
+    this.tamaneos.push(tamaneo);
+  }
+
   guardarProducto(){
-    this.new_producto.idComercio = this.adminService.comercioSeleccionado[0].id;
+    this.new_producto.imagenes = this.adminService.imagenProd;
+    this.new_producto.colores = this.colores;
+    this.new_producto.idComercio = this.adminService.currentUser.usuario.id_comercio;
+        
     this.adminService.guardarProducto(this.new_producto).subscribe(res=>{
       this.new_producto = {
         nombre: '',
         descripcion: '',
         precio: '',
         subcategoria: '',
-        idComercio: 0
+        idComercio: 0,
+        imagenes: [],
+        colores: [],
       }
-      this.colores.forEach(element => {
-        console.log("ENTRA FORICH");
-        element.id_producto = res;
-        this.adminService.guardarColores(element).subscribe();
-      });
+      if (this.colores.length > 0) {
+        this.colores.forEach(element => {
+          element.id_producto = res;
+          this.adminService.guardarColores(element).subscribe();
+        });
+      }
+      if (this.materiales.length > 0) {
+        this.materiales.forEach(mat => {
+          mat.id_producto = res;
+          this.adminService.guardarMateriales(mat).subscribe();
+        });
+      }
+      if (this.tamaneos.length > 0) {
+        this.tamaneos.forEach(tam => {
+          tam.id_producto = res;
+          this.adminService.guardarTamaños(tam).subscribe();
+        });
+      }
+
       this.agregarProducto = false;
       this.getProductosComercio();
     });
   }
 
   editProducto(prod, i){
-    this.prod_edit = i;
+    this.prod_edit = prod.id_prod;
   }
 
   modifProducto(prod,subcat_id, i){
 
-    let nombre_html = document.getElementById('nombre_'+i) as HTMLInputElement;
-    let desc_html = document.getElementById('desc_'+i) as HTMLInputElement;
-    let precio_html = document.getElementById('precio_'+i) as HTMLInputElement;
+    let nombre_html = document.getElementById('nombre_'+prod.id_prod) as HTMLInputElement;
+    let desc_html = document.getElementById('desc_'+prod.id_prod) as HTMLInputElement;
+    let precio_html = document.getElementById('precio_'+prod.id_prod) as HTMLInputElement;
     let nombre_value = nombre_html.value;
     let desc_value = desc_html.value;
     let precio_value = precio_html.value;
@@ -251,11 +383,35 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  editarNombre(event, prod)
+  {
+    var producto=
+    {
+      id: prod.id,
+      nombre: event.target.value,
+      descripcion: prod.descripcion,
+      precio: prod.precio,
+    }
+    console.log(prod)
+    this.adminService.editarProducto(producto).subscribe();
+  }
+
   eliminarProducto(prod){
     if (confirm("¿Eliminar este producto?")) {
       this.adminService.eliminarProducto(prod.id_prod).subscribe(res=>{
         this.getProductosComercio();
       });
+    }
+  }
+
+  eliminarImagen(img, indexImg, index, i){
+    if (confirm("¿Eliminar la foto?")) {
+      console.log(img);
+      this.adminService.eliminarImagen(img).subscribe(
+        res=>
+        {
+          this.listaSubProd[index].prod[i].imgs.splice(indexImg, 1);
+        });
     }
   }
 
@@ -271,31 +427,9 @@ export class ProductosComponent implements OnInit {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-
-          // Here you can access the real file
-          debugger;
           console.log(droppedFile.relativePath, file);
-          // this.imageChangedEvent = file;
-
-          /**
-          // You could upload it like this:
-          const formData = new FormData()
-          formData.append('logo', file, relativePath)
-
-          // Headers
-          const headers = new HttpHeaders({
-            'security-token': 'mytoken'
-          })
-
-          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-          .subscribe(data => {
-            // Sanitized logo returned from backend
-          })
-          **/
-
         });
       } else {
-        // It was a directory (empty directories are added, otherwise only files)
         const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
         console.log(droppedFile.relativePath, fileEntry);
       }
@@ -337,20 +471,40 @@ export class ProductosComponent implements OnInit {
       console.log($event.color);
     }
 
-    handleChangeComplete($event: ColorEvent) {
-      console.log($event.color);
-      this.newColor.color = $event.color.hex;
-    }
-
-    pushColor(){
-      this.colores.push(this.newColor);
-      this.newColor = {
-        color: '',
-        id_producto: 0
+    handleChangeComplete($event: ColorEvent, prod, index, i) {
+      var nuevo;
+      if(prod != null)
+      {
+        nuevo = {
+          color: $event.color.hex,
+          id_producto: prod.id_prod,
+          id_comercio: this.adminService.currentUser.usuario.id_comercio
+        }
+        this.adminService.guardarColores(nuevo).subscribe(
+          res=>
+          {
+            this.listaSubProd[index].prod[i].colores.push(nuevo);
+          });
+        console.log(this.newColor);
+      }
+      else
+      {
+        this.newColor = 
+        {
+          color: $event.color.hex,
+          id_producto: null,
+          id_comercio: this.adminService.currentUser.usuario.id_comercio
+        }
+        this.colores.push(this.newColor)
       }
     }
 
-    guardarColores(){
+    // pushColor(prod, newColor){
+    //   // this.colores.push(this.newColor);
+    //   this.newColor = {
+    //     color: this.newColor.color,
+    //     id_producto: prod.id_prod
+    //   }
+    // }
 
-    }
 }

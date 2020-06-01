@@ -1,160 +1,163 @@
 <div class="div-container">
-  <div class="titulo-top-admin br-admin m-b-3">Productos</div>
-  <div class="div-buscar br-10 border-solid flex">
-    <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow" [(ngModel)]="buscar">
-    <button class="btn-black-admin">Buscar</button>
+  <div class="div-titulo">Productos</div>
+  <div class="div-nuevo-producto"  *ngIf="!agregarProducto">
+    <button class="btn-nuevo" (click)="agregarProducto = true">Añadir nuevo producto</button>
+  </div>
+  <div class="div-nuevo col-md-6">    
+    <div class="formNewProducto row" *ngIf="agregarProducto">
+      <div class="div-titulo-nuevo col-md-12">CREAR NUEVO PRODUCTO</div>
+      <div class="div-item col-md-6">
+        <div class="div-input-item">
+          <select class="form-item" [(ngModel)]="new_producto.subcategoria">
+            <option value="">Seleccionar categoría</option>
+            <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
+          </select>
+        </div>
+        <div class="div-input-item">
+          <input type="text" placeholder="Nombre" class="form-item" [(ngModel)]="new_producto.nombre">
+        </div>
+        <div class="div-input-item">
+          <textarea placeholder="Descripción" class="form-item" style="height: 6rem" [(ngModel)]="new_producto.descripcion"></textarea>
+        </div>
+      </div>
+      <div class="div-item col-md-4">
+        <div class="div-input-item">
+          <input type="text" placeholder="Precio" class="form-item" [(ngModel)]="new_producto.precio">
+        </div>            
+        <div class="div-input-item">
+          <input type="text" placeholder="Precio promocional" class="form-item" [(ngModel)]="new_producto.precio">
+        </div>
+          <div class="div-input-item">
+              <button class="form-item" [matMenuTriggerFor]="color">Color</button>
+              <mat-menu #color>
+                <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event, null, null, null)"></color-sketch>
+                <!-- (click)="probando(i)" -->
+              </mat-menu>
+              <div class="div-colores flex">
+                <div *ngFor="let color of colores; index as i">
+                  <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}">
+                    <button (click)="quitarNewColor(i)" class="btn-borrar-color">X</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="div-item flex col-md-12" style="padding: 0 .5rem">
+        <div class="label-file col-md-2" style="padding-left: 0">
+          <button class="btn-img " (click)="openModalImgs(0, null, null)"><img class="imagen" src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></button>
+        </div>
+        <div class="btn-img col-md-2" *ngFor="let item of adminService.imagenProd"><img class="imagen" [src]="item.file" alt=""></div>
+      </div>
+      <div class="div-item flex col-md-12">
+        <div class="div-boton col-md-6">
+          <button class="btn-menu" (click)="guardarProducto()"><i class="fa fa-save" style="margin-right: .5rem"></i>GUARDAR</button>
+        </div>
+        <div class="div-boton col-md-6">
+          <button class="btn-menu" (click)="agregarProducto = false"><i class="fa fa-window-close" style="margin-right: .5rem"></i>CANCELAR</button>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="div-filtros flex spc-btw">
     <div class="div-filtro-categoria">
       <div class="titulo-input-admin">Seleccione Categoría</div>
-      <select name="" id="" class="select-admin" (change)="filtrarXcat($event.target.value)">
+      <select name="" id="" class="form-item" (change)="filtrarXcat($event.target.value)">
         <option value="0">Todas</option>
         <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
       </select>
     </div>
-    <!-- <div class="div-filtro-acciones">
-        <div class="titulo-input-admin">Acciones</div>
-        <select class="select-admin">
-            <option value="">Ver Productos</option>
-            <option value="">Eliminar</option>
-            <option value="">Mostrar en la tienda</option>
-            <option value="">Ocultar en la tienda</option>
-        </select>
-    </div> -->
-    <button class="btn-admin br-10" (click)="agregarProducto = true" *ngIf="!agregarProducto">Añadir nuevo producto</button>
   </div>
-
-
-  <div class="nuevoProducto">
-    
-    <div class="formNewProducto br-10 row no-pad-h" *ngIf="agregarProducto">
-      <div class="div-nombre-descripcion col-md-4 no-pad-h">
-          <input type="text" placeholder="Nombre" class="dato-prod" [(ngModel)]="new_producto.nombre">
-          <textarea placeholder="Descripción" class="dato-prod" [(ngModel)]="new_producto.descripcion"></textarea>
-      </div>
-      <div class="div-input-prod col-md-2">
-        <input type="text" placeholder="Precio" class="dato-prod" [(ngModel)]="new_producto.precio">
-      </div>            
-      <div class="div-input-prod col-md-2">
-        <input type="text" placeholder="Precio Prom" class="dato-prod" [(ngModel)]="new_producto.precio">
-      </div>
-      <!-- <div class="titulo-input-admin">Categoría</div> -->
-      <!-- <select class="select-admin" [(ngModel)]="new_producto.subcategoria">
-        <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
-      </select> -->
-      <select class="select-admin col-md-2 br-10" [(ngModel)]="new_producto.subcategoria">
-        <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
-      </select>
-      <br>      
-      <div class="div-menu grow col-md-2">
-          <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
-          <mat-menu #color>
-            <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
-          </mat-menu>
-          <div class="div-cont-colores flex">
-            <div *ngFor="let color of colores; index as i">
-              <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}"></div>
+  <div class="div-buscar br-10 border-solid flex">
+    <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow" [(ngModel)]="buscar">
+    <button class="btn-black-admin" (click)="buscar = ''" *ngIf="buscar !==''">X</button>
+  </div>
+  <div class="div-productos-container">
+    <div class="div-producto-subcat" *ngFor="let item of listaSubProd; index as index">
+      <div class="div-lista-subcat" *ngIf="cat_selected == '0' || cat_selected == item.subcat.id_subcat">
+        <div class="div-titulo-subcat">{{item.subcat.nombre}}</div>
+          <div class="div-lista-productos" *ngFor="let prod of item.prod; index as i">
+            <div class="div-item row" *ngIf="buscar == '' || prod.nombre.toLowerCase().includes(buscar.toLowerCase())"> 
+              <!-- <div class="form-edicion col-md-7 row no-pad-h"> -->
+                <form class="div-producto col-md-9 row">
+                  <div class="div-item col-md-4">
+                    <div class="div-titulo-item">Nombre</div>
+                    <input type="text" id="nombre_{{prod.id_prod}}" class="dato-prod" (change)="editarNombre($event, prod)" value={{prod.nombre}} placeholder={{prod.nombre}} [disabled]="prod_edit != prod.id_prod">
+                    <div class="div-titulo-item">Descripción</div>
+                    <textarea id="desc_{{prod.id_prod}}" class="dato-prod" style="resize: none;" [disabled]="prod_edit != prod.id_prod">{{prod.descripcion}}</textarea>
+                  </div>
+                  <div class="div-item col-md-4">
+                    <div class="div-input-item">
+                      <div class="div-titulo-item">Precio</div>
+                      <input type="text" id="precio_{{prod.id_prod}}" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != prod.id_prod">
+                      <!-- <select class="select-admin" *ngIf="prod_edit == i">
+                        <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
+                      </select> -->
+                    </div>
+                    <div class="div-input-item">
+                      <div class="div-titulo-item">Precio oferta</div>
+                      <input type="text" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != prod.id_prod">
+                    </div>
+                    <div class="div-input-item">
+                      <div class="div-titulo-item">Colores</div>
+                      <div class="div-colores flex">
+                        <button class="div-color flex" [matMenuTriggerFor]="color">
+                          <div class="div-btn flex"><i class="fa fa-plus"></i></div>
+                        </button>
+                        <mat-menu #color>
+                          <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event, prod, index, i)"></color-sketch>
+                        </mat-menu>
+                        <div class="div-color" *ngFor="let x of prod.colores; index as indexColor" [ngStyle]="{'background': x.color}">
+                          <button (click)="quitarNewColor(indexColor)" class="btn-borrar-color"></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+                    <div class="div-botones col-md-2 flex">
+                      <button class="btn" *ngIf="prod_edit == 10000" (click)="editProducto(prod,i)"><i class="fa fa-edit"></i></button>
+                      <button class="btn" *ngIf="prod_edit == 10000" (click)="eliminarProducto(prod)"><i class="fa fa-trash"></i></button>
+                      <button class="btn" *ngIf="prod_edit == prod.id_prod" (click)="modifProducto(prod,item.subcat.id_subcat, i)"><i class="fa fa-save"></i></button>
+                      <button class="btn" *ngIf="prod_edit == prod.id_prod" (click)="prod_edit = 10000"><i class="fa fa-window-close"></i></button>
+                    </div>
+                    <div class="div-fotos col-md-10 flex">
+                      <div class="label-file col-md-2" style="padding: 0">
+                        <div class="div"></div>
+                        <button class="btn-img " (click)="openModalImgs(prod, index, i)"><img class="imagen" src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></button>
+                      </div>
+                      <div class="btn-img col-md-2 no-pad-h" *ngFor="let elem of prod.imgs; index as indexImg"><img class="imagen" [src]="elem.image" alt="">
+                        <div class="div-eliminar-img"><button (click)="eliminarImagen(elem, indexImg, index, i)">Borrar</button></div>
+                      </div>
+                      <!-- <ng-image-slider [images]="prod.imgs" style="position: absolute;
+                        top: 0 !important;
+                        left: 0 !important;
+                        width: 210px;
+                        height: 100%;
+                        max-height: 100px;" #nav>
+                      </ng-image-slider> -->
+                      <!-- <button class="btn" (click)="openModalImgs(prod)" style="position:absolute; bottom:0%">Fotos</button> -->
+        
+                      <!-- <ngx-file-drop dropZoneLabel="Drop files here" (change)="fileChangeEvent($event)"  (onFileDrop)="dropped($event)" style="position:absolute; bottom: 0; width: 100%;"
+                      (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                            <button type="button" (click)="openFileSelector()">Arrastre o Seleccione <br> una nueva imagen</button>
+                          </ng-template>
+                      </ngx-file-drop> -->
+                    </div>
+                  <!-- <div class="div-opciones-avanzadas col-md-3">
+                      <div class="div-opcion col-12">
+                          <div class="div-menu grow">
+                              <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
+                          </div>
+                          <mat-menu [id]="'color'+prod.item.prod_id">
+                              <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch>
+                          </mat-menu>
+                      </div><div class="div-opcion col-12">Talle</div>
+                      <div class="div-opcion col-12">Material</div>
+                  </div>           -->
+                </form>
+              <!-- </div> -->
             </div>
           </div>
-          <button class="btn-ok-admin" (click)="pushColor()" *ngIf="newColor.color !== ''">Guardar color</button>
-      </div>                
-      <div class="div-btn-okcancel-admin spc-btw flex col-md-12">
-        <button class="btn-ok-admin br-10" (click)="guardarProducto()">Guardar</button>
-        <button class="btn-cancel-admin br-10" (click)="agregarProducto = false">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="div-productos">
-    <div class="producto" *ngFor="let item of listaSubProd">
-      <div class="div-lista-subprod" *ngIf="cat_selected == '0' || cat_selected == item.subcat.id_subcat">
-        <div class="titulo-input-admin">{{item.subcat.nombre}}</div>
-        <div class="div-titulos-form row">
-          <div class="titulo-form txt-center col-md-1 no-pad-h"></div>
-          <div class="titulo-form col-md-4 no-pad-h">Fotos</div>
-          <div class="col-md-7 no-pad-h row">
-            <div class="titulo-form col-md-5">Nombre y descripción</div>
-            <div class="titulo-form col-md-2">Precio</div>
-            <div class="titulo-form col-md-2">Promocional</div>
-            <div class="titulo-form col-md-2">Opciones</div>
-            <!-- <div class="titulo-form col-md-3">Opciónes</div> -->
-          </div>
-        </div>
-        <div class="div-lista-prod row" *ngFor="let prod of item.prod; index as i">
-          <div class="titulo-form div-check col-md-1 no-pad-h">
-              <input type="checkbox" id="cbox2" value="">
-          </div>
-          <div class="div-fotos col-md-2 no-pad-h">
-            <ng-image-slider [images]="prod.imgs" style="position: absolute;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100%;
-            height: 100%;
-            max-height: 100px;" #nav></ng-image-slider>
-            <button class="btn btn-dark btn-sm" (click)="openModalImgs(prod)" style="position:absolute; bottom:0%">Imagenes</button>
-
-            <!-- <ngx-file-drop dropZoneLabel="Drop files here" (change)="fileChangeEvent($event)"  (onFileDrop)="dropped($event)" style="position:absolute; bottom: 0; width: 100%;"
-            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                  <button type="button" (click)="openFileSelector()">Arrastre o Seleccione <br> una nueva imagen</button>
-                </ng-template>
-            </ngx-file-drop> -->
-          </div>
-
-          <!-- <div class="col-md-2">
-            <input type="file" (change)="fileChangeEvent($event)" *ngIf="prod_edit == i" />
-
-            <image-cropper style="width: 200px; height: 200px;"
-              [imageChangedEvent]="imageChangedEvent"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="4 / 3"
-              format="png"
-              (imageCropped)="imageCropped($event)"
-              (imageLoaded)="imageLoaded()"
-              (cropperReady)="cropperReady()"
-              (loadImageFailed)="loadImageFailed()"
-            ></image-cropper>
-          </div> -->
-
-          <div class="form-edicion col-md-7 row no-pad-h">
-            <form class="row col-12 no-pad-h">
-              <div class="div-nombre-descripcion col-md-5">
-                <input type="text" id="nombre_{{i}}" class="dato-prod" value={{prod.nombre}} placeholder={{prod.nombre}} [disabled]="prod_edit != i">
-                <textarea id="desc_{{i}}" class="dato-prod" style="resize: none;" [disabled]="prod_edit != i">{{prod.descripcion}}</textarea>
-              </div>
-              <div class="div-input-prod col-md-2">
-                <input type="text" id="precio_{{i}}" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
-                <!-- <select class="select-admin" *ngIf="prod_edit == i">
-                  <option *ngFor="let cat of categorias" [value]="cat.id">{{cat.nombre_categoria}}</option>
-                </select> -->
-              </div>
-              <div class="div-input-prod col-md-2">
-                <input type="text" value={{prod.precio}} class="dato-prod" [disabled]="prod_edit != i">
-              </div>
-
-              
-                <div class="div-input-prod col-md-2">
-                  <button class="btn-ok-admin br-10" *ngIf="prod_edit == 10000" (click)="editProducto(prod,i)">Editar</button>
-                  <button class="btn-cancel-admin br-10" *ngIf="prod_edit == 10000" (click)="eliminarProducto(prod)">Eliminar</button>
-                  <button class="btn-ok-admin br-10" *ngIf="prod_edit == i" (click)="modifProducto(prod,item.subcat.id_subcat, i)">Aceptar</button>
-                  <button class="btn-cancel-admin br-10" *ngIf="prod_edit == i" (click)="prod_edit = 10000">Cancelar</button>
-                </div>
-              
-              <!-- <div class="div-opciones-avanzadas col-md-3">
-                  <div class="div-opcion col-12">
-                      <div class="div-menu grow">
-                          <button [matMenuTriggerFor]="color"><div class="div-opcion col-12">Color</div></button>
-                      </div>
-                      <mat-menu [id]="'color'+prod.item.prod_id">
-                          <color-sketch [color]="state" (onChangeComplete)="changeComplete($event)"></color-sketch>
-                      </mat-menu>
-                  </div><div class="div-opcion col-12">Talle</div>
-                  <div class="div-opcion col-12">Material</div>
-              </div>           -->
-            </form>
-          </div>
-        </div>
-      </div>
+       </div>
     </div>
   </div>
 </div>

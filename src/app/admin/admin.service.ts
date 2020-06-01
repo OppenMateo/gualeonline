@@ -24,6 +24,7 @@ export class AdminService {
   listaSubcategoriasProductos;
   listaSubcategoriasProductosAdmin = [];
   prod;
+  imagenProd = [];
 
   constructor(private http:HttpClient, private authService:AuthService, public dialog: MatDialog)
   {
@@ -118,29 +119,39 @@ export class AdminService {
 
   eliminarProducto(id)
   {
-   // this.http.delete(`${API_URL}/api/borrarProducto`, id).subscribe(res=> {
-      return this.http.get(`${API_URL}/api/borrarImgsProducto/`+id);
-   // });
+    return this.http.delete(`${API_URL}/api/borrarProducto/`+id);
+  }
+
+  eliminarImgsProducto(id){
+    return this.http.delete(`${API_URL}/api/borrarImgsProducto/`+id);
   }
 
     // IMAGENES PRODUCTOS //
 
-    openModalImgs(prod): void
-    {
-      this.prod = prod;
+    // openModalImgs(prod): void
+    // {
+    //   if (prod == 0) {
+    //     this.prod = {
+    //       id_prod: 0
+    //     }
+    //   }
+    //   else
+    //   {
+    //     this.prod = prod;
+    //   }
+      
+    //   const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
+    //     height: 'fit-content',
+    //     width: 'fit-content',
+    //     panelClass: 'custom-modalbox',
+    //   });
 
-      const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
-        height: 'fit-content',
-        width: 'fit-content',
-        panelClass: 'custom-modalbox'
-      });
+    //   dialogRef.afterClosed().subscribe(res=>
+    //     {
+    //       this.getSubProdImgsComercio()
+    //     });
 
-      dialogRef.afterClosed().subscribe(res=>
-        {
-          this.getSubProdImgsComercio()
-        });
-
-    }
+    // }
 
     getImagenesProducto(id){
       return this.http.get(`${API_URL}/api/getImagenesProducto/`+id)
@@ -168,12 +179,14 @@ export class AdminService {
       return this.http.post(`${API_URL}/api/guardarColores`, colores);
     }
 
-    editarColor(){
+    // TAMAÑOS Y MATERIALES //
 
+    guardarTamaños(tamaños){
+      return this.http.post(`${API_URL}/api/guardarTamaños`, tamaños);
     }
 
-    eliminarColor(){
-
+    guardarMateriales(materiales){
+      return this.http.post(`${API_URL}/api/guardarMateriales`, materiales);
     }
 
 }
