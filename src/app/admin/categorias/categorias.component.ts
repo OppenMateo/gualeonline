@@ -55,7 +55,7 @@ export class CategoriasComponent implements OnInit {
         element.crop = false;
         element.imagen = "https://api.gualeonline.com.ar/public/img/categorias_productos/" + element.imagen_nombre;
       });
-    });
+      console.log(this.categorias);});
   }
 
   guardarCategoriaProd(categoriaProd){
@@ -94,7 +94,7 @@ export class CategoriasComponent implements OnInit {
     let element = document.getElementById(i) as HTMLInputElement;
     let valiu= element.value;
     cat.nombre_categoria = valiu;
-
+    console.log(cat, i);
     this.adminService.editarCategoriaProducto(cat).subscribe(res=>{
       this.edit = 10000;
       cat.cropper = false;

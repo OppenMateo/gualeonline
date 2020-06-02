@@ -1,6 +1,11 @@
 <div class="div-container">
   <div class="div-titulo">Categorias</div>
-  <div class="div-nueva-categoria" *ngIf="!nuevo"><button class="btn-nuevo" (click)="showNuevo()">Añadir nueva categoria</button></div>
+  <div class="row">
+    <div class="div-menu col-md-12 flex">
+      <div class="div-nueva-categoria" *ngIf="!nuevo"><button class="btn-nuevo" (click)="showNuevo()">Añadir nueva categoria</button></div>
+      <div class="div-buscar"><input class="buscar" type="text" placeholder="Buscar..."></div>
+    </div>
+  </div>
   <div class="div-categorias">
     <div *ngIf="nuevo" class="div-nuevo row">
       <!-- <div class="div-empty col-md-1"><button class="btn"><i class="fa fa-check-square"></i></button></div> -->
@@ -10,11 +15,11 @@
         <div class="input-file" *ngIf="!newCrop"> 
           <input class="input-file" type="file" (change)="fileChangeEvent($event)" />
         </div>
-        <image-cropper style="width: 200px; height: 200px;"
+        <image-cropper style="width: 230px; height: 260px;"
           *ngIf="newCrop"
             [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true"
-            [aspectRatio]="4 / 3"
+            [maintainAspectRatio]="false"
+            [aspectRatio]="9 / 16"
             format="png"
             (imageCropped)="imageCropped($event)"
             (imageLoaded)="imageLoaded()"
@@ -31,9 +36,8 @@
         <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
       </div>
     </div>
-    <div class="div-buscar"><input class="buscar" type="text" placeholder="Buscar categoria por nombre"></div>
     <div class="div-lista-categorias row">
-      <div class="div-categoria col-md-6"  *ngFor="let categoria of categorias; index as i">
+      <div class="div-categoria col-md-6 flex"  *ngFor="let categoria of categorias; index as i">
         <!-- <div class="div-opciones col-md-1"><button class="btn"><i class="fa fa-square"></i></button></div> -->
         <!-- <div class="div-categoria col-md-4"> -->
           <div class="div-imagen">
@@ -54,14 +58,14 @@
           </div>
           <div class="div-nombre">
             <input class="nombre" type="text" value="{{categoria.nombre_categoria}}" [disabled]="edit != i" id={{i}}>
-          </div>
-          <div class="div-opciones flex">
-            <button class="btn" (click)="edit = i" *ngIf="edit == 10000"><i class="fa fa-edit"></i></button>
-            <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
-            <button class="btn" (click)="eliminarCategoriaProd(categoria)" *ngIf="edit == 10000"><i class="fa fa-trash"></i></button>
-            <button class="btn" (click)="editarCategoriaProd(categoria,i)" *ngIf="edit == i"><i class="fa fa-save"></i></button>
-            <button class="btn" (click)="edit = 10000" *ngIf="edit == i"><i class="fa fa-window-close"></i></button>
-          </div>
+            <div class="div-opciones flex">
+              <button class="btn" (click)="edit = i" *ngIf="edit == 10000"><i class="fa fa-edit"></i></button>
+              <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
+              <button class="btn" (click)="eliminarCategoriaProd(categoria)" *ngIf="edit == 10000"><i class="fa fa-trash"></i></button>
+              <button class="btn" (click)="editarCategoriaProd(categoria,i)" *ngIf="edit == i"><i class="fa fa-save"></i></button>
+              <button class="btn" (click)="edit = 10000" *ngIf="edit == i"><i class="fa fa-window-close"></i></button>
+            </div>
+          </div>          
         <!-- </div> -->
       </div>
     </div>

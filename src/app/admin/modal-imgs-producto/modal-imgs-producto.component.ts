@@ -64,7 +64,7 @@ export class ModalImgsProductoComponent implements OnInit {
       + currentDate.getSeconds().toString();
       this.imagen_croppeada.nombre = fechaHora;
 
-      if(this.data != 0)
+      if(this.data.id_prod != null)
       {
         // this.adminService.prod.imgs.push(
         //   {

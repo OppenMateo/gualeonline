@@ -68,15 +68,16 @@ export class ProductosComponent implements OnInit {
   }
 
   openModalImgs(prod, index, i){
-    if (prod == 0) {
+    if (prod == null) {
         prod = {
-        id_prod: 0
+        id_prod: null
       }
     }
     else
     {
       prod = prod;
     }
+    debugger;
     
     const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
       height: 'fit-content',
@@ -85,10 +86,14 @@ export class ProductosComponent implements OnInit {
       data:prod,
     });
 
-    dialogRef.afterClosed().subscribe(res=>
-      {
-        this.listaSubProd[index].prod[i].imgs.push(res);
-      });
+    if(prod.id_prod != null)
+    {
+      debugger;
+      dialogRef.afterClosed().subscribe(res=>
+        {
+          this.listaSubProd[index].prod[i].imgs.push(res);
+        });
+    }
   }
 
   filtrarXcat(id_subcat){
@@ -313,6 +318,11 @@ export class ProductosComponent implements OnInit {
       }
     );
     console.log(color.id_color)
+  }
+
+  quitarNuevaImagen(i)
+  {
+    this.adminService.imagenProd.splice(i,1);
   }
 
   addMaterial(){

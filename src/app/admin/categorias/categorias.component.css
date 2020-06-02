@@ -6,6 +6,12 @@
   border-bottom: solid 2px;
 }
 
+.div-menu
+{
+  justify-content: space-between;
+  width: 100%;
+}
+
 .div-nueva-categoria
 {
   /* border-bottom: solid 1px var(--gris); */
@@ -46,8 +52,7 @@
 .btn
 {
   padding: 0;
-  font-size: 2rem !important;
-  margin: 1rem .5rem;
+  margin-left: 5px;
   font-family: opensans-reg;
 }
 
@@ -58,8 +63,11 @@
 
 .buscar
 {
-  width: 100%;
   border: solid 1px var(--gris);
+  width: 100%;
+  border-radius: 6px;
+  height: 40px;
+  padding-left: 10px;
 }
 
 .div-imagen
@@ -70,29 +78,33 @@
 .imagen
 {
   width: 230px;
-  height: 170px;
-  border: solid 1px;
-  border-radius: 5px;
+  height: 260px;
+  border: solid 1px var(--gris);
+  border-radius: 3px;
+  padding: 1px;
 }
 
-.div-nombre
+/* .div-nombre
 {
   margin: auto 0;
-}
+} */
 
 .nombre
 {
   width: 100%;
   border: none;
   background: none;
-  font-size: 1.3rem;
+  color: var(--black);
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-left: 5px;
 }
 
-.div-opciones
+/* .div-opciones
 {
   margin: auto 0;
   max-width: fit-content;
-}
+} */
 
 .div-lista-categorias
 {
@@ -100,8 +112,8 @@
   padding: 1rem 0;
 }
 
-.div-cateogria
+.div-categoria
 {
-  background-color: var(--gris-claro);
-  width: fit-content;
+  /* width: fit-content; */
+  margin: 2rem 0;
 }
