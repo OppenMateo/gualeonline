@@ -110,10 +110,10 @@ export class DisenioComponent implements OnInit {
     //limpiar campos form
   }
   
-  // mostrarTemplate(temp)
-  // {
+  mostrarTemplate(temp)
+  {
 
-  // }
+  }
 
   changeImgPortada(event){
     if (typeof event == 'object') {
