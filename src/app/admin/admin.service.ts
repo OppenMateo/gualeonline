@@ -31,8 +31,6 @@ export class AdminService {
     this.authService.currentUser.subscribe(x=>this.currentUser = x);
   }
 
-
-
   //  COMERCIO //
 
   getComercioSeleccionado()

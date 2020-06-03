@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FormBuilder, ValidatorFn, AbstractControl, FormGroup, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-disenio',
@@ -42,7 +43,7 @@ export class DisenioComponent implements OnInit {
   template = false;
   cropping:boolean = false;
 
-  constructor(private adminService:AdminService, private fb: FormBuilder) { }
+  constructor(private adminService:AdminService, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.adminService.getComercioSeleccionado().subscribe(
@@ -85,6 +86,16 @@ export class DisenioComponent implements OnInit {
         this.changeImgLogo(this.comercio.imagen);
       })
   }
+
+  public openMessage(message, action, durationMilliSeconds, type) 
+  {
+   var clase = null;
+   if (type == "error") 
+   {
+     clase = "snack-bar-alert";
+   }
+   this.snackBar.open(message, action, { duration: durationMilliSeconds, panelClass: clase });
+ }
 
   getUrlImagen()
   {
@@ -197,10 +208,12 @@ export class DisenioComponent implements OnInit {
         if(res>0)
         {
           var message = "Los datos se modificaron exitosamente."
+          this.openMessage(message, "Cerrar", 5000, "")
         }
         else
         {
           var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
+          this.openMessage(message, "Cerrar", 50000, "error");  
         }
       },err => {console.log(err);}
     )

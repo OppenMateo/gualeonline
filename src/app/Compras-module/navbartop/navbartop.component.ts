@@ -13,7 +13,6 @@ import { AdminService } from 'src/app/admin/admin.service';
 export class NavbartopComponent implements OnInit {
 
   currentUser;
-  admin=false;
 
   constructor(public dialog: MatDialog, private authService: AuthService, public comprasService: ComprasService, private router:Router, public adminService:AdminService) {
     this.authService.currentUser.subscribe(res=>this.currentUser = res);
@@ -25,7 +24,7 @@ export class NavbartopComponent implements OnInit {
 
   redirectComercio()
   {
-    this.router.navigate(['/Admin/comercio'])
+    this.router.navigate(['/Admin/Productos'])
   }
 
   mostrarMenuAdmin()
