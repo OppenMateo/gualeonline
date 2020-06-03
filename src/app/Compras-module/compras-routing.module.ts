@@ -18,6 +18,7 @@ const routes: Routes =
       { path: 'Categorias', component:CategoriasComponent },
       { path: 'datos_compra', component:ModalDatosCompraComponent },        
       { path: 'carro', component:CarritoComponent },
+      { path: 'comercioTest', component:ComerciosComponent },
     ]  
   },  
 ];

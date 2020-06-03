@@ -20,6 +20,11 @@
   right: -53px;
 }
 
+.imagen-portada
+{
+  height: 100%
+}
+
 .div-over-templates:hover
 {
   opacity: 1;

@@ -49,9 +49,9 @@
 </div> -->
 
 <div class="diseño1" *ngIf="comercio.disenio == 1">
-    <div class="div-img-background h-100vh rel flex" [ngStyle]="{'background-image': 'url(https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada+')'}">
-    <!-- <img src="{{'https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada}}" alt="" class="img-background imagen h-100"> -->
-        <div class="div-text-com">
+    <div class="div-img-background h-100vh flex">
+    <img src="{{'https://api.gualeonline.com.ar/public/img/portadas/'+comercio.portada}}" alt="" class="img-background imagen h-100 abs">
+        <div class="div-text-com" style="z-index: 1;">
             <div class="div-title-com bold">{{comercio.nombre}}</div>
             <div class="div-ig-com bold flex">
                 <div class="icon-ig"><i class="fa fa-instagram"></i></div>

@@ -31,7 +31,7 @@ export class ModalImgsProductoComponent implements OnInit {
   constructor(public adminService:AdminService, public dialogRef: MatDialogRef<ModalImgsProductoComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    if (this.adminService.prod !== 0) {
+    if (this.adminService.prod !== null) {
       this.imagen_croppeada.id_producto = this.data.id_prod;
       console.log(this.adminService.prod)
     }
@@ -48,9 +48,13 @@ export class ModalImgsProductoComponent implements OnInit {
   }
 
   getImagenes(){
+    if(this.data.id_prod!=null)
+    {
+      debugger;
     this.adminService.getImagenesProducto(this.data.id_prod).subscribe(res=>{
       this.imgs = res;
     });
+    }
   }
 
   nuevaImagen(file){
@@ -135,11 +139,12 @@ export class ModalImgsProductoComponent implements OnInit {
 
   fileChangeEvent(event: any): void {
     // this.nuevaImagen(event);
+    debugger;
     this.editando_crop = true;
     this.imageChangedEvent = event;
     var reader = new FileReader();
     // this.imagePath = files;
-    reader.readAsDataURL(event.files[0]); 
+    // reader.readAsDataURL(event.files[0]); 
     reader.onload = (_event) => { 
       this.file = reader.result; 
     }

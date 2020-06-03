@@ -21,8 +21,11 @@
         </div>
       </div>
       <div class="div-item col-md-4">
-        <div class="titulo-item">Nombre de la WEB</div>
-        <input type="text" class="input-form form-control form-item" value={{comercio.url}} formControlName="url" required placeholder="Ingresar nombre de la WEB">
+        <div class="titulo-item">Direccion WEB (URL)</div>
+        <div class="url rel">
+          <input type="text" class="input-form form-control form-item" id="url" value={{comercio.url}} formControlName="url" required style="padding-left: 211px;">
+          <label for="url" class="static-value">http://GualeOnline.com.ar/</label>
+        </div>
       </div>
       <div class="div-datos row col-md-12">
         <div class="div-item col-md-4">
@@ -50,7 +53,7 @@
           <div class="titulo-item">Entrega estimada</div>
           <!-- <div class="div-sub-item">SELECCIONAR TIEMPO DE ENTREGA ESTIMADA</div> -->
           <div class="from-item flex">
-            <input type="text" class="input-form form-control form-select" value={{comercio.entrega}} formControlName="entrega" required placeholder="40">
+            <input type="text" class="input-form form-control form-select ng-touched" value={{comercio.entrega}} formControlName="entrega" required placeholder="40...">
             <select name="" id="" class="select-subcat form-control form-select" value={{comercio.medida_entrega}} formControlName="medida_entrega">
                 <option class="opt-subcat">Minutos</option>
                 <option class="opt-subcat">Horas</option>

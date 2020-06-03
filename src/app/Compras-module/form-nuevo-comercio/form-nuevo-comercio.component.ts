@@ -47,7 +47,10 @@ export class FormNuevoComercioComponent implements OnInit {
           id_user:this.currentUser.usuario.id,
           id_comercio:res
         }
-        this.comprasService.asignarComercio(id_comercio).subscribe()
+        this.comprasService.asignarComercio(id_comercio).subscribe(
+          res=>{
+            this.authService.logOut();
+          })
         console.log(res);
       },
 
@@ -57,6 +60,7 @@ export class FormNuevoComercioComponent implements OnInit {
         return;
       });
 
+      this.dialogRef.close();
   }
 
 }

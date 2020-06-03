@@ -60,7 +60,8 @@ export class DisenioComponent implements OnInit {
           logo_file: File = null
         }
          if (this.comercio.img_portada == null) {
-           this.comercio.img_portada = "template_sushi_1.jpg";
+           this.imageChangedEvent='';
+          //  this.comercio.img_portada = "template_sushi_1.jpg";
            this.template = true;
          }
 
@@ -92,10 +93,12 @@ export class DisenioComponent implements OnInit {
 
   cambiarDiseno(temp)
   {
+    this.imageChangedEvent='';
     this.design = temp;
     if(this.design!=temp)
     {
-      this.imgURL = '';
+      this.imageChangedEvent = '';
+      // this.imgURL = '';
     }
   }
 
@@ -115,7 +118,9 @@ export class DisenioComponent implements OnInit {
       this.template = true;
       this.comercio.img_portada = event.target.value;
       this.croppedImage = this.pathPortadas + (event.target.value);
-    }else{
+    }
+    else
+    {
       this.imgURL = this.pathPortadas + event;
       this.croppedImage = this.pathPortadas + event;
       this.cropping = false;
@@ -240,6 +245,7 @@ export class DisenioComponent implements OnInit {
 
   cancelarCropper()
   {
+    this.imgURL = '';
     this.cropping = false;
     this.imageChangedEvent = '';
   }
