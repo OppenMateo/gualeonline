@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalImgsProductoComponent } from './modal-imgs-producto/modal-imgs-producto.component';
+import { MatSnackBar } from '@angular/material';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -26,10 +27,20 @@ export class AdminService {
   prod;
   imagenProd = [];
 
-  constructor(private http:HttpClient, private authService:AuthService, public dialog: MatDialog)
+  constructor(private http:HttpClient, private authService:AuthService, public dialog: MatDialog, public snackBar: MatSnackBar)
   {
     this.authService.currentUser.subscribe(x=>this.currentUser = x);
   }
+
+  public openMessage(message, action, durationMilliSeconds, type) 
+  {
+   var clase = null;
+   if (type == "error") 
+   {
+     clase = "snack-bar-alert";
+   }
+   this.snackBar.open(message, action, { duration: durationMilliSeconds, panelClass: clase });
+ }
 
   //  COMERCIO //
 

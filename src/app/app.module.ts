@@ -14,6 +14,7 @@ import { ModalIniciarSesionComponent } from './modal-iniciar-sesion/modal-inicia
 import { CategoriasAdminComponent } from './categorias-admin/categorias-admin.component';
 import { NavbartopComponent } from './Compras-module/navbartop/navbartop.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {MatMenuModule} from '@angular/material/menu';
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSnackBarModule,
   ],
   entryComponents:  [ModalLoginComponent, ModalRegisterComponent, FormNuevoComercioComponent],
   providers: [],

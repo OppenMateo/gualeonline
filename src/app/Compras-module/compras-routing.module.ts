@@ -19,6 +19,7 @@ const routes: Routes =
       { path: 'datos_compra', component:ModalDatosCompraComponent },        
       { path: 'carro', component:CarritoComponent },
       { path: 'comercioTest', component:ComerciosComponent },
+      { path: 'timbu.gchu', component:ComerciosComponent },
     ]  
   },  
 ];

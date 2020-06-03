@@ -26,6 +26,7 @@ export class DisenioComponent implements OnInit {
   extensionLogo = '.jpeg';
   extensionPortada = '.jpeg';
 
+  guardarImagen = false;
   imgURL:any = '';
   imgLogoURL:any;
   imagePath;
@@ -87,15 +88,6 @@ export class DisenioComponent implements OnInit {
       })
   }
 
-  public openMessage(message, action, durationMilliSeconds, type) 
-  {
-   var clase = null;
-   if (type == "error") 
-   {
-     clase = "snack-bar-alert";
-   }
-   this.snackBar.open(message, action, { duration: durationMilliSeconds, panelClass: clase });
- }
 
   getUrlImagen()
   {
@@ -118,10 +110,10 @@ export class DisenioComponent implements OnInit {
     //limpiar campos form
   }
   
-  mostrarTemplate(temp)
-  {
+  // mostrarTemplate(temp)
+  // {
 
-  }
+  // }
 
   changeImgPortada(event){
     if (typeof event == 'object') {
@@ -186,7 +178,19 @@ export class DisenioComponent implements OnInit {
 
   guardarImagenes(){
     this.comercio.disenio = this.design;
+    this.cropping = false;
+    this.imgURL = this.croppedImage;
+    this.imageChangedEvent = '';
     const formData: FormData = new FormData();
+
+    if(this.comercio.disenio==1)
+    {
+      if(this.imgURL == '')
+      {
+        var message = "No se ha modificado ningún valor."
+        this.adminService.openMessage(message, "Cerrar", 50000, "error"); 
+      }
+    }
 
     if (this.comercio.logo_file != null) {
       this.comercio.imagen = this.comercio.id_comercio + "_logo" + this.extensionLogo;
@@ -205,17 +209,14 @@ export class DisenioComponent implements OnInit {
     this.adminService.guardarImagenesComercio(formData).subscribe
     (res=>
       {
-        if(res>0)
-        {
-          var message = "Los datos se modificaron exitosamente."
-          this.openMessage(message, "Cerrar", 5000, "")
-        }
-        else
-        {
-          var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
-          this.openMessage(message, "Cerrar", 50000, "error");  
-        }
-      },err => {console.log(err);}
+        this.adminService.openMessage(res, "Cerrar", 50000, "error");  
+      }
+      ,err =>
+      {
+        var message = "Los datos no se pudieron modificar."
+        this.adminService.openMessage(message, "Cerrar", 50000, "error");  
+        console.log(err);
+      }
     )
   }
 

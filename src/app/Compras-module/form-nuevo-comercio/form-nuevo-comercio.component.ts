@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { AuthService } from 'src/app/auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ComprasService } from '../compras.service';
+import { MatSnackBar } from '@angular/material';
+import { AdminService } from 'src/app/admin/admin.service';
 
 @Component({
   selector: 'app-form-nuevo-comercio',
@@ -15,7 +17,7 @@ export class FormNuevoComercioComponent implements OnInit {
   currentUser;
 
   constructor(private FormBuilder: FormBuilder, private authService: AuthService, public dialogRef: MatDialogRef<FormNuevoComercioComponent>,
-    private comprasService: ComprasService) { 
+    private comprasService: ComprasService, private snackBar: MatSnackBar, public adminService: AdminService) { 
       this.authService.currentUser.subscribe(res=>this.currentUser = res); 
     }
 
@@ -25,6 +27,16 @@ export class FormNuevoComercioComponent implements OnInit {
       'url': new FormControl('', [ Validators.required ]),
     },)
   }
+
+  public openMessage(message, action, durationMilliSeconds, type) 
+  {
+   var clase = null;
+   if (type == "error") 
+   {
+     clase = "snack-bar-alert";
+   }
+   this.snackBar.open(message, action, { duration: durationMilliSeconds, panelClass: clase });
+ }
 
   get nombre() {return this.formComercio.get('nombre');}
   get url() {return this.formComercio.get('url');}
@@ -52,6 +64,17 @@ export class FormNuevoComercioComponent implements OnInit {
             this.authService.logOut();
           })
         console.log(res);
+
+        if(res>0)
+        {
+          var message = "Los datos se modificaron exitosamente."
+          this.openMessage(message, "Cerrar", 5000, "")
+        }
+        else
+        {
+          var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
+          this.openMessage(message, "Cerrar", 50000, "error");  
+        }
       },
 
       err=>

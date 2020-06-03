@@ -129,7 +129,7 @@
             <img class="imagen" [src]="croppedImage" *ngIf="imageChangedEvent!='' && !cropping" />
   
             <div class="load-imagen br-10" *ngIf="imageChangedEvent==''">
-              <input style="height: 100%" type="file" class="input-file" (change)="fileChangeEvent($event)"/>
+              <input type="file" class="input-file" (change)="fileChangeEvent($event)"/>
               <div class="cont-load-imagen m-auto">
                 <div class="icon-camera"><i class="fa fa-camera"></i></div>
                 <div class="div-subir-img">+ Cargar foto</div>
@@ -139,7 +139,7 @@
             <button class="btn-cancel-admin" (click)="cancelarCropper()">Cancelar</button>
           </div>
           <div class="div-img-port-temp" *ngIf="imgURL!='' && !cropping">
-            <img [src]="imgURL">
+            <img class="imagen" [src]="imgURL">
             <button class="btn-sub-img bold" (click)="mostrarLoadImg()">+ Subir Foto</button>
           </div>
         </div>

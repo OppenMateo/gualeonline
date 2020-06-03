@@ -14,7 +14,8 @@ export class NavbartopComponent implements OnInit {
 
   currentUser;
 
-  constructor(public dialog: MatDialog, private authService: AuthService, public comprasService: ComprasService, private router:Router, public adminService:AdminService) {
+  constructor(public dialog: MatDialog, private authService: AuthService, public comprasService: ComprasService, private router:Router,
+    public adminService:AdminService) {
     this.authService.currentUser.subscribe(res=>this.currentUser = res);
     console.log(this.currentUser)
    }
