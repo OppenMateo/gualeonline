@@ -4,13 +4,13 @@
         <div class="div-from-usuario">        
             <div class="div-campos gr">
                 <div class="div-campo">
-                    <input type="text" formControlName="usuario" id="usuario" class="campo"  placeholder="Usuario">
+                    <input type="text" formControlName="usuario" id="usuario" class="campo"  placeholder="Usuario" required>
                     <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)" class="message-error-input">
                         <div *ngIf="usuario.errors.required">* Ingresar Usuario</div>        
                     </div>
                 </div>
                 <div class="div-campo">
-                    <input type="password" formControlName="pass" class="campo" placeholder="Contraseña">
+                    <input type="password" formControlName="pass" class="campo" placeholder="Contraseña" required>
                     <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="message-error-input">
                         <div *ngIf="pass.errors.required">* Ingresar Contraseña</div>        
                     </div>

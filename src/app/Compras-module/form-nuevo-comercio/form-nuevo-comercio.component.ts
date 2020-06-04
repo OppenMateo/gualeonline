@@ -28,16 +28,6 @@ export class FormNuevoComercioComponent implements OnInit {
     },)
   }
 
-  public openMessage(message, action, durationMilliSeconds, type) 
-  {
-   var clase = null;
-   if (type == "error") 
-   {
-     clase = "snack-bar-alert";
-   }
-   this.snackBar.open(message, action, { duration: durationMilliSeconds, panelClass: clase });
- }
-
   get nombre() {return this.formComercio.get('nombre');}
   get url() {return this.formComercio.get('url');}
 
@@ -68,12 +58,12 @@ export class FormNuevoComercioComponent implements OnInit {
         if(res>0)
         {
           var message = "Los datos se modificaron exitosamente."
-          this.openMessage(message, "Cerrar", 5000, "")
+          this.adminService.openMessage(message, "Cerrar", 5000, "")
         }
         else
         {
           var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
-          this.openMessage(message, "Cerrar", 50000, "error");  
+          this.adminService.openMessage(message, "Cerrar", 50000, "error");  
         }
       },
 
