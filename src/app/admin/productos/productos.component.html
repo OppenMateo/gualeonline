@@ -1,7 +1,19 @@
 <div class="div-container">
   <div class="div-titulo">Productos</div>
-  <div class="div-nuevo-producto"  *ngIf="!agregarProducto">
-    <button class="btn-nuevo" (click)="agregarProducto = true">Añadir nuevo producto</button>
+  <div class="col-md-12 flex no-pad-h">
+    <div class="div-nuevo-producto col-md-2">
+      <button class="btn-nuevo border-solid br-10" (click)="agregarProducto = true">Añadir nuevo producto</button>
+    </div>      
+    <div class="div-buscar col-md-3 br-10 border-solid flex">        
+      <select name="" id="" class="input-admin br-10 border-none grow m-auto" (change)="filtrarXcat($event.target.value)">
+        <option value="0">Filtrar Categoria</option>
+        <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
+      </select>
+    </div>    
+    <div class="div-buscar br-10 border-solid flex col-md-4">
+      <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow" [(ngModel)]="buscar">
+      <button class="btn-black-admin" (click)="buscar = ''" *ngIf="buscar !==''">X</button>
+    </div>  
   </div>
   <div class="div-nuevo col-md-6">    
     <div class="formNewProducto row" *ngIf="agregarProducto">
@@ -17,7 +29,7 @@
           <input type="text" placeholder="Nombre" class="form-item" [(ngModel)]="new_producto.nombre">
         </div>
         <div class="div-input-item">
-          <textarea placeholder="Descripción" class="form-item" style="height: 6rem" [(ngModel)]="new_producto.descripcion"></textarea>
+          <textarea placeholder="Descripción" class="form-item" style="height: 100px" [(ngModel)]="new_producto.descripcion"></textarea>
         </div>
       </div>
       <div class="div-item col-md-4">
@@ -36,56 +48,65 @@
               <div class="div-colores flex">
                 <div *ngFor="let color of colores; index as i">
                   <div class="div-color" [ngStyle]="{'color': color.color, 'background': color.color}">
-                    <button (click)="quitarNewColor(null, null, i, null)" class="btn-borrar-color">X</button>
+                    <button (click)="quitarNewColor(null, null, i, null)" class="btn-borrar-color"><i class="fa fa-trash"></i></button>
                   </div>
                 </div>
               </div>
           </div>
       </div>
-      <div class="div-item flex col-md-12" style="padding: 0 .5rem">
-        <div class="label-file col-md-2" style="padding-left: 0">
-          <button class="btn-img " (click)="openModalImgs(null , null, null)"><img class="imagen" src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></button>
-        </div>
-        <div class="btn-img col-md-2" *ngFor="let item of adminService.imagenProd, index as i"><img class="imagen" [src]="item.file" alt="">
-          <button (click)="quitarNuevaImagen(i)" style="opacity: 0;"></button>
-        </div>
-      </div>
       <div class="div-item flex col-md-12">
-        <div class="div-boton col-md-6">
-          <button class="btn-menu" (click)="guardarProducto()"><i class="fa fa-save" style="margin-right: .5rem"></i>GUARDAR</button>
+        <div class="div-opciones label-file col-md-2 flex no-pad-h" *ngIf="!editando_crop"> 
+          <img src="../../../assets/imgs/icons/Cámara_negra.png" alt="" class="imagen m-auto">
+          <input class="input-file h-100 w-100" type="file" (change)="fileChangeEvent($event)" />                    
         </div>
-        <div class="div-boton col-md-6">
-          <button class="btn-menu" (click)="cancelarNewProducto()"><i class="fa fa-window-close" style="margin-right: .5rem"></i>CANCELAR</button>
+        <div class="col-md-2">
+          <image-cropper *ngIf="editando_crop"
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 5"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
         </div>
-      </div>
+        
+        <div class="div-btns-crop">
+          <button class="btn-cropper border-solid br-10" (click)="aceptarCropper()" *ngIf="editando_crop"><i class="fa fa-check"></i></button>        
+          <button class="btn-cropper border-solid br-10" (click)="cancelarCrop()" *ngIf="editando_crop"><i class="fa fa-ban"></i></button>
+        </div>
+        </div>
+        <div class="div-item flex col-md-12" style="padding: 0 .5rem">
+          <div class="btn-img col-md-2 rel" *ngFor="let item of adminService.imagenProd, index as i">
+            <img class="imagen" [src]="item.file" alt="">
+            <button (click)="quitarNuevaImagen(i)" class="btn-delete-img abs"><i class="fa fa-trash"></i></button>
+          </div>
+        </div>
+        <div class="div-item flex col-md-12">
+          <div class="div-boton col-md-6">
+            <button class="btn-menu" (click)="cancelarNewProducto()"><i class="fa fa-ban" style="margin-right: .5rem"></i>CANCELAR</button>
+          </div>
+          <div class="div-boton col-md-6">
+            <button class="btn-menu" (click)="guardarProducto()"><i class="fa fa-check" style="margin-right: .5rem"></i>GUARDAR</button>
+          </div>
+          
+        </div>
     </div>
-  </div>
-  <div class="div-filtros flex spc-btw">
-    <div class="div-filtro-categoria">
-      <div class="titulo-input-admin">Seleccione Categoría</div>
-      <select name="" id="" class="form-item" (change)="filtrarXcat($event.target.value)">
-        <option value="0">Todas</option>
-        <option *ngFor="let item of listaSubProd" [value]="item.subcat.id_subcat">{{item.subcat.nombre}}</option>
-      </select>
-    </div>
-  </div>
-  <div class="div-buscar br-10 border-solid flex">
-    <input type="text" placeholder="Buscar productos por nombre" class="input-admin br-10 border-none grow" [(ngModel)]="buscar">
-    <button class="btn-black-admin" (click)="buscar = ''" *ngIf="buscar !==''">X</button>
-  </div>
+  </div>  
   <div class="div-productos-container">
     <div class="div-producto-subcat" *ngFor="let item of listaSubProd; index as index">
       <div class="div-lista-subcat" *ngIf="cat_selected == '0' || cat_selected == item.subcat.id_subcat">
         <div class="div-titulo-subcat">{{item.subcat.nombre}}</div>
           <div class="div-lista-productos" *ngFor="let prod of item.prod; index as i">
-            <div class="div-item row" *ngIf="buscar == '' || prod.nombre.toLowerCase().includes(buscar.toLowerCase())"> 
+            <div class="row" *ngIf="buscar == '' || prod.nombre.toLowerCase().includes(buscar.toLowerCase())"> 
               <!-- <div class="form-edicion col-md-7 row no-pad-h"> -->
                 <form class="div-producto col-md-9 row">
                   <div class="div-item col-md-4">
                     <div class="div-titulo-item">Nombre</div>
                     <input type="text" id="nombre_{{prod.id_prod}}" class="dato-prod" (change)="editarNombre($event, prod)" value={{prod.nombre}} placeholder={{prod.nombre}} [disabled]="prod_edit != prod.id_prod">
                     <div class="div-titulo-item">Descripción</div>
-                    <textarea id="desc_{{prod.id_prod}}" class="dato-prod" style="resize: none;" [disabled]="prod_edit != prod.id_prod">{{prod.descripcion}}</textarea>
+                    <textarea id="desc_{{prod.id_prod}}" class="dato-prod" style="resize: none; height: 99px;" [disabled]="prod_edit != prod.id_prod">{{prod.descripcion}}</textarea>
                   </div>
                   <div class="div-item col-md-4">
                     <div class="div-input-item">
@@ -103,13 +124,14 @@
                       <div class="div-titulo-item">Colores</div>
                       <div class="div-colores flex">
                         <button class="div-color flex" [matMenuTriggerFor]="color">
-                          <div class="div-btn flex"><i class="fa fa-plus"></i></div>
+                          <!-- <div class="div-btn flex"><i class="fa fa-plus"></i></div> -->
+                          <div class="div-btn-add-color flex">+</div>
                         </button>
                         <mat-menu #color>
                           <color-sketch color="#fff" (onChangeComplete)="handleChangeComplete($event, prod, index, i)"></color-sketch>
                         </mat-menu>
                         <div class="div-color" *ngFor="let x of prod.colores; index as indexColor" [ngStyle]="{'background': x.color}">
-                          <button (click)="quitarNewColor(index, i, indexColor, x)" class="btn-borrar-color"></button>
+                          <button (click)="quitarNewColor(index, i, indexColor, x)" class="btn-borrar-color"><i class="fa fa-trash"></i></button>
                         </div>
                       </div>
                     </div>
@@ -123,10 +145,10 @@
                     <div class="div-fotos col-md-10 flex">
                       <div class="label-file col-md-2" style="padding: 0">
                         <div class="div"></div>
-                        <button class="btn-img " (click)="openModalImgs(prod, index, i)"><img class="imagen" src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></button>
+                        <button class="" (click)="openModalImgs(prod, index, i)"><img class="imagen" src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></button>
                       </div>
-                      <div class="btn-img col-md-2 no-pad-h" *ngFor="let elem of prod.imgs; index as indexImg"><img class="imagen" [src]="elem.image" alt="">
-                        <div class="div-eliminar-img"><button (click)="eliminarImagen(elem, indexImg, index, i)">Borrar</button></div>
+                      <div class="btn-img col-md-2 no-pad-h rel" *ngFor="let elem of prod.imgs; index as indexImg"><img class="imagen" [src]="elem.image" alt="">
+                        <div class="div-eliminar-img abs"><button class="btn-eliminar-img" (click)="eliminarImagen(elem, indexImg, index, i)"><i class="fa fa-trash"></i></button></div>
                       </div>
                       <!-- <ng-image-slider [images]="prod.imgs" style="position: absolute;
                         top: 0 !important;
