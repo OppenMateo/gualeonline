@@ -86,8 +86,7 @@ export class ProductosComponent implements OnInit {
     });
 
     if(prod.id_prod != null)
-    {
-      debugger;
+    {      
       dialogRef.afterClosed().subscribe(res=>
         {
           this.listaSubProd[index].prod[i].imgs.push(res);
@@ -360,8 +359,7 @@ export class ProductosComponent implements OnInit {
         imagenes: [],
         colores: [],
       }
-      if (this.colores.length > 0) {
-        debugger;
+      if (this.colores.length > 0) {        
         this.colores.forEach(element => {
           element.id_producto = res;
           this.adminService.guardarColores(element).subscribe();
@@ -484,12 +482,58 @@ export class ProductosComponent implements OnInit {
 
     // FUNCIONES CROPPER //
 
+    // fileChangeEvent(event: any): void {
+    //     this.imageChangedEvent = event;
+    // }
+
+    editando_crop = false;
+    file;
+
+    imagen_croppeada= {
+      id_producto: 0,
+      nombre: '',
+      url: '',
+      id_comercio: 0
+    }
+
     fileChangeEvent(event: any): void {
-        this.imageChangedEvent = event;
+      // this.nuevaImagen(event);
+      this.editando_crop = true;
+      this.imageChangedEvent = event;
+      var reader = new FileReader();
+      // this.imagePath = files;
+      // reader.readAsDataURL(event.files[0]); 
+      reader.onload = (_event) => { 
+        this.file = reader.result; 
+      }
+    }
+
+    aceptarCropper()
+    {      
+      this.editando_crop = false;
+      let currentDate = new Date();
+      let fechaHora = currentDate.getDate().toString()
+      + (currentDate.getMonth()+1).toString()
+      + currentDate.getFullYear().toString()
+      + currentDate.getHours().toString()
+      + currentDate.getMinutes().toString()
+      + currentDate.getSeconds().toString();
+      this.imagen_croppeada.nombre = fechaHora;
+      
+      this.adminService.imagenProd.push({
+        file:this.imagen_croppeada.url,
+        nombreImg:this.imagen_croppeada.nombre
+      })      
+    }
+
+    cancelarCrop()
+    {
+      this.editando_crop = false;      
     }
 
     imageCropped(event: ImageCroppedEvent) {
         this.croppedImage = event.base64;
+        this.imagen_croppeada.url = event.base64;
     }
     imageLoaded() {
         // show cropper

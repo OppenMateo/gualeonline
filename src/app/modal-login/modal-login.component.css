@@ -21,8 +21,8 @@
 {
     width: 100%;
     border: solid 1px var(--gris-claro);
-    padding-left: .2rem;
-    height: 5vh;
+    padding-left: 1rem;
+    height: 50px;
     font-size: .8rem;
 }
 
@@ -43,6 +43,7 @@
     font-size: 1.2rem !important;
     font-family: opensans-semibold;
     padding: .5rem 1rem;
+    height: 55px;
     border: solid 1px var(--gris-claro);
 }
 
@@ -62,5 +63,6 @@
 {
     padding: .5rem 1rem;
     font-size: 1.5rem;
+    height: 55px;
     border: solid 1px var(--gris-claro);
 }

@@ -18,6 +18,7 @@ const routes: Routes =
       { path: 'carro', component:CarritoComponent },
       { path: 'comercioTest', component:ComerciosComponent },
       { path: 'timbu.gchu', component:ComerciosComponent },
+      { path: 'Zona_Sushi', component:ComerciosComponent },
     ]  
   },  
 ];

@@ -64,6 +64,7 @@
 {
     font-size: 1.3rem !important;
     padding: 0;
+    background-color: none !important;
 }
 
 .span-carro
