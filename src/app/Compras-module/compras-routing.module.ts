@@ -12,9 +12,7 @@ const routes: Routes =
   { path:'', component:ComprasComponent, children:
     [
     { path: '', component:CategoriasComponent },
-      { path:'Comercio', component:ComerciosComponent },
-      { path:'Timbu', component:ComerciosComponent },
-      { path:'Zona_Sushi', component:ComerciosComponent },
+      { path:'Comercio', component:ComerciosComponent },      
       { path: 'Categorias', component:CategoriasComponent },
       { path: 'datos_compra', component:ModalDatosCompraComponent },        
       { path: 'carro', component:CarritoComponent },
