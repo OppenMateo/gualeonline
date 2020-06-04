@@ -77,7 +77,6 @@ export class ProductosComponent implements OnInit {
     {
       prod = prod;
     }
-    debugger;
     
     const dialogRef = this.dialog.open(ModalImgsProductoComponent, {
       height: 'fit-content',
@@ -306,7 +305,8 @@ export class ProductosComponent implements OnInit {
     this.new_producto.precio = '';
     this.new_producto.subcategoria = '';
     this.colores = [];
-    this.adminService.eliminarImgsProducto(0).subscribe();
+    this.adminService.imagenProd = [];
+    // this.adminService.eliminarImgsProducto(0).subscribe();
   }
 
   quitarNewColor(index, i, indexColor, color){
@@ -361,6 +361,7 @@ export class ProductosComponent implements OnInit {
         colores: [],
       }
       if (this.colores.length > 0) {
+        debugger;
         this.colores.forEach(element => {
           element.id_producto = res;
           this.adminService.guardarColores(element).subscribe();
@@ -378,8 +379,15 @@ export class ProductosComponent implements OnInit {
           this.adminService.guardarTamaños(tam).subscribe();
         });
       }
+      console.log(res)
+      if(res>0)
+      {
+        var message = "Los datos se modificaron exitosamente."
+      }
 
       this.agregarProducto = false;
+      this.colores = [];
+      this.adminService.imagenProd = [];
       this.getProductosComercio();
     });
   }

@@ -20,8 +20,13 @@
             </button>
         </div>
         <mat-menu #menu>
-            <button>Mis datos</button>
-            <button (click)="openModalNuevoComercio()">Registrar nuevo comercio</button>
+            <!-- <button>Mis datos</button> -->
+            <div *ngIf="this.adminService.currentUser.usuario.id_comercio==null">
+                <button (click)="openModalNuevoComercio()">Registrar nuevo comercio</button>
+            </div>
+            <div *ngIf="this.adminService.currentUser.usuario.id_comercio!=null">
+                <button (click)="redirectComercio()">Mi comercio</button>
+            </div>
             <button (click)="logOut()">Cerrar sesión</button>
         </mat-menu>
         <div class="h-fc m-auto">

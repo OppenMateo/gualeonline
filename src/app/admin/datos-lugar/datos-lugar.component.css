@@ -40,6 +40,22 @@
   margin-right: .5rem;  
 }
 
+.static-value
+{
+  font-family: opensans-reg;
+  color: var(--back);
+  position:absolute;
+	left:10px;
+	/* font-weight:bold; */
+	top:8px;
+}
+
+.ng-untouched::-webkit-input-placeholder
+{
+   color: var(--gris);
+   font-style: italic; 
+}
+
 textarea {
   height: calc(1.5em + .75rem + 2px);
   resize: none;

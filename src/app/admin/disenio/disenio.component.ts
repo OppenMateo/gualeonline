@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FormBuilder, ValidatorFn, AbstractControl, FormGroup, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-disenio',
@@ -25,6 +26,7 @@ export class DisenioComponent implements OnInit {
   extensionLogo = '.jpeg';
   extensionPortada = '.jpeg';
 
+  guardarImagen = false;
   imgURL:any = '';
   imgLogoURL:any;
   imagePath;
@@ -42,7 +44,7 @@ export class DisenioComponent implements OnInit {
   template = false;
   cropping:boolean = false;
 
-  constructor(private adminService:AdminService, private fb: FormBuilder) { }
+  constructor(private adminService:AdminService, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.adminService.getComercioSeleccionado().subscribe(
@@ -60,7 +62,8 @@ export class DisenioComponent implements OnInit {
           logo_file: File = null
         }
          if (this.comercio.img_portada == null) {
-           this.comercio.img_portada = "template_sushi_1.jpg";
+           this.imageChangedEvent='';
+          //  this.comercio.img_portada = "template_sushi_1.jpg";
            this.template = true;
          }
 
@@ -85,6 +88,7 @@ export class DisenioComponent implements OnInit {
       })
   }
 
+
   getUrlImagen()
   {
     return "../../../assets/imgs/comercios/"+this.adminService.comercioSeleccionado.imagen;
@@ -92,10 +96,12 @@ export class DisenioComponent implements OnInit {
 
   cambiarDiseno(temp)
   {
+    this.imageChangedEvent='';
     this.design = temp;
     if(this.design!=temp)
     {
-      this.imgURL = '';
+      this.imageChangedEvent = '';
+      // this.imgURL = '';
     }
   }
 
@@ -115,7 +121,9 @@ export class DisenioComponent implements OnInit {
       this.template = true;
       this.comercio.img_portada = event.target.value;
       this.croppedImage = this.pathPortadas + (event.target.value);
-    }else{
+    }
+    else
+    {
       this.imgURL = this.pathPortadas + event;
       this.croppedImage = this.pathPortadas + event;
       this.cropping = false;
@@ -170,7 +178,19 @@ export class DisenioComponent implements OnInit {
 
   guardarImagenes(){
     this.comercio.disenio = this.design;
+    this.cropping = false;
+    this.imgURL = this.croppedImage;
+    this.imageChangedEvent = '';
     const formData: FormData = new FormData();
+
+    if(this.comercio.disenio==1)
+    {
+      if(this.imgURL == '')
+      {
+        var message = "No se ha modificado ningún valor."
+        this.adminService.openMessage(message, "Cerrar", 50000, "error"); 
+      }
+    }
 
     if (this.comercio.logo_file != null) {
       this.comercio.imagen = this.comercio.id_comercio + "_logo" + this.extensionLogo;
@@ -189,15 +209,14 @@ export class DisenioComponent implements OnInit {
     this.adminService.guardarImagenesComercio(formData).subscribe
     (res=>
       {
-        if(res>0)
-        {
-          var message = "Los datos se modificaron exitosamente."
-        }
-        else
-        {
-          var message = "Valide que los datos sean correctos. Si el error persiste comuniquese con el administrador."
-        }
-      },err => {console.log(err);}
+        this.adminService.openMessage(res, "Cerrar", 50000, "error");  
+      }
+      ,err =>
+      {
+        var message = "Los datos no se pudieron modificar."
+        this.adminService.openMessage(message, "Cerrar", 50000, "error");  
+        console.log(err);
+      }
     )
   }
 
@@ -240,6 +259,7 @@ export class DisenioComponent implements OnInit {
 
   cancelarCropper()
   {
+    this.imgURL = '';
     this.cropping = false;
     this.imageChangedEvent = '';
   }

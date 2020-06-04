@@ -27,7 +27,7 @@ import { ModalImgsProductoComponent } from './modal-imgs-producto/modal-imgs-pro
     ImageCropperModule,
     NgxFileDropModule,
     ColorSketchModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   entryComponents: [
     ModalImgsProductoComponent

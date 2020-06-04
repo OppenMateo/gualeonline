@@ -16,10 +16,10 @@
       </div> -->
       <div class="div-cont-imgs rel">
         <div class="div-img-template">
-          <img src="../../../assets/imgs/templates/Template_Web_Diseño1.png" alt="" class="img-template imagen">
+          <img src="../../../assets/imgs/templates/Template_Web_Disenio1.png" alt="" class="img-template imagen">
         </div>
         <div class="div-img-template-mob abs">
-          <img src="../../../assets/imgs/templates/Template_mobile_Diseño1.png" alt="" class="img-template imagen">
+          <img src="../../../assets/imgs/templates/Template_mobile_Disenio1.png" alt="" class="img-template imagen">
         </div>
       </div>
       <div class="div-btns-temp">
@@ -36,10 +36,10 @@
       </div> -->
       <div class="div-cont-imgs rel">
         <div class="div-img-template">
-          <img src="../../../assets/imgs/templates/Template_Web_Diseño2.png" alt="" class="img-template imagen">
+          <img src="../../../assets/imgs/templates/Template_Web_Disenio2.png" alt="" class="img-template imagen">
         </div>
         <div class="div-img-template-mob abs">
-          <img src="../../../assets/imgs/templates/Template_mobile_Diseño2.png" alt="" class="img-template imagen">
+          <img src="../../../assets/imgs/templates/Template_mobile_Disenio2.png" alt="" class="img-template imagen">
         </div>
       </div>
       <div class="div-btns-temp">
@@ -58,11 +58,12 @@
       <div class="row">
         <div class="col-md-8 no-pad-h rel">
           <div class="div-img-load-cropper" style="height: 100%;" *ngIf="imgURL==''">
-            <image-cropper style="width: 100%; height: 315px;" *ngIf="imageChangedEvent!='' && this.cropping==true"
+            <image-cropper style="width: 100%; height: 100%;" *ngIf="imageChangedEvent!='' && this.cropping==true"
                 [imageChangedEvent]="imageChangedEvent"
                 [maintainAspectRatio]="false"
-                [resizeToHeight]=314
+                [autoCrop]="true"
                 [aspectRatio]="4 / 3"
+                [containWithinAspectRatio]="false"
                 format="png"
                 (imageCropped)="imageCropped($event)"
                 (imageLoaded)="imageLoaded()"
@@ -72,8 +73,8 @@
   
             <img class="imagen" [src]="croppedImage" *ngIf="imageChangedEvent!='' && !cropping" />
   
-            <div class="load-imagen br-10" *ngIf="imageChangedEvent==''">
-              <input type="file" class="input-file" (change)="fileChangeEvent($event)"/>
+            <div class="load-imagen br-10" style="height: 100%" *ngIf="imageChangedEvent==''">
+              <input type="file" class="input-file" style="height: 100%" (change)="fileChangeEvent($event)"/>
               <div class="cont-load-imagen m-auto">
                 <div class="icon-camera"><i class="fa fa-camera"></i></div>
                 <div class="div-subir-img">+ Cargar foto</div>
@@ -82,8 +83,8 @@
             <button class="btn-ok-admin" (click)="aceptarCropper()">Aceptar</button>
             <button class="btn-cancel-admin" (click)="cancelarCropper()">Cancelar</button>
           </div>
-          <div class="div-img-port-temp" *ngIf="imgURL!='' && !cropping">
-            <img class="imagen portada" [src]="imgURL">
+          <div class="div-img-port-temp" style="height: 100%" *ngIf="imgURL != '' && !cropping">
+            <img class="imagen-portada" style="height: 100%; width: 100%;" [src]="imgURL">
             <button class="btn-sub-img bold" (click)="mostrarLoadImg()">+ Subir Foto</button>
           </div>
         </div>
@@ -117,8 +118,7 @@
             <image-cropper style="width: 100%; height: 315px;" *ngIf="imageChangedEvent!='' && this.cropping==true"
                 [imageChangedEvent]="imageChangedEvent"
                 [maintainAspectRatio]="false"
-                [resizeToHeight]=314
-                [aspectRatio]="4 / 3"
+                [aspectRatio]="16 / 9"
                 format="png"
                 (imageCropped)="imageCropped($event)"
                 (imageLoaded)="imageLoaded()"
@@ -139,7 +139,7 @@
             <button class="btn-cancel-admin" (click)="cancelarCropper()">Cancelar</button>
           </div>
           <div class="div-img-port-temp" *ngIf="imgURL!='' && !cropping">
-            <img class="imagen portada" [src]="imgURL">
+            <img class="imagen" [src]="imgURL">
             <button class="btn-sub-img bold" (click)="mostrarLoadImg()">+ Subir Foto</button>
           </div>
         </div>

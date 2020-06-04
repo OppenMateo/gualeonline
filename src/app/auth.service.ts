@@ -8,6 +8,7 @@ import { ModalLoginComponent } from 'src/app/modal-login/modal-login.component';
 import { ModalRegisterComponent } from 'src/app/modal-register/modal-register.component'
 import { User } from '../app/models/user'
 import { ModalIniciarSesionComponent } from './modal-iniciar-sesion/modal-iniciar-sesion.component';
+import { Router } from '@angular/router';
 
 const API_URL:string='https://api.gualeonline.com.ar/public';
 
@@ -25,7 +26,7 @@ export class AuthService {
     })
   };
 
-  constructor(private http: HttpClient, public dialog: MatDialog) {
+  constructor(private http: HttpClient, public dialog: MatDialog, public router:Router) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
    }
@@ -98,6 +99,7 @@ export class AuthService {
   {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    this.router.navigate([''])
   }
   
   guardarUsuario(user)

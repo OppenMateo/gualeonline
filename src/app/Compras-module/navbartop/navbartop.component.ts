@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialo
 import { AuthService } from '../../auth.service'
 import { ComprasService } from '../compras.service'
 import { Router } from '@angular/router';
+import { AdminService } from 'src/app/admin/admin.service';
 
 @Component({
   selector: 'app-navbartop',
@@ -13,11 +14,18 @@ export class NavbartopComponent implements OnInit {
 
   currentUser;
 
-  constructor(public dialog: MatDialog, private authService: AuthService, public comprasService: ComprasService, private router:Router) {
+  constructor(public dialog: MatDialog, private authService: AuthService, public comprasService: ComprasService, private router:Router,
+    public adminService:AdminService) {
     this.authService.currentUser.subscribe(res=>this.currentUser = res);
+    console.log(this.currentUser)
    }
 
   ngOnInit() {
+  }
+
+  redirectComercio()
+  {
+    this.router.navigate(['/Admin/Productos'])
   }
 
   mostrarMenuAdmin()
