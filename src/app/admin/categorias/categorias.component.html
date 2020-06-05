@@ -2,24 +2,25 @@
   <div class="div-titulo">Categorias</div>
   <div class="row">
     <div class="div-menu col-md-12 flex">
-      <div class="div-nueva-categoria" *ngIf="!nuevo"><button class="btn-nuevo" (click)="showNuevo()">Añadir nueva categoria</button></div>
+      <div class="div-nueva-categoria" *ngIf="!nuevo"><button class="btn-nuevo border-solid br-10" (click)="showNuevo()">Añadir nueva categoria</button></div>
       <div class="div-buscar"><input class="buscar" type="text" placeholder="Buscar..."></div>
     </div>
   </div>
   <div class="div-categorias">
-    <div *ngIf="nuevo" class="div-nuevo row">
+    <div *ngIf="nuevo" class="div-nuevo row col-md-5">
+      <div class="div-titulo-nuevo col-md-12">CREAR NUEVA CATEGORIA</div>
       <!-- <div class="div-empty col-md-1"><button class="btn"><i class="fa fa-check-square"></i></button></div> -->
-      <div class="div-imagen col-md-3 rel">
+      <div class="div-imagen rel">
         <!-- <img [src]="new_cat.imagen" alt=""> -->        
-        <div class="div-opciones label-file" *ngIf="!newCrop"><button class="btn"></button><img src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></div>
-        <div class="input-file" *ngIf="!newCrop"> 
-          <input class="input-file" type="file" (change)="fileChangeEvent($event)" />
+        <div class="input-file col-md-12 m-h-auto" *ngIf="!newCrop && croppedImage==''">
+          <div class="div-opciones label-file flex"><img class="m-h-auto" src="../../../assets/imgs/icons/Cámara_negra.png" alt=""></div>
+          <input class="input-file" style="opacity: 0;" type="file" (change)="fileChangeEvent($event)" />
         </div>
-        <image-cropper style="width: 230px; height: 260px;"
+        <image-cropper class="img-cropper" style="width: 230px; height: 260px;"
           *ngIf="newCrop"
             [imageChangedEvent]="imageChangedEvent"
             [maintainAspectRatio]="false"
-            [aspectRatio]="9 / 16"
+            [aspectRatio]="4 / 5"
             format="png"
             (imageCropped)="imageCropped($event)"
             (imageLoaded)="imageLoaded()"
@@ -27,43 +28,74 @@
             (loadImageFailed)="loadImageFailed()"
         ></image-cropper>  
       </div>
-      <div class="div-nombre col-md-5">
-        <input class="nombre" type="text" placeholder="Ingresa el nombre de tu nueva categoria" [(ngModel)]="new_cat.nombre">
+      <img class="imagen" [src]="croppedImage" *ngIf="imageChangedEvent!='' && !newCrop"/>
+      <div class="div-btns-crop m-h-auto">
+        <button class="btn-cropper border-solid br-10" (click)="aceptarCropper()" *ngIf="newCrop"><i class="fa fa-check"></i></button>        
+        <button class="btn-cropper border-solid br-10" (click)="cancelarCrop()" *ngIf="newCrop"><i class="fa fa-ban"></i></button>
       </div>
-      <div class="div-opciones col-md-2">
+      <div class="div-img-temp m-h-auto" *ngIf="new_cat.imagen != '' && !newCrop">
+        <img class="imagen" [src]="new_cat.imagen">
+      </div>
+      <div class="div-nombre col-md-12">
+        <input class="nombre" type="text" placeholder="Ingresa el nombre de tu nueva categoria" [(ngModel)]="new_cat.nombre" required>
+      </div>
+      <div class="div-error flex" *ngIf="msgError!=''">
+        <div class="msg-error">{{msgError}}</div>
+      </div>
+      <div class="flex col-md-12">
+        <div class="div-boton col-md-6">
+          <button class="btn-menu" (click)="hideNuevo()"><i class="fa fa-ban" style="margin-right: .5rem"></i>CANCELAR</button>
+        </div>
+        <div class="div-boton col-md-6">
+          <button class="btn-menu" (click)="guardarCategoriaProd(new_cat)"><i class="fa fa-check" style="margin-right: .5rem"></i>GUARDAR</button>
+        </div>
+      </div>
+      <!-- <div class="div-opciones col-md-2">
         <button class="btn" (click)="guardarCategoriaProd(new_cat)"><i class="fa fa-save"></i></button>
         <button class="btn" (click)="hideNuevo()"><i class="fa fa-window-close"></i></button>
-        <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
-      </div>
+        <button class="btn"><i class="fa fa-eye"></i></button>
+      </div> -->
     </div>
     <div class="div-lista-categorias row">
       <div class="div-categoria col-md-6 flex"  *ngFor="let categoria of categorias; index as i">
         <!-- <div class="div-opciones col-md-1"><button class="btn"><i class="fa fa-square"></i></button></div> -->
         <!-- <div class="div-categoria col-md-4"> -->
-          <div class="div-imagen">
-            <img class="imagen" [src]="categoria.imagen" alt="" *ngIf="!categoria.cropper">  
-            <input *ngIf="edit == i" type="file"  id="file_{{i}}" (change)="fileChangeEventLista($event,categoria,i)" />
-            <image-cropper style="width: 200px; height: 200px;"
-                id="cropper_{{i}}"
-                [hidden]="!categoria.cropper"
-                [imageChangedEvent]="imageChangedEventLista"
-                [maintainAspectRatio]="true"
-                [aspectRatio]="4 / 3"
-                format="png"
-                (imageCropped)="imageCroppedLista($event,categoria)"
-                (imageLoaded)="imageLoaded()"
-                (cropperReady)="cropperReady()"
-                (loadImageFailed)="loadImageFailed()"
-            ></image-cropper>  
-          </div>
+          <div class="div-imagen flex">
+            <div class="div-editar row">
+              <img class="imagen" [src]="categoria.imagen" alt="" *ngIf="!categoria.cropper && imageChangedEventLista==''">  
+            </div>
+            <image-cropper style="width: 230px; height: 260px;"
+              id="cropper_{{i}}"
+              [hidden]="!categoria.cropper"
+              [imageChangedEvent]="imageChangedEventLista"
+              [maintainAspectRatio]="false"
+              [aspectRatio]="4 / 5"
+              format="png"
+              (imageCropped)="imageCroppedLista($event,categoria)"
+              (imageLoaded)="imageLoaded()"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+            <div class="div-change flex">
+              <input *ngIf="edit == i" type="file" class="change-img abs" style="opacity: 0;"  id="file_{{i}}" (change)="fileChangeEventLista($event,categoria,i)" />
+              <button class="btn-imagen border-solid solid br-10" *ngIf="edit == i">Modificar Imagen</button>
+            </div> 
+            <!-- <img class="imagen" [src]="categoria.imagen" *ngIf="imageChangedEventLista!='' && !newCrop"/>
+            <div class="div-btns-crop m-h-auto">
+              <button class="btn-cropper border-solid br-10" (click)="aceptarCropper()" *ngIf="newCrop"><i class="fa fa-check"></i></button>        
+              <button class="btn-cropper border-solid br-10" (click)="cancelarCrop()" *ngIf="newCrop"><i class="fa fa-ban"></i></button>
+            </div>
+            <div class="div-img-temp m-h-auto" *ngIf="imageChangedEventLista != '' && !newCrop">
+            <img class="imagen" [src]="new_cat.imagen"> 
+          </div> -->
           <div class="div-nombre">
-            <input class="nombre" type="text" value="{{categoria.nombre_categoria}}" [disabled]="edit != i" id={{i}}>
-            <div class="div-opciones flex">
+            <input class="div-nombre-cat border-solid br-10" type="text" value="{{categoria.nombre_categoria}}" [disabled]="edit != i" id={{i}}>
+            <div class="div-botones flex">
               <button class="btn" (click)="edit = i" *ngIf="edit == 10000"><i class="fa fa-edit"></i></button>
               <!-- <button class="btn"><i class="fa fa-eye"></i></button> -->
               <button class="btn" (click)="eliminarCategoriaProd(categoria)" *ngIf="edit == 10000"><i class="fa fa-trash"></i></button>
-              <button class="btn" (click)="editarCategoriaProd(categoria,i)" *ngIf="edit == i"><i class="fa fa-save"></i></button>
-              <button class="btn" (click)="edit = 10000" *ngIf="edit == i"><i class="fa fa-window-close"></i></button>
+              <button class="btn" (click)="editarCategoriaProd(categoria,i)" *ngIf="edit == i"><i class="fa fa-check"></i></button>
+              <button class="btn" (click)="edit = 10000" *ngIf="edit == i"><i class="fa fa-ban"></i></button>
             </div>
           </div>          
         <!-- </div> -->

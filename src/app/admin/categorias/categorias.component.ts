@@ -3,6 +3,7 @@ import { AdminService } from '../admin.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { AuthService } from 'src/app/auth.service';
+import { TestObject } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-categorias',
@@ -12,6 +13,8 @@ import { AuthService } from 'src/app/auth.service';
 export class CategoriasComponent implements OnInit {
 
   nuevo:boolean=false;
+  msgError='';
+  editarCrop=false;
 
   constructor(private adminService:AdminService, private fb: FormBuilder) { }
 
@@ -24,7 +27,14 @@ export class CategoriasComponent implements OnInit {
 
   hideNuevo()
   {
+    this.croppedImage='';
     this.nuevo=false;
+    this.msgError='';
+    this.new_cat={
+      imagen: '',
+      imagen_nombre: '',
+      nombre: ''
+    };
   }
 
   categorias;
@@ -59,6 +69,7 @@ export class CategoriasComponent implements OnInit {
   }
 
   guardarCategoriaProd(categoriaProd){
+    this.msgError='';
     let comercio = this.adminService.comercioSeleccionado[0].id;
 
     if (categoriaProd.imagen_nombre == '' || categoriaProd.imagen_nombre == null) {
@@ -69,13 +80,19 @@ export class CategoriasComponent implements OnInit {
       + currentDate.getHours()
       + currentDate.getMinutes()
       + currentDate.getSeconds();
-      categoriaProd.imagen_nombre = comercio + '_' + fechaHora;
-      this.hideNuevo();
+      categoriaProd.imagen_nombre = comercio + '_' + fechaHora + '_' + categoriaProd.nombre;
     }
 
-    if (categoriaProd.imagen == '') {
-      alert("Es necesario subir una imagen para la categoría.");
-    }else{
+    if(categoriaProd.imagen == '')
+    {
+      this.msgError="Debe cargar una imagen a la categoria."
+    }
+    if(categoriaProd.nombre == '')
+    {
+      this.msgError+=" Debe cargar un nombre a la categoria."
+    }
+    else
+    {
       categoriaProd.id_comercio = comercio;
       this.adminService.guardarCategoriaProducto(categoriaProd).subscribe(res=>{
         this.newCrop = false;
@@ -85,26 +102,48 @@ export class CategoriasComponent implements OnInit {
           nombre: ''
         }
         this.cargarLista();
+        {
+          this.adminService.openMessage(res, "Cerrar", 50000, "error");  
+        }
+        this.hideNuevo();
       });
     }
   }
 
   editarCategoriaProd(cat,i){
-    this.edit = i;
     let element = document.getElementById(i) as HTMLInputElement;
     let valiu= element.value;
     cat.nombre_categoria = valiu;
     console.log(cat, i);
     this.adminService.editarCategoriaProducto(cat).subscribe(res=>{
+      debugger;
       this.edit = 10000;
       cat.cropper = false;
       this.cargarLista();
+      {
+        this.adminService.openMessage(res, "Cerrar", 10000, "error");  
+      }
+    }
+    ,err =>
+    {
+      var message = "Los datos no se pudieron modificar."
+      this.adminService.openMessage(message, "Cerrar", 50000, "error");  
+      console.log(err);
     });
   }
 
   eliminarCategoriaProd(categoriaProd){
     this.adminService.eliminarCategoriaProducto(categoriaProd).subscribe(res=>{
       this.cargarLista();
+      {
+        this.adminService.openMessage(res, "Cerrar", 10000, "error");  
+      }
+    }
+    ,err =>
+    {
+      var message = "Los datos no se pudieron modificar."
+      this.adminService.openMessage(message, "Cerrar", 50000, "error");  
+      console.log(err);
     });
   }
 
@@ -124,6 +163,7 @@ export class CategoriasComponent implements OnInit {
     categoria.cropper = true;
     categoria.otraImagen = true;
     this.imageChangedEventLista = event;
+    this.newCrop=false;
     /*
     console.log(this.imageChangedEvent);
     let file_element = document.getElementById("file_"+index) as HTMLInputElement;
@@ -135,14 +175,27 @@ export class CategoriasComponent implements OnInit {
 imageCroppedLista(event: ImageCroppedEvent, categoria) {
   categoria.imagen = event.base64;
 }
-
-
-  imageLoaded(){
-
+  imageLoaded()
+  {
+    this.new_cat.imagen = '';
+    this.newCrop = true;
   }
 
-  cropperReady(){
+  cropperReady(){}
 
+  aceptarCropper()
+  {
+    this.new_cat.imagen=this.croppedImage
+    this.imageChangedEvent = '';
+    this.newCrop = false;
+  }
+
+  cancelarCrop()
+  {
+    this.croppedImage = '';
+    this.new_cat.imagen='';
+    this.imageChangedEvent='';
+    this.newCrop = false;
   }
 
   loadImageFailed(){
